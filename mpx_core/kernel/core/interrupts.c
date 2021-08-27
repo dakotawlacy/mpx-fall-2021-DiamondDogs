@@ -23,7 +23,7 @@
 /*
   Procedure..: io_wait
   Description..: The i386 can do an io wait by accessing another port.
-      Mainly used in initializing the PIC.
+      Mainly used in initializing the PIC. the 
 */
 #define io_wait() asm volatile ("outb $0x80")
 
@@ -64,7 +64,7 @@ void do_isr()
       the first 32 irq lines. Most do a panic for now.
 */
 void init_irq(void)
-{  
+{
   int i;
 
   // Necessary interrupt handlers for protected mode
