@@ -57,18 +57,20 @@ void kmain(void)
    //  you will need to initialize the global
    // this keeps track of allocated segments and pages
    klogv("Initializing descriptor tables...");
-
+   init_gdt();
 
 
     // 4)  Interrupt vector table --  tables.c
     // this creates and initializes a default interrupt vector table
     // this function is in tables.c
-
+    init_idt();
 
         // 4)  Interrupt vector table --  tables.c
         // this creates and initializes a default interrupt vector table
         // this function is in tables.c
-
+        init_pic();
+        init_irq();
+        sti();
         klogv("Interrupt vector table initialized!");
 
        // 5) Virtual Memory -- paging.c  -- init_paging
@@ -78,6 +80,7 @@ void kmain(void)
        // this allocates memory using discrete "pages" of physical memory
        // NOTE:  You will only have about 70000 bytes of dynamic memory
        //
+       init_paging();
        klogv("Initializing virtual memory...");
 
 
