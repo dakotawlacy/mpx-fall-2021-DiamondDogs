@@ -46,7 +46,7 @@ int serial_println(const char *msg)
     outb(serial_port_out,*(i+msg));
   }
   outb(serial_port_out,'\r');
-  outb(serial_port_out,'\n');  
+  outb(serial_port_out,'\n');
   return NO_ERROR;
 }
 
@@ -99,4 +99,3 @@ strlen(buffer);
 
 return count;
 }
-

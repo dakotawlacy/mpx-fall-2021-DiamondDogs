@@ -10,12 +10,14 @@
       				Ben Smith 2018, and Alex Wilson 2019
 */
 
+
 #include <stdint.h>
 #include <string.h>
 #include <system.h>
 
 #include <core/io.h>
 #include <core/serial.h>
+#include <core/command_handler.h>//Include new h
 #include <core/tables.h>
 #include <core/interrupts.h>
 #include <mem/heap.h>
@@ -85,6 +87,7 @@ void kmain(void)
 
 
        // 6) Call YOUR command handler -  interface method
+       run_ch();
        klogv("Transferring control to commhand...");
 
 
