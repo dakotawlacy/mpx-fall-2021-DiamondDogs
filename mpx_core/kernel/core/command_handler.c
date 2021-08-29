@@ -30,6 +30,7 @@ int run_ch() {
   }
 
   return 0;
+
 }
 
 int list_commands() {
