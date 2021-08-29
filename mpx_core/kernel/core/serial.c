@@ -92,7 +92,46 @@ int *polling(char *buffer, int *count){
 // insert your code to gather keyboard input via the technique of polling.
 // You must validat each key and handle special keys such as delete, back space, and
 // arrow keys
+while(1){
+  if (inb(COM1+5) != NULL){
+    char letter = inb(COM1);
+    *buffer = letter;
 
+    if (letter == (0x0B)){
+      //delete previous in buffer and screen
+    }
+    if (letter == (0x7F)){
+      //delete key: delete next button
+    }
+    if (letter == (0x0A)){
+      //Carriage Key
+    }
+    if (letter == (0x0D)){
+      //Carriage Key
+    }
+    if (letter == (0x18)){
+      //Up Arrow
+    }
+    if (letter == (0x19)){
+      //Down Arrow
+    }
+    if (letter == (0x1A)){
+      //Right Arrow
+    }
+    if (letter == (0x1B)){
+      //Left Arrow
+    }
+    if (letter >= (0x41) && letter <= (0x5A)){
+      //A-Z
+    }
+    if (letter >= (0x61) && letter <= (0x7A)){
+      //a-z
+    }
+    if (letter >= (0x30) && letter <= (0x39)){
+      //0-9
+    }
+  }
+}
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
 strlen(buffer);
