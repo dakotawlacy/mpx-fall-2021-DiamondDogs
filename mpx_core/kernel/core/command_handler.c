@@ -4,8 +4,7 @@
 #include <core/io.h>
 #include <core/serial.h>
 #include <core/command_handler.h>
-
-#include "modules/mpx_supt.h"
+#include <modules/mpx_supt.h>
 
 
 int run_ch() {
