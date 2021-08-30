@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <string.h>
+#include <modules/mpx_supt.h>
 
 #include <core/io.h>
 #include <core/serial.h>
@@ -10,24 +11,22 @@
 
 int run_ch() {
 
-  ch_running = 1;
   char commandBuff[100];
-  int commandSize;
+  
+  char buffer;
 
   serial_println("Welcome to DiamondDogs OS");
   serial_println("What command would you like to run?");
 
   list_commands();
 
-  WHILE(CH_RUNNING) {
-
-    commandSize = 99;
-    memset (buffer,'\0',100);
-    sys_req(READ,DEFAULT_DEVICE,commandBuff,&commandSize);
+   int bufferSize = 99;
+   memset(&buffer,'\0',100);
 
 
-
-  }
+   if (sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize) == 2000) {
+     serial_println("test1");
+   }
 
   return 0;
 

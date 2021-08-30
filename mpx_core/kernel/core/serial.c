@@ -92,42 +92,57 @@ int *polling(char *buffer, int *count){
 // insert your code to gather keyboard input via the technique of polling.
 // You must validat each key and handle special keys such as delete, back space, and
 // arrow keys
-while(1){
-  if (inb(COM1+5) != NULL){
+
+serial_println("EOW");
+
+while(1) {
+
+  if (inb(COM1+5) & 1){
     char letter = inb(COM1);
     *buffer = letter;
 
     if (letter == (0x0B)){
+      serial_println("backspace");
       //delete previous in buffer and screen
     }
     if (letter == (0x7F)){
+      serial_println("delete");
       //delete key: delete next button
     }
     if (letter == (0x0A)){
+      serial_println("enter");
       //Carriage Key
     }
     if (letter == (0x0D)){
+      serial_println("new line");
       //Carriage Key
     }
     if (letter == (0x18)){
+      serial_println("up");
       //Up Arrow
     }
     if (letter == (0x19)){
+      serial_println("down");
       //Down Arrow
     }
     if (letter == (0x1A)){
+      serial_println("right");
       //Right Arrow
     }
     if (letter == (0x1B)){
+      serial_println("left");
       //Left Arrow
     }
     if (letter >= (0x41) && letter <= (0x5A)){
+      serial_println("uppercase");
       //A-Z
     }
     if (letter >= (0x61) && letter <= (0x7A)){
+      serial_println("lowercase");
       //a-z
     }
     if (letter >= (0x30) && letter <= (0x39)){
+      serial_println("number");
       //0-9
     }
   }
