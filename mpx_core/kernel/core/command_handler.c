@@ -5,15 +5,13 @@
 #include <core/io.h>
 #include <core/serial.h>
 #include <core/command_handler.h>
-
-
+#include <modules/mpx_supt.h>
 
 
 int run_ch() {
 
   char commandBuff[100];
-  
-  char buffer;
+  mpx_init(MODULE_R1);
 
   serial_println("Welcome to DiamondDogs OS");
   serial_println("What command would you like to run?");
