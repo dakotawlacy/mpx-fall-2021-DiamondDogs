@@ -101,6 +101,33 @@ while(1) {
     char letter = inb(COM1);
     *buffer = letter;
 
+    if (letter == 0x1B) {
+      //serial_println("Escape");
+      letter = inb(COM1);
+      if (letter == 0x5B) {
+        //serial_println("[");
+        letter = inb(COM1);
+        if (letter == 0x44){
+         //serial_println(buffer);
+           serial_println("left");
+         }
+        else if (letter == 0x43){
+          //serial_println(buffer);
+            serial_println("right");
+       }
+        else if (letter == 0x42){
+        //serial_println(buffer);
+          serial_println("down");
+        }
+        else  if (letter == 0x41){
+         //serial_println(buffer);
+           serial_println("up");
+         }
+       }
+    }
+
+    //If Escape is not the first key
+    else{
     if (letter == (0x0B)){
       serial_println("backspace");
       //delete previous in buffer and screen
@@ -117,36 +144,28 @@ while(1) {
       serial_println("new line");
       //Carriage Key
     }
-    if (letter == (0x18)){
-      serial_println("up");
-      //Up Arrow
-    }
-    if (letter == (0x19)){
-      serial_println("down");
-      //Down Arrow
-    }
-    if (letter == (0x1A)){
-      serial_println("right");
-      //Right Arrow
-    }
-    if (letter == (0x1B)){
-      serial_println("left");
-      //Left Arrow
-    }
-    if (letter >= (0x41) && letter <= (0x5A)){
-      serial_println("uppercase");
-      //A-Z
-    }
+
     if (letter >= (0x61) && letter <= (0x7A)){
       serial_println("lowercase");
       //a-z
     }
-    if (letter >= (0x30) && letter <= (0x39)){
-      serial_println("number");
+
+      if (letter >= (0x41) && letter <= (0x5A)){
+        serial_println("uppercase");
+        //A-Z
+      }
+      //serial_println("number");
       //0-9
+    //}
+    if (letter >= (0x30) && letter <=(0x39)){
+      //if (letter == (0x44)){
+      serial_println("Number");
+
+    //}
+      //Left Arrow
     }
   }
-}
+}}
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
 strlen(buffer);
