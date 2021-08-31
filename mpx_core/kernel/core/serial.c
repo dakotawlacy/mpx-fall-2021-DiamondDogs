@@ -98,7 +98,7 @@ int *polling(char *buffer, int *count){
 
 //char bigBuffer[100];
  //memset(&bigBuffer,'\0',100);
- int place = 0;
+ int place = 1;
 
 while(1) {
 
