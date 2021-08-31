@@ -11,8 +11,9 @@
 
 int run_ch() {
 
+
   char commandBuff[100];
-  char buffer;
+  //char buffer;
 
   serial_println("Welcome to DiamondDogs OS");
   serial_println("What command would you like to run?");
@@ -20,11 +21,16 @@ int run_ch() {
   list_commands();
 
    int bufferSize = 99;
-   memset(&buffer,'\0',100);
+   memset(&commandBuff,'\0',100);
 
 
-   if (sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize) == 2000) {
-     serial_println("test1");
+   sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
+   //serial_println("my dad thinks im a disapointment :)");
+
+   serial_println("ComHand Below");
+   serial_print(commandBuff);
+   if(strcmp(commandBuff, "hello") == 0){
+     yeet();
    }
 
   return 0;
@@ -38,5 +44,11 @@ int list_commands() {
   serial_println("3. Shutdown");
   serial_println("4. Date and Time");
 
+  return 0;
+}
+
+
+int yeet (){
+  serial_println("It works");
   return 0;
 }

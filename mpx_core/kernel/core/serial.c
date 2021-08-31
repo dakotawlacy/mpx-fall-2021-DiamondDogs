@@ -9,6 +9,7 @@
 #include <string.h>
 
 #include <core/io.h>
+#include <core/command_handler.h>
 #include <core/serial.h>
 
 #define NO_ERROR 0
@@ -93,13 +94,19 @@ int *polling(char *buffer, int *count){
 // You must validat each key and handle special keys such as delete, back space, and
 // arrow keys
 
-serial_println("EOW");
+//char* commandBuff = buffer;
+
+//char bigBuffer[100];
+ //memset(&bigBuffer,'\0',100);
+ int place = 0;
 
 while(1) {
+
 
   if (inb(COM1+5) & 1){
     char letter = inb(COM1);
     *buffer = letter;
+    //place++;
 
     if (letter == 0x1B) {
       //serial_println("Escape");
@@ -137,16 +144,22 @@ while(1) {
       //delete key: delete next button
     }
     if (letter == (0x0A)){
-      serial_println("enter");
+      serial_println("");
+      break;
       //Carriage Key
     }
     if (letter == (0x0D)){
-      serial_println("new line");
+      serial_println("");
+      serial_println(buffer);
+      break;
       //Carriage Key
     }
 
     if (letter >= (0x61) && letter <= (0x7A)){
-      serial_println("lowercase");
+      serial_print(&letter);
+      //serial_println("lowercase");
+      buffer[place] = letter;
+      place++;
       //a-z
     }
 
@@ -160,15 +173,17 @@ while(1) {
     if (letter >= (0x30) && letter <=(0x39)){
       //if (letter == (0x44)){
       serial_println("Number");
-
-    //}
-      //Left Arrow
     }
   }
-}}
+  //outb(COM1, buffer);
+}
+
+}
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
 strlen(buffer);
+
+//commandBuff = buffer;
 
 return count;
 }

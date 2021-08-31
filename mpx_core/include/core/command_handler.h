@@ -6,4 +6,6 @@ int run_ch();
 
 int list_commands();
 
+int yeet();
+
 #endif
