@@ -48,7 +48,7 @@ int list_commands() {
 }
 
 
-int yeet (){
+int yeet(){
   serial_println("It works");
   return 0;
 }
