@@ -11,23 +11,29 @@
 
 int run_ch() {
 
+  //Welcome Message and Length
+  char* welcomeMessage = "Welcome to DiamondDogs OS\n";
+  int welcome_length = strlen(welcomeMessage);
 
-  char commandBuff[100];
-  //char buffer;
+  //Help Message and_Length
+  char* helpMessage = "Type 'help' to list all commands\n";
+  int help_length = strlen(welcomeMessage);
 
-  serial_println("Welcome to DiamondDogs OS");
-  serial_println("What command would you like to run?");
+  //Write Welcome Message
+   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
 
-  list_commands();
+   //Write Help Message
+    sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&help_length);
 
+
+   char commandBuff[100];
    int bufferSize = 99;
    memset(&commandBuff,'\0',100);
 
 
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
-   //serial_println("my dad thinks im a disapointment :)");
 
-   serial_println("ComHand Below");
+   serial_println("\nComHand Below");
    serial_print(commandBuff);
    if(strcmp(commandBuff, "hello") == 0){
      yeet();

@@ -44,13 +44,13 @@ int keyCap(char* buffer, int location, char letter){
       //delete key: delete next button
     }
     if (letter == (0x0A)){
-      serial_println("");
+      //serial_println("");
       return 5;
       //Carriage Key
     }
     if (letter == (0x0D)){
-      serial_println("");
-      serial_println(buffer);
+      //serial_println("");
+      //serial_println(buffer);
       return 5;
       //Carriage Key
     }
