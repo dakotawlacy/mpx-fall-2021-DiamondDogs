@@ -6,22 +6,32 @@
 #include <core/serial.h>
 #include <core/command_handler.h>
 
-
-
-
+//Run the Command Handler function
 int run_ch() {
 
+  // Welcome Message and Length
+  char * welcomeMessage = "Welcome to DiamondDogs OS\n";
+  int welcome_length = strlen(welcomeMessage);
 
+  // Command Message and Length
+  char * helpMessage = "Type 'help' to list all commands\n";
+  int helpMessage_length = strlen(helpMessage);
+
+  // Write welcome message
+  sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
+
+  // Write help message
+  sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&helpMessage_length);
+
+  // List all commands
+  //list_commands();
+
+
+  //Initialize the command buffer
   char commandBuff[100];
-  //char buffer;
 
-  serial_println("Welcome to DiamondDogs OS");
-  serial_println("What command would you like to run?");
-
-  list_commands();
-
-   int bufferSize = 99;
-   memset(&commandBuff,'\0',100);
+  int bufferSize = 99;
+  memset(&commandBuff,'\0',100);
 
 
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
