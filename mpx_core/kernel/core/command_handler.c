@@ -20,6 +20,7 @@ int run_ch() {
   // Write welcome message
   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
 
+<<<<<<< HEAD
   // Write help message
   sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&helpMessage_length);
 
@@ -32,12 +33,31 @@ int run_ch() {
 
   int bufferSize = 99;
   memset(&commandBuff,'\0',100);
+=======
+  //Welcome Message and Length
+  char* welcomeMessage = "Welcome to DiamondDogs OS\n";
+  int welcome_length = strlen(welcomeMessage);
+
+  //Help Message and_Length
+  char* helpMessage = "Type 'help' to list all commands\n";
+  int help_length = strlen(welcomeMessage);
+
+  //Write Welcome Message
+   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
+
+   //Write Help Message
+    sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&help_length);
+
+
+   char commandBuff[100];
+   int bufferSize = 99;
+   memset(&commandBuff,'\0',100);
+>>>>>>> 0503c600564e9cfea97e8e9eb994c321bec3bc03
 
 
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
-   //serial_println("my dad thinks im a disapointment :)");
 
-   serial_println("ComHand Below");
+   serial_println("\nComHand Below");
    serial_print(commandBuff);
    if(strcmp(commandBuff, "hello") == 0){
      yeet();
@@ -58,7 +78,7 @@ int list_commands() {
 }
 
 
-int yeet (){
+int yeet(){
   serial_println("It works");
   return 0;
 }
