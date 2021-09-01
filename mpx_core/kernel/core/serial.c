@@ -7,6 +7,7 @@
 
 #include <stdint.h>
 #include <string.h>
+#include <modules/mpx_supt.h>
 
 #include <core/io.h>
 #include <core/command_handler.h>
@@ -99,26 +100,30 @@ int *polling(char *buffer, int *count){
 
 //char bigBuffer[100];
  //memset(&bigBuffer,'\0',100);
- int place = 1;
+ int val = 0;
+ int currentPlace = 0;
+ int length = 0;
 
 while(1) {
 
   if (inb(COM1+5) & 1){
-    char letter = inb(COM1);
-    *buffer = letter;
-    //place++;
-    keyCap(buffer,place,letter);
 
-    if(keyCap(buffer,place,letter) == 5){
+    currentPlace = val;
+    val = keyCap(buffer,val, length);
+
+    //Check for enter
+    if (val == -1) {
       break;
     }
-    place++;
 
   }
-  //outb(COM1, buffer);
-  }
+}
 
+serial_println("done\n");
 
+if (currentPlace == 5) {
+  serial_println("fuck");
+}
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
 strlen(buffer);

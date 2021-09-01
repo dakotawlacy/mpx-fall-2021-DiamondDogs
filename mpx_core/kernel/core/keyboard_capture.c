@@ -7,73 +7,131 @@
 #include <core/command_handler.h>
 #include <core/serial.h>
 
-int keyCap(char* buffer, int location, char letter){
+int keyCap(char* buffer, int location, int length) {
+
+    char letter = inb(COM1);
+
+    //Check to see if ESC is pressed first
     if (letter == 0x1B) {
-      //serial_println("Escape");
+      //Get next char
       letter = inb(COM1);
+      //Check to see if [ is pressed
       if (letter == 0x5B) {
-        //serial_println("[");
+        //Get next char
         letter = inb(COM1);
-        //serial_println(buffer);
+        //Check to see what arrow key is pressed
         if (letter == 0x44){
-           serial_println("left");
-         }
+           //serial_println("left");//Left
+           location--;
+
+           serial_print("\e[1D");
+        }
         else if (letter == 0x43){
-          //serial_println(buffer);
-            serial_println("right");
-       }
+          //serial_println("right");//Right
+          location++;
+
+          serial_print("\e[1C");
+        }
         else if (letter == 0x42){
-        //serial_println(buffer);
-          serial_println("down");
+          serial_println("down");///Down
         }
         else  if (letter == 0x41){
-         //serial_println(buffer);
-           serial_println("up");
-         }
-       }
-    }
+          serial_println("up");//Up
+        }
+      }
+    }//End ESC check
 
     //If Escape is not the first key
-    else{
-    if (letter == (0x0B)){
-      serial_println("backspace");
-      //delete previous in buffer and screen
-    }
-    if (letter == (0x7F)){
-      serial_println("delete");
-      //delete key: delete next button
-    }
-    if (letter == (0x0A)){
-      //serial_println("");
-      return 5;
-      //Carriage Key
-    }
-    if (letter == (0x0D)){
-      //serial_println("");
-      //serial_println(buffer);
-      return 5;
-      //Carriage Key
-    }
+    else  {
+      //Backspace
+      if (letter == (0x08)) {
 
-    if (letter >= (0x61) && letter <= (0x7A)){
-      serial_print(&buffer[location]);
-      //serial_println("lowercase");
-      buffer[location] = letter;
-      //a-z
-    }
 
-      if (letter >= (0x41) && letter <= (0x5A)){
-        serial_println("uppercase");
-        //A-Z
+
+
+        //Set back location
+        location--;
+
       }
-      //serial_println("number");
-      //0-9
-    //}
-    if (letter >= (0x30) && letter <=(0x39)){
-      //if (letter == (0x44)){
-      serial_println("Number");
-    }
-  }
 
-return 0;
+      //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
+      if (letter == (0x7F)) {
+
+
+          location--;
+
+          serial_print("\e[1D");
+
+
+          buffer[location] = '\0';
+
+          //serial_print(&buffer[location]);
+          serial_print(" ");
+          serial_print("\e[1D");
+
+
+      }
+
+      //Enter
+      if (letter == (0x0A)) {
+        return -1;
+      }
+
+      //Enter
+      if (letter == (0x0D)) {
+        return -1;
+      }
+
+      //Lowercase a-z
+      if (letter >= (0x61) && letter <= (0x7A)){
+
+
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&letter);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+
+      }
+
+      //Lowercase A-Z
+      if (letter >= (0x41) && letter <= (0x5A)){
+
+
+
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_println(&buffer[location]);
+
+        //Increase location
+        location++;
+
+        return location;
+
+      }
+
+      //Number
+      if (letter >= (0x30) && letter <=(0x39)){
+        //Echo number
+        serial_println("Number");
+
+        //Place letter into location
+        buffer[location] = letter;
+
+        //Increase location
+        location++;
+
+      }
+  }//End numbers and letters
+
+  return 0;
+
 }
