@@ -25,7 +25,10 @@ core/keyboard_capture.o\
 core/commands/help.o\
 core/commands/shutdown.o\
 core/commands/version.o\
-core/commands/getdate.o
+core/commands/getdate.o\
+core/commands/setdate.o\
+core/commands/gettime.o\
+core/commands/settime.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<

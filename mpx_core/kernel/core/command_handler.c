@@ -12,6 +12,10 @@
 #include <core/commands/version.h>
 #include <core/commands/getdate.h>
 
+#include <core/commands/setdate.h>
+#include <core/commands/gettime.h>
+#include <core/commands/settime.h>
+
 //Run the Command Handler function
 int run_ch() {
 
@@ -86,16 +90,19 @@ int get_command(char * commandBuff) {
   if (strcmp(command,"setdate") == 0) {
     //Run setdate
     serial_println("setdate");
+    run_setdate();
   }
 
   if (strcmp(command,"gettime") == 0) {
     //Run gettime
     serial_println("gettime");
+    run_gettime();
   }
 
   if (strcmp(command,"settime") == 0) {
     //Run settime
     serial_println("settime");
+    run_settime();
   }
 
   return 0;
