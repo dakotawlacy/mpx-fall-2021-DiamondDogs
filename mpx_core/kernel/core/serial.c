@@ -119,11 +119,12 @@ while(1) {
   }
 }
 
-serial_println("done\n");
+serial_println("");
 
-if (currentPlace == 5) {
-  serial_println("fuck");
-}
+if (currentPlace == -1)
+  serial_print("wow");//NEED to figure out how to make it where unused variables dont do anyhting
+
+
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
 strlen(buffer);

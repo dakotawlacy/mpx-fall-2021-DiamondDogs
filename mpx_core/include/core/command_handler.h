@@ -6,6 +6,6 @@ int run_ch();
 
 int list_commands();
 
-int yeet();
+int get_command(char * commandBuff);
 
 #endif

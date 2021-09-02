@@ -21,16 +21,38 @@ int keyCap(char* buffer, int location, int length) {
         letter = inb(COM1);
         //Check to see what arrow key is pressed
         if (letter == 0x44){
-           //serial_println("left");//Left
-           location--;
 
-           serial_print("\e[1D");
+           if (location == 0) {
+              //Do nothing
+               return location;
+           } else {
+             //Move Location left one in logic
+             location = location - 1;
+             //Move location on screen left
+             serial_print("\e[1D");
+             //Reset buffer
+             letter = inb(COM1);
+
+             return location;
+           }
         }
         else if (letter == 0x43){
-          //serial_println("right");//Right
-          location++;
 
-          serial_print("\e[1C");
+          if (location == strlen(buffer)) {
+            //Do nothing
+            return location;
+          }
+          else {
+
+            location = location + 1;
+
+            serial_print("\e[1C");
+
+            letter = inb(COM1);
+
+            return location;
+
+          }
         }
         else if (letter == 0x42){
           serial_println("down");///Down
@@ -43,32 +65,44 @@ int keyCap(char* buffer, int location, int length) {
 
     //If Escape is not the first key
     else  {
+
       //Backspace
       if (letter == (0x08)) {
 
-
-
-
         //Set back location
-        location--;
+        --location;
+        --length;
+
+        return location;
 
       }
 
       //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
       if (letter == (0x7F)) {
 
+        //Check if at beginning
+        if (location == 0) {
+          //do nothing
+          return location;
+        }
+        else if (location == strlen(buffer)) {
 
-          location--;
+          --location;
+          --length;
 
           serial_print("\e[1D");
-
 
           buffer[location] = '\0';
 
-          //serial_print(&buffer[location]);
+
           serial_print(" ");
           serial_print("\e[1D");
 
+          return location;
+
+        } else {
+
+        }
 
       }
 
@@ -82,9 +116,24 @@ int keyCap(char* buffer, int location, int length) {
         return -1;
       }
 
+      //Space
+      if (letter == 0x20) {
+
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&letter);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+
+      }
       //Lowercase a-z
       if (letter >= (0x61) && letter <= (0x7A)){
-
 
         //Place letter into location
         buffer[location] = letter;
@@ -112,7 +161,7 @@ int keyCap(char* buffer, int location, int length) {
         serial_println(&buffer[location]);
 
         //Increase location
-        location++;
+        ++location;
 
         return location;
 
@@ -127,7 +176,7 @@ int keyCap(char* buffer, int location, int length) {
         buffer[location] = letter;
 
         //Increase location
-        location++;
+        ++location;
 
       }
   }//End numbers and letters

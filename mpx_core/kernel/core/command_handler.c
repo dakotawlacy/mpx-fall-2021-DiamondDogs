@@ -31,11 +31,8 @@ int run_ch() {
 
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
-   serial_println("\nComHand Below");
-   serial_println(commandBuff);
-   if(strcmp(commandBuff, "hello") == 0){
-     yeet();
-   }
+   get_command(commandBuff);
+
 
   return 0;
 
@@ -52,7 +49,54 @@ int list_commands() {
 }
 
 
-int yeet(){
-  serial_println("It works");
+int get_command(char * commandBuff){
+
+  int i = 0;
+  char command[99];
+  //Copy first word into command
+  for(i = 0; i < strlen(commandBuff); i++) {
+    if (commandBuff[i] != ' ' || commandBuff[i] != '\0') {
+      command[i] = commandBuff[i];
+    } else {
+      break;
+    }
+  }
+
+  //Command Logic
+  if (strcmp(command,"help") == 0) {
+    //Run Help
+    serial_println("help");
+  }
+
+  if (strcmp(command,"version") == 0) {
+    //Run version
+    serial_println("version");
+  }
+
+  if (strcmp(command,"shutdown") == 0) {
+    //Run shutdown
+    serial_println("shutdown");
+  }
+
+  if (strcmp(command,"getdate") == 0) {
+    //Run getdate
+    serial_println("getdate");
+  }
+
+  if (strcmp(command,"setdate") == 0) {
+    //Run setdate
+    serial_println("setdate");
+  }
+
+  if (strcmp(command,"gettime") == 0) {
+    //Run gettime
+    serial_println("gettime");
+  }
+
+  if (strcmp(command,"settime") == 0) {
+    //Run settime
+    serial_println("settime");
+  }
+
   return 0;
 }
