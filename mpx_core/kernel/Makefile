@@ -22,7 +22,10 @@ mem/paging.o\
 mem/heap.o\
 core/command_handler.o\
 core/keyboard_capture.o\
-core/commands/help.o
+core/commands/help.o\
+core/commands/shutdown.o\
+core/commands/version.o\
+core/commands/getdate.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<

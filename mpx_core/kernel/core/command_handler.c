@@ -4,8 +4,13 @@
 
 #include <core/io.h>
 #include <core/serial.h>
+
 #include <core/command_handler.h>
+
 #include <core/commands/help.h>
+#include <core/commands/shutdown.h>
+#include <core/commands/version.h>
+#include <core/commands/getdate.h>
 
 //Run the Command Handler function
 int run_ch() {
@@ -39,18 +44,8 @@ int run_ch() {
 
 }
 
-int list_commands() {
 
-  serial_println("1. Version");
-  serial_println("2. Help");
-  serial_println("3. Shutdown");
-  serial_println("4. Date and Time");
-
-  return 0;
-}
-
-
-int get_command(char * commandBuff){
+int get_command(char * commandBuff) {
 
   int i = 0;
   char command[99];
@@ -73,16 +68,19 @@ int get_command(char * commandBuff){
   if (strcmp(command,"version") == 0) {
     //Run version
     serial_println("version");
+    run_version();
   }
 
   if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
     serial_println("shutdown");
+    run_shutdown();
   }
 
   if (strcmp(command,"getdate") == 0) {
     //Run getdate
     serial_println("getdate");
+    run_getdate();
   }
 
   if (strcmp(command,"setdate") == 0) {
