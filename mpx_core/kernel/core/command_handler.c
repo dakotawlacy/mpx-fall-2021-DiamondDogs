@@ -5,6 +5,7 @@
 #include <core/io.h>
 #include <core/serial.h>
 #include <core/command_handler.h>
+#include <core/commands/help.h>
 
 //Run the Command Handler function
 int run_ch() {
@@ -66,6 +67,7 @@ int get_command(char * commandBuff){
   if (strcmp(command,"help") == 0) {
     //Run Help
     serial_println("help");
+    run_help();
   }
 
   if (strcmp(command,"version") == 0) {

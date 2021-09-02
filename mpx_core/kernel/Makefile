@@ -21,7 +21,8 @@ core/tables.o\
 mem/paging.o\
 mem/heap.o\
 core/command_handler.o\
-core/keyboard_capture.o
+core/keyboard_capture.o\
+core/commands/help.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<
