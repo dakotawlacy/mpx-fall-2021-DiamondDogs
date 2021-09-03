@@ -6,6 +6,6 @@ int run_ch();
 
 int list_commands();
 
-int get_command(char * commandBuff);
+int get_command(char * commandBuff, int bufferSize);
 
 #endif

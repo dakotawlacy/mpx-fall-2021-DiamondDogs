@@ -10,7 +10,7 @@
 int keyCap(char* buffer, int location, int length) {
 
     char letter = inb(COM1);
-
+    length = strlen(buffer);
     //Check to see if ESC is pressed first
     if (letter == 0x1B) {
       //Get next char
@@ -85,25 +85,70 @@ int keyCap(char* buffer, int location, int length) {
           //do nothing
           return location;
         }
+        //Check if end
         else if (location == strlen(buffer)) {
 
+          //Move left in location
           --location;
           --length;
 
+          //Visually move left
           serial_print("\e[1D");
 
+          //Set value to null pointer
           buffer[location] = '\0';
 
-
+          //Clear letter
           serial_print(" ");
+
+          //Visually Move left
           serial_print("\e[1D");
 
           return location;
 
-        } else {
+        }
+        //In the middle
+        else {
+
+          //Move left in location
+          --location;
+
+
+          //Visually move left
+          serial_print("\e[1D");
+          //Counters
+          int i = 0;
+          int j = 0;
+          int y = 0;
+          //Index from current position to end
+          while (i < (length - location)) {
+            //Make temp char
+            char temp = buffer[location + i + 1];
+            //Place temp into location
+            buffer[location + i] = temp;
+            //increment counters
+            i++;
+            j++;
+            //Echo char
+            serial_print(&temp);
+          }
+
+          //Delete last character
+          serial_print(" ");
+
+          //Make end a null pointer
+          buffer[length - 1] = '\0';
+
+          //Put cursor back to original spot
+          while (y < j) {
+            serial_print("\e[1D");
+            y++;
+          }
+
+          //Return locaiton
+          return location;
 
         }
-
       }
 
       //Enter
@@ -170,11 +215,11 @@ int keyCap(char* buffer, int location, int length) {
 
       //Number
       if (letter >= (0x30) && letter <=(0x39)){
-        //Echo number
-        serial_println("Number");
-
         //Place letter into location
         buffer[location] = letter;
+
+        //Echo number
+        serial_print(&buffer[location]);
 
         //Increase location
         ++location;
