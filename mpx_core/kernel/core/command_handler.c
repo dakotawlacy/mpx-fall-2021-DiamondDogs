@@ -65,7 +65,7 @@ int get_command(char * commandBuff, int bufferSize) {
   char command[99];
   //Copy first word into command
   for(i = 0; i < strlen(commandBuff); i++) {
-    if (commandBuff[i] = ' ' || commandBuff[i] == '\0') {
+    if (commandBuff[i] == ' ' || commandBuff[i] == '\0') {
       break;
     } else {
       command[i] = commandBuff[i];
