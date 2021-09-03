@@ -41,10 +41,7 @@ int run_ch() {
    while(1){
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
-   serial_println(commandBuff);
-
-   get_command(commandBuff);
-   if (strcmp(commandBuff,"shutdown") == 0) {
+   if (get_command(commandBuff, bufferSize) > 0){
       break;
    }
 
@@ -53,6 +50,8 @@ int run_ch() {
      bufferSize--;
    }
    bufferSize = 99;
+
+
   }
 
   return 0;
@@ -60,7 +59,7 @@ int run_ch() {
 }
 
 
-int get_command(char * commandBuff) {
+int get_command(char * commandBuff, int bufferSize) {
 
   int i = 0;
   char command[99];
@@ -88,8 +87,8 @@ int get_command(char * commandBuff) {
 
   if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
-    serial_println("shutdown");
-    run_shutdown();
+    //serial_println("shutdown");
+    return run_shutdown(commandBuff, bufferSize);
   }
 
   if (strcmp(command,"getdate") == 0) {

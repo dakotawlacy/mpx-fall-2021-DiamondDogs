@@ -215,11 +215,11 @@ int keyCap(char* buffer, int location, int length) {
 
       //Number
       if (letter >= (0x30) && letter <=(0x39)){
-        //Echo number
-        serial_println("Number");
-
         //Place letter into location
         buffer[location] = letter;
+
+        //Echo number
+        serial_print(&buffer[location]);
 
         //Increase location
         ++location;
