@@ -38,11 +38,20 @@ int run_ch() {
    int bufferSize = 99;
    memset(&commandBuff,'\0',100);
 
-
+   while(1){
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
    get_command(commandBuff);
+   if (strcmp(commandBuff,"shutdown") == 0) {
+      break;
+   }
 
+   while(bufferSize >= 0){
+     commandBuff[bufferSize] = '\0';
+     bufferSize--;
+   }
+   bufferSize = 99;
+  }
 
   return 0;
 
