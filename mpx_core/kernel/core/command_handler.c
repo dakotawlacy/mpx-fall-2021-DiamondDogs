@@ -41,6 +41,8 @@ int run_ch() {
    while(1){
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
+   serial_println(commandBuff);
+
    get_command(commandBuff);
    if (strcmp(commandBuff,"shutdown") == 0) {
       break;
