@@ -39,6 +39,7 @@ int run_ch() {
    memset(&commandBuff,'\0',100);
 
    while(1){
+
    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
    if (get_command(commandBuff, bufferSize) > 0){
@@ -75,8 +76,7 @@ int get_command(char * commandBuff, int bufferSize) {
   //Command Logic
   if (strcmp(command,"help") == 0) {
     //Run Help
-    serial_println("help");
-    run_help();
+    run_help(commandBuff,bufferSize);
   }
 
   if (strcmp(command,"version") == 0) {
