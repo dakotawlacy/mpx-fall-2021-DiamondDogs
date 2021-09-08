@@ -7,8 +7,6 @@
 #include <core/serial.h>
 #include <include/string.h>
 
-int base = 10;
-
 int run_gettime() {
   char* secChar = "\0";
   memset(secChar,'\0',99);
@@ -21,18 +19,7 @@ int run_gettime() {
   int hoursVal = inb(0x71);
   int hours = (hoursVal & 0x0f) + ((hoursVal/16)*10);
   itoa(hours, hoursChar);
-
-  serial_print("\nTime: ");
   serial_print(hoursChar);
-
-  if (base == 20){
-    serial_println("Not Okay");
-  }
-
-
-
-
-  serial_print(":");
 
 
   outb(0x70, 0x02);
@@ -40,9 +27,7 @@ int run_gettime() {
   int minutes = (minutesVal & 0x0f) + ((minutesVal/16)*10);
   itoa(minutes, minutesChar);
   serial_print(minutesChar);
-  serial_print(":");
-
-
+  
 
   outb(0x70, 0x00);
   int secondsVal = inb(0x71);
