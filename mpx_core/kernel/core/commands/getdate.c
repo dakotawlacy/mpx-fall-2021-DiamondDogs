@@ -7,6 +7,6 @@
 #include <core/serial.h>
 
 int run_getdate() {
-  serial_println("weck");
+  serial_println("\nweck\n");
   return 0;
 }

@@ -7,6 +7,6 @@
 #include <core/serial.h>
 
 int run_gettime() {
-  serial_println("get tim");
+  serial_println("\nget tim\n");
   return 0;
 }

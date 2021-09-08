@@ -24,8 +24,6 @@ int run_help(char * commandBuff, int bufferSize) {
       }
     }
 
-    serial_println(command);
-
   if (strcmp(command,"version") == 0) {
     //Run version
     char * versionFunc = "\nType 'version' to see the current version of the OS.\n";
@@ -105,6 +103,13 @@ int run_help(char * commandBuff, int bufferSize) {
   sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);
 
   }
+  int buffClear = 99;
+  while(buffClear >= 0){
+    command[buffClear] = '\0';
+    buffClear--;
+  }
+   buffClear = 99;
+
 
   return 0;
 }
