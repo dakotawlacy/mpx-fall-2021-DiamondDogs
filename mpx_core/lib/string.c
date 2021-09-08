@@ -90,7 +90,7 @@ Description: Int to ASCII strings
 params: int num, char* buffer, int base
 */
 
-char* itoa(int num, char* buffer){
+char* itoa(int num, char* str){
   int i = 0;
   int base = 10;
   int negative = 0;
@@ -105,15 +105,11 @@ char* itoa(int num, char* buffer){
     num = -num;
   }
   while (num != 0){
-    int remain = num % base;
-    if (remain > 9){
-      (remain-10)+'a';
-    }else{
-      remain + '0';
-    }
-    num = num/base;
+    int rem = num % base;
+        str[i++] = (rem > 9)? (rem-10) + 'a' : rem + '0';
+        num = num/base;
   }
-  if (isNegative)
+  if (negative == 1)
     str[i++] = '-';
 
   str[i] = '\0';

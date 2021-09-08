@@ -1,4 +1,4 @@
-kt#include <stdint.h>
+#include <stdint.h>
 #include <string.h>
 #include <modules/mpx_supt.h>
 
@@ -75,8 +75,7 @@ int get_command(char * commandBuff, int bufferSize) {
   //Command Logic
   if (strcmp(command,"help") == 0) {
     //Run Help
-    serial_println("help");
-    run_help();
+    run_help(commandBuff, bufferSize);
   }
 
   if (strcmp(command,"version") == 0) {
