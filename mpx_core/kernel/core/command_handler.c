@@ -11,6 +11,7 @@
 #include <core/commands/shutdown.h>
 #include <core/commands/version.h>
 #include <core/commands/getdate.h>
+
 #include <core/commands/setdate.h>
 #include <core/commands/gettime.h>
 #include <core/commands/settime.h>
@@ -29,45 +30,39 @@ int run_ch() {
   // Write welcome message
   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
 
-  //Write Help Message
-  sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&helpMessage_length);
+   //Write Help Message
+   sys_req(WRITE,DEFAULT_DEVICE,helpMessage,&helpMessage_length);
 
-  //Char array for commands
-  char commandBuff[100];
-  int bufferSize = 99;
-  memset(&commandBuff,'\0',100);
 
-  //Command Handler Loop
-  while(1) {
+   char commandBuff[100];
+   int bufferSize = 99;
+   memset(&commandBuff,'\0',100);
 
-    //Get input
-    sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
+   while(1){
+   sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
-    //Check for shutdown command
-    if (get_command(commandBuff, bufferSize) > 0){
+   if (get_command(commandBuff, bufferSize) > 0){
       break;
-    }
-
-    //Reset buffer
-    while(bufferSize >= 0){
-      commandBuff[bufferSize] = '\0';
-      bufferSize--;
-    }
-     bufferSize = 99;
    }
+
+   while(bufferSize >= 0){
+     commandBuff[bufferSize] = '\0';
+     bufferSize--;
+   }
+   bufferSize = 99;
+
+
+  }
 
   return 0;
 
 }
 
-//Parse command
+
 int get_command(char * commandBuff, int bufferSize) {
 
-  //Declare variables
   int i = 0;
   char command[99];
-  memset(&command,'\0',99);
-
   //Copy first word into command
   for(i = 0; i < strlen(commandBuff); i++) {
     if (commandBuff[i] == ' ' || commandBuff[i] == '\0') {
@@ -80,45 +75,43 @@ int get_command(char * commandBuff, int bufferSize) {
   //Command Logic
   if (strcmp(command,"help") == 0) {
     //Run Help
-    run_help(commandBuff,bufferSize);
+    run_help(commandBuff, bufferSize);
   }
-  else if (strcmp(command,"version") == 0) {
+
+  if (strcmp(command,"version") == 0) {
     //Run version
+    serial_println("version");
     run_version();
   }
-  else if (strcmp(command,"shutdown") == 0) {
+
+  if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
+    //serial_println("shutdown");
     return run_shutdown(commandBuff, bufferSize);
   }
-  else if (strcmp(command,"getdate") == 0) {
+
+  if (strcmp(command,"getdate") == 0) {
     //Run getdate
+    serial_println("getdate");
     run_getdate();
   }
-  else if (strcmp(command,"setdate") == 0) {
+
+  if (strcmp(command,"setdate") == 0) {
     //Run setdate
+    serial_println("setdate");
     run_setdate();
   }
-  else if (strcmp(command,"gettime") == 0) {
+
+  if (strcmp(command,"gettime") == 0) {
     //Run gettime
+    serial_println("gettime");
     run_gettime();
   }
-  else if (strcmp(command,"settime") == 0) {
+
+  if (strcmp(command,"settime") == 0) {
     //Run settime
+    serial_println("settime");
     run_settime();
-  }
-  else if (strcmp(command,"clear") == 0) {
-    //Run clear
-    int clear_length = 5;
-    //Clear code
-    sys_req(WRITE,DEFAULT_DEVICE,"\e[2J",&clear_length);
-    sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
-  }
-  else {
-    //Invalid code
-    char * errorMSG = "\nInvalid command\n";
-    int errorMSG_length = strlen(errorMSG);
-    //Print error message
-    sys_req(WRITE,DEFAULT_DEVICE,errorMSG,&errorMSG_length);
   }
 
   return 0;
