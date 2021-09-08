@@ -9,45 +9,50 @@
 
 int keyCap(char* buffer, int location, int length) {
 
-    char letter = inb(COM1);
-    length = strlen(buffer);
+  //Get letter and length
+  char letter = inb(COM1);
+  length = strlen(buffer);
+
     //Check to see if ESC is pressed first
     if (letter == 0x1B) {
       //Get next char
       letter = inb(COM1);
-      //Check to see if [ is pressed
+      //Check to see if [ is next
       if (letter == 0x5B) {
         //Get next char
         letter = inb(COM1);
         //Check to see what arrow key is pressed
-        if (letter == 0x44){
+        //If left
+        if (letter == 0x44) {
+          //If at the beginning
+          if (location == 0) {
+            //Do nothing
+            return location;
+          }
+          else {
+            //Move Location left one in logic
+            location = location - 1;
+            //Move location on screen left
+            serial_print("\e[1D");
+            //Reset buffer
+            letter = inb(COM1);
 
-           if (location == 0) {
-              //Do nothing
-               return location;
-           } else {
-             //Move Location left one in logic
-             location = location - 1;
-             //Move location on screen left
-             serial_print("\e[1D");
-             //Reset buffer
-             letter = inb(COM1);
-
-             return location;
-           }
+            return location;
+          }
         }
-        else if (letter == 0x43){
-
+        //If right
+        else if (letter == 0x43) {
+          //If at end
           if (location == strlen(buffer)) {
             //Do nothing
             return location;
           }
           else {
-
+            //Increase location by 1
             location = location + 1;
-
+            //Move location on screen right
             serial_print("\e[1C");
-
+            //Reset buffer
             letter = inb(COM1);
 
             return location;
@@ -64,22 +69,17 @@ int keyCap(char* buffer, int location, int length) {
     }//End ESC check
 
     //If Escape is not the first key
-    else  {
-
-      //Backspace
+    else {
+      //Delete key
       if (letter == (0x08)) {
-
         //Set back location
         --location;
         --length;
 
         return location;
-
       }
-
       //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
       if (letter == (0x7F)) {
-
         //Check if at beginning
         if (location == 0) {
           //do nothing
@@ -87,7 +87,6 @@ int keyCap(char* buffer, int location, int length) {
         }
         //Check if end
         else if (location == strlen(buffer)) {
-
           //Move left in location
           --location;
           --length;
@@ -113,13 +112,12 @@ int keyCap(char* buffer, int location, int length) {
           //Move left in location
           --location;
 
-
           //Visually move left
           serial_print("\e[1D");
           //Counters
           int i = 0;
           int j = 0;
-          int y = 0;
+          int k = 0;
           //Index from current position to end
           while (i < (length - location)) {
             //Make temp char
@@ -140,14 +138,13 @@ int keyCap(char* buffer, int location, int length) {
           buffer[length - 1] = '\0';
 
           //Put cursor back to original spot
-          while (y < j) {
+          while (k < j) {
             serial_print("\e[1D");
-            y++;
+            k++;
           }
 
           //Return locaiton
           return location;
-
         }
       }
 
@@ -186,7 +183,6 @@ int keyCap(char* buffer, int location, int length) {
         //echo letter
         serial_print(&buffer[location]);
 
-
         //Increase location
         ++location;
         ++length;
@@ -194,12 +190,8 @@ int keyCap(char* buffer, int location, int length) {
         return location;
 
       }
-
       //Lowercase A-Z
       if (letter >= (0x41) && letter <= (0x5A)){
-
-
-
         //Place letter into location
         buffer[location] = letter;
 
@@ -212,7 +204,6 @@ int keyCap(char* buffer, int location, int length) {
         return location;
 
       }
-
       //Number
       if (letter >= (0x30) && letter <=(0x39)){
         //Place letter into location
@@ -223,7 +214,6 @@ int keyCap(char* buffer, int location, int length) {
 
         //Increase location
         ++location;
-
       }
   }//End numbers and letters
 

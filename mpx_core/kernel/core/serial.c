@@ -96,30 +96,28 @@ int *polling(char *buffer, int *count){
 // You must validat each key and handle special keys such as delete, back space, and
 // arrow keys
 
-//char* commandBuff = buffer;
+  //Declare Variables
+  int val = 0;
+  int currentPlace = 0;
+  int length = 0;
 
-//char bigBuffer[100];
- //memset(&bigBuffer,'\0',100);
- int val = 0;
- int currentPlace = 0;
- int length = 0;
+  //Command Handler Loop
+  while(1) {
 
-while(1) {
+    //Check for byte in buffer
+    if (inb(COM1+5) & 1){
 
-  if (inb(COM1+5) & 1){
+      //Set previous place
+      currentPlace = val;
+      //Get key logic and current place
+      val = keyCap(buffer,val, length);
 
-    currentPlace = val;
-    val = keyCap(buffer,val, length);
-
-    //Check for enter
-    if (val == -1) {
-      break;
-    }
-
+      //Check for enter
+      if (val == -1) {
+        break;
+      }
   }
 }
-
-serial_println("");
 
 if (currentPlace == -1)
   serial_print("wow");//NEED to figure out how to make it where unused variables dont do anyhting
@@ -127,7 +125,7 @@ if (currentPlace == -1)
 
 // remove the following line after implementing your module, this is present
 // just to allow the program to compile before R1 is complete
-strlen(buffer);
+
 
 //commandBuff = buffer;
 

@@ -8,8 +8,6 @@
 
 int run_help(char * commandBuff, int bufferSize) {
 
-
-
 //  serial_println(commandBuff);
     char command[99];
   //Copy first word into command
@@ -25,6 +23,8 @@ int run_help(char * commandBuff, int bufferSize) {
 
       }
     }
+
+    serial_println(command);
 
   if (strcmp(command,"version") == 0) {
     //Run version
