@@ -47,29 +47,80 @@ char* strcpy(char *s1, const char *s2)
 */
 int atoi(const char *s)
 {
-  int res=0; 
+  int res=0;
    int charVal=0;
-   char sign = ' '; 
+   char sign = ' ';
    char c = *s;
-   
+
 
    while(isspace(&c)){ ++s; c = *s;} // advance past whitespace
 
-   
+
    if (*s == '-' || *s == '+') sign = *(s++); // save the sign
-   
-   
-   while(*s != '\0'){ 
+
+
+   while(*s != '\0'){
         charVal = *s - 48;
- 	res = res * 10 + charVal; 
+ 	res = res * 10 + charVal;
 	s++;
 
-   } 
+   }
 
-   
+
    if ( sign == '-') res=res * -1;
 
   return res; // return integer
+}
+
+void reverse(char str[], int length){
+  int s = 0;
+  int e = length-1;
+  while (s<e){
+    char temp = str[s];
+    str[s] = str[e];
+    str[e] = temp;
+    s++;
+    e--;
+  }
+}
+
+/*
+Procedure..: itoa
+Description: Int to ASCII strings
+params: int num, char* buffer, int base
+*/
+
+char* itoa(int num, char* buffer){
+  int i = 0;
+  int base = 10;
+  int negative = 0;
+
+  if (num==0){
+    str[i++]='0';
+    str[i] = '\0';
+    return str;
+  }
+  if (num <0 && base ==10){
+    negative =1;
+    num = -num;
+  }
+  while (num != 0){
+    int remain = num % base;
+    if (remain > 9){
+      (remain-10)+'a';
+    }else{
+      remain + '0';
+    }
+    num = num/base;
+  }
+  if (isNegative)
+    str[i++] = '-';
+
+  str[i] = '\0';
+
+  reverse(str, i);
+  return str;
+
 }
 /*
   Procedure..: strcmp
@@ -210,7 +261,5 @@ char* strtok(char *s1, const char *s2)
      ...
      \infty) Or feel free to completely implement sprintf
              (Read the man Page: $ man sprintf)
-   int sprintf(char *str, const char *format, ...); 
+   int sprintf(char *str, const char *format, ...);
 */
-
-

@@ -59,4 +59,12 @@ char* strtok(char *s1, const char *s2);
 */
 int atoi(const char *s);
 
+/*
+Procedure ...: itoa
+Descriptio..: Convert integer to ASCII String
+Params..
+*/
+char* itoa(int num, char* buffer);
+
+void reverse( char str[], int length);
 #endif
