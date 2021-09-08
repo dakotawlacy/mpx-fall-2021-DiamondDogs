@@ -7,7 +7,7 @@
 #include <core/serial.h>
 
 int run_shutdown(char* buffer, int size) {
-  char* shutdown_check = "Are you sure you want to shutdown your system?\n";
+  char* shutdown_check = "\nAre you sure you want to shutdown your system?\n";
   int sdCheck = strlen(shutdown_check);
 
   sys_req(WRITE, DEFAULT_DEVICE, shutdown_check, &sdCheck);
@@ -18,7 +18,7 @@ int run_shutdown(char* buffer, int size) {
   }
   size = 99;
 
-  char* yn = "1. Yes \n2. No\n";
+  char* yn = "Type '1' or '2'\n1) Yes \n2) No\n";
   int ynCheck = strlen(yn);
 
   sys_req(WRITE, DEFAULT_DEVICE, yn, &ynCheck);
@@ -29,6 +29,12 @@ int run_shutdown(char* buffer, int size) {
     //sys_req(EXIT, DEFAULT_DEVICE, "\0", 0);
     return 1;
   }
-
+  if(strcmp(buffer, "2") == 0){
+    //sys_req(EXIT, DEFAULT_DEVICE, "\0", 0);
+    char * noSdMSG = "\nShutdown Denied\n";
+    int noSdMSG_length = strlen(noSdMSG);
+    //Print Shutdown message
+    sys_req(WRITE,DEFAULT_DEVICE,noSdMSG,&noSdMSG_length);
+  }
   return 0;
 }

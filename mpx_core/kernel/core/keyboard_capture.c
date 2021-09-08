@@ -214,6 +214,8 @@ int keyCap(char* buffer, int location, int length) {
 
         //Increase location
         ++location;
+
+        return location;
       }
   }//End numbers and letters
 
