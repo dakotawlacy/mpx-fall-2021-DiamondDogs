@@ -22,7 +22,7 @@
 #include <core/interrupts.h>
 #include <mem/heap.h>
 #include <mem/paging.h>
-
+#include <core/startup.h>
 #include "modules/mpx_supt.h"
 
 
@@ -87,6 +87,7 @@ void kmain(void)
 
 
        // 6) Call YOUR command handler -  interface method
+       run_startup();
        run_ch();
        klogv("Transferring control to commhand...");
 
