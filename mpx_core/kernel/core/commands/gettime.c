@@ -29,9 +29,6 @@ int run_gettime() {
     serial_println("Not Okay");
   }
 
-
-
-
   serial_print(":");
 
 
