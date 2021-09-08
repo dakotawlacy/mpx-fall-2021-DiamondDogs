@@ -33,35 +33,35 @@ int run_help(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
-    char * shutdownFunc = "Type 'shutdown' to terminate the process.\n";
+    char * shutdownFunc = "\nType 'shutdown' to terminate the process.\n";
     int shutdownFunc_length = strlen(shutdownFunc);
     sys_req(WRITE,DEFAULT_DEVICE,shutdownFunc,&shutdownFunc_length);
 
   }
   else if (strcmp(command,"getdate") == 0) {
     //Run getdate
-    char * getdateFunc = "Type 'getdate' to receive the current date.\n";
+    char * getdateFunc = "\nType 'getdate' to receive the current date.\n";
     int getdateFunc_length = strlen(getdateFunc);
     sys_req(WRITE,DEFAULT_DEVICE,getdateFunc,&getdateFunc_length);
 
   }
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
-    char * setdateFunc = "Type 'setdate MM/DD/YYYY' to set the date to whatever date is current.\n";
+    char * setdateFunc = "\nType 'setdate MM/DD/YYYY' to set the date to whatever date is current.\n";
     int setdateFunc_length = strlen(setdateFunc);
     sys_req(WRITE,DEFAULT_DEVICE,setdateFunc,&setdateFunc_length);
 
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
-    char * gettimeFunc = "Type 'gettime' to receive the current time.\n";
+    char * gettimeFunc = "\nType 'gettime' to receive the current time.\n";
     int gettimeFunc_length = strlen(gettimeFunc);
     sys_req(WRITE,DEFAULT_DEVICE,gettimeFunc,&gettimeFunc_length);
 
   }
   else if (strcmp(command,"settime") == 0) {
     //Run settime
-    char * settimeFunc = "Type 'settime HH:MM' to set the time to whatever time is current.\n";
+    char * settimeFunc = "\nType 'settime HH:MM' to set the time to whatever time is current.\n";
     int settimeFunc_length = strlen(settimeFunc);
     sys_req(WRITE,DEFAULT_DEVICE,settimeFunc,&settimeFunc_length);
 
@@ -103,6 +103,7 @@ int run_help(char * commandBuff, int bufferSize) {
   sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);
 
   }
+
   int buffClear = 99;
   while(buffClear >= 0){
     command[buffClear] = '\0';

@@ -18,7 +18,7 @@ int run_shutdown(char* buffer, int size) {
   }
   size = 99;
 
-  char* yn = "Type '1' or '2'\n1) Yes \n2) No\n";
+  char* yn = "Type '1' to shutdown or Type '2' to continue working\n";
   int ynCheck = strlen(yn);
 
   sys_req(WRITE, DEFAULT_DEVICE, yn, &ynCheck);

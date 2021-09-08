@@ -7,6 +7,6 @@
 #include <core/serial.h>
 
 int run_settime() {
-  serial_println("wocsdfk");
+  serial_println("\nwocsdfk\n");
   return 0;
 }
