@@ -7,7 +7,7 @@
 #include <core/serial.h>
 
 int run_shutdown(char* buffer, int size) {
-  char* shutdown_check = "\nAre you sure you want to shutdown your system?\n";
+  char* shutdown_check = "Are you sure you want to shutdown your system?\n";
   int sdCheck = strlen(shutdown_check);
 
   sys_req(WRITE, DEFAULT_DEVICE, shutdown_check, &sdCheck);

@@ -65,6 +65,7 @@ int get_command(char * commandBuff, int bufferSize) {
 
   //Declare variables
   int i = 0;
+  int newLine = 2;
   char command[99];
   memset(&command,'\0',99);
 
@@ -77,34 +78,46 @@ int get_command(char * commandBuff, int bufferSize) {
     }
   }
 
+
   //Command Logic
   if (strcmp(command,"help") == 0) {
     //Run Help
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     run_help(commandBuff,bufferSize);
   }
   else if (strcmp(command,"version") == 0) {
     //Run version
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     run_version();
   }
   else if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     return run_shutdown(commandBuff, bufferSize);
   }
   else if (strcmp(command,"getdate") == 0) {
     //Run getdate
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     run_getdate();
   }
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     run_setdate(commandBuff);
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     run_gettime();
   }
   else if (strcmp(command,"settime") == 0) {
     //Run settime
+<<<<<<< HEAD
     run_settime(commandBuff);
+=======
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
+    run_settime();
+>>>>>>> 389c9c433a429531f7c6c1728b102caaedef3b9c
   }
   else if (strcmp(command,"clear") == 0) {
     //Run clear

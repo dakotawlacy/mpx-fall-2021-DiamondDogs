@@ -87,7 +87,7 @@ void kmain(void)
 
 
        // 6) Call YOUR command handler -  interface method
-       //run_startup();
+       run_startup();
        run_ch();
        klogv("Transferring control to commhand...");
 
