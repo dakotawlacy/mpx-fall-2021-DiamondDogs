@@ -13,16 +13,16 @@ int run_startup() {
   sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
 
 
-  char ln1[100] =  "\t                   yMMMMMMMMNNmdo-     .MMMMMMMMNNNmy                     \n";
-  char ln2[100] =  "\t                  hMMMMMMMMMMMMMNy.   .MMMMMMMMMMMMMMm+                   \n";
-  char ln3[100] =  "\t                 HMMMMh   /sNMMMMm.  .MMMMM/--:+hMMMMMs                   \n";
-  char ln4[100] =  "\t                 hMMMMs     .mMMMMy  .MMMMM.     +MMMMM-                  \n";
-  char ln5[100] =  "\t                 hMMMMs      sMMMMm  .MMMMM.      NMMMM+                  \n";
-  char ln6[100] =  "\t                 hMMMMs     `dMMMMh  .MMMMM.     -MMMMM:                  \n";
-  char ln7[100] = "\t                  hMMMMy   ./hMMMMN:  .MMMMM-   .oNMMMMd                   \n";
-  char ln8[100] = "\t                  hMMMMNmmmMMMMMMm:   .MMMMMmmmNMMMMMMh`                   \n";
-  char ln9[100] = "\t                  hMMMMMMMMMMMMd+`    .MMMMMMMMMMMMNy:                     \n";
-  char ln10[100] = "\t                  /ooooooooo/:`       `ooooooooo+/-                        \n";
+  char ln1[100] =  "\t                 HMMMMMMMMMMNNmd      .MMMMMMMMNNNmy                        \n";
+  char ln2[100] =  "\t                 HhMMMMMMMMMMMMMNy.   .MMMMMMMMMMMMMMm+                     \n";
+  char ln3[100] =  "\t                 HMMMMh   /sNMMMMm.   .MMMMM/--:+hMMMMMs                    \n";
+  char ln4[100] =  "\t                 HMMMMs     .mMMMMy   .MMMMM.     +MMMMM-                   \n";
+  char ln5[100] =  "\t                 HMMMMs      sMMMMm   .MMMMM.      NMMMM+                   \n";
+  char ln6[100] =  "\t                 HMMMMs     `dMMMMh   .MMMMM.     -MMMMM:                   \n";
+  char ln7[100] =  "\t                 HHMMMMy   ./hMMMMN   .MMMMM-   .oNMMMMd                    \n";
+  char ln8[100] =  "\t                 HHMMMMNmmmMMMMMMm:   .MMMMMmmmNMMMMMMh`                    \n";
+  char ln9[100] =  "\t                 HHMMMMMMMMMMMMd+`    .MMMMMMMMMMMMNy:                      \n";
+  char ln10[100] = "\t                 H/ooooooooo/:`       `ooooooooo+/-                         \n";
 
   int line_length = strlen(ln1);
 
