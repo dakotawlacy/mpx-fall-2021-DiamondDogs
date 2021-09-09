@@ -89,6 +89,9 @@ int run_help(char * commandBuff, int bufferSize) {
   char * shutdownHelp = "'shutdown' - To shutdown the OS.\n";
   int shutdownHelp_length = strlen(shutdownHelp);
 
+  char * clearHelp = "'clear' - To clear the terminal window.\n";
+  int clearHelp_length = strlen(clearHelp);
+
   char * helpFunc = "Please use <help 'commandname'> to view commands functionality.\n";
   int helpFunc_length = strlen(helpFunc);
 
@@ -100,6 +103,7 @@ int run_help(char * commandBuff, int bufferSize) {
   sys_req(WRITE,DEFAULT_DEVICE,settimeHelp,&settimeHelp_length);
   sys_req(WRITE,DEFAULT_DEVICE,setdateHelp,&setdateHelp_length);
   sys_req(WRITE,DEFAULT_DEVICE,shutdownHelp,&shutdownHelp_length);
+  sys_req(WRITE,DEFAULT_DEVICE, clearHelp, &clearHelp_length);
   sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);
 
   }
