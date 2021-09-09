@@ -56,6 +56,7 @@ int run_ch() {
      bufferSize = 99;
    }
 
+  //Return when done
   return 0;
 
 }
@@ -77,7 +78,6 @@ int get_command(char * commandBuff, int bufferSize) {
       command[i] = commandBuff[i];
     }
   }
-
 
   //Command Logic
   if (strcmp(command,"help") == 0) {
@@ -103,7 +103,10 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    run_setdate(commandBuff);
+    if (run_setdate(commandBuff)) {
+      int er = 12;
+      sys_req(WRITE,DEFAULT_DEVICE, "Invalid Time\n", &er);
+    }
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
@@ -112,12 +115,8 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"settime") == 0) {
     //Run settime
-<<<<<<< HEAD
-    run_settime(commandBuff);
-=======
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    run_settime();
->>>>>>> 389c9c433a429531f7c6c1728b102caaedef3b9c
+    run_settime(commandBuff);
   }
   else if (strcmp(command,"clear") == 0) {
     //Run clear
