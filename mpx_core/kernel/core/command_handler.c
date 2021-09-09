@@ -104,7 +104,7 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"settime") == 0) {
     //Run settime
-    run_settime();
+    run_settime(commandBuff);
   }
   else if (strcmp(command,"clear") == 0) {
     //Run clear
