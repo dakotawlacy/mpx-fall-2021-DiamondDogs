@@ -114,22 +114,14 @@ int keyCap(char* buffer, int location, int length) {
 
     //If Escape is not the first key
     else {
-      //Delete key
-      if (letter == (0x08)) {
-        //Set back location
-        --location;
-        --length;
 
-        return location;
-      }
       //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
       if (letter == (0x7F)) {
         //Check if at beginning
         if (location == 0) {
           //do nothing
           return location;
-        }
-        //Check if end
+        }//Check if end
         else if (location == strlen(buffer)) {
           //Move left in location
           --location;
@@ -149,46 +141,41 @@ int keyCap(char* buffer, int location, int length) {
 
           return location;
 
-        }
-        //In the middle
+        }//In the middle
         else {
 
-          //Move left in location
           --location;
 
-          //Visually move left
-          serial_print("\e[1D");
-          //Counters
-          int i = 0;
-          int j = 0;
-          int k = 0;
-          //Index from current position to end
-          while (i < (length - location)) {
-            //Make temp char
-            char temp = buffer[location + i + 1];
-            //Place temp into location
-            buffer[location + i] = temp;
-            //increment counters
-            i++;
-            j++;
-            //Echo char
-            serial_print(&temp);
+          int i = location;
+          for (i = location; i < length; i++) {
+          buffer[i] = buffer[i + 1];
+
           }
 
-          //Delete last character
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+          //Clear last character
           serial_print(" ");
 
-          //Make end a null pointer
-          buffer[length - 1] = '\0';
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
 
-          //Put cursor back to original spot
-          while (k < j) {
-            serial_print("\e[1D");
-            k++;
+          //Set cursor back to originial position
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            serial_print("\e[1C");
           }
 
-          //Return locaiton
+          //Decrement length
+          length--;
+
           return location;
+
         }
       }
 

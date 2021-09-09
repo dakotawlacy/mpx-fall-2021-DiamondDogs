@@ -103,10 +103,7 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    if (run_setdate(commandBuff)) {
-      int er = 12;
-      sys_req(WRITE,DEFAULT_DEVICE, "Invalid Time\n", &er);
-    }
+    run_setdate(commandBuff);
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
