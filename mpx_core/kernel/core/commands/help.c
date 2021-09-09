@@ -26,49 +26,49 @@ int run_help(char * commandBuff, int bufferSize) {
 
   if (strcmp(command,"version") == 0) {
     //Run version
-    char * versionFunc = "\nType 'version' to see the current version of the OS.\n";
+    char * versionFunc = "Type 'version' to see the current version of the OS.\n";
     int versionFunc_length = strlen(versionFunc);
     sys_req(WRITE,DEFAULT_DEVICE,versionFunc,&versionFunc_length);
 
   }
   else if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
-    char * shutdownFunc = "\nType 'shutdown' to terminate the process.\n";
+    char * shutdownFunc = "Type 'shutdown' to terminate the process.\n";
     int shutdownFunc_length = strlen(shutdownFunc);
     sys_req(WRITE,DEFAULT_DEVICE,shutdownFunc,&shutdownFunc_length);
 
   }
   else if (strcmp(command,"getdate") == 0) {
     //Run getdate
-    char * getdateFunc = "\nType 'getdate' to receive the current date.\n";
+    char * getdateFunc = "Type 'getdate' to receive the current date.\n";
     int getdateFunc_length = strlen(getdateFunc);
     sys_req(WRITE,DEFAULT_DEVICE,getdateFunc,&getdateFunc_length);
 
   }
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
-    char * setdateFunc = "\nType 'setdate MM DD YYYY' to set the date to whatever date is current.\n";
+    char * setdateFunc = "Type 'setdate MM DD YYYY' to set the date to whatever date is current.\n";
     int setdateFunc_length = strlen(setdateFunc);
     sys_req(WRITE,DEFAULT_DEVICE,setdateFunc,&setdateFunc_length);
 
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
-    char * gettimeFunc = "\nType 'gettime' to receive the current time.\n";
+    char * gettimeFunc = "Type 'gettime' to receive the current time.\n";
     int gettimeFunc_length = strlen(gettimeFunc);
     sys_req(WRITE,DEFAULT_DEVICE,gettimeFunc,&gettimeFunc_length);
 
   }
   else if (strcmp(command,"settime") == 0) {
     //Run settime
-    char * settimeFunc = "\nType 'settime HH:MM' to set the time to whatever time is current.\n";
+    char * settimeFunc = "Type 'settime HH:MM' to set the time to whatever time is current.\n";
     int settimeFunc_length = strlen(settimeFunc);
     sys_req(WRITE,DEFAULT_DEVICE,settimeFunc,&settimeFunc_length);
 
   }
   else {
 
-  char * helpList = "\nList of Commands:\n";
+  char * helpList = "List of Commands:\n";
   int helpList_length = strlen(helpList);
 
   char * versionHelp = "'version' - To receive the OS current version.\n";

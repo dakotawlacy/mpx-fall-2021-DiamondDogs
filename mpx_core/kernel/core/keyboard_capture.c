@@ -209,7 +209,7 @@ int keyCap(char* buffer, int location, int length) {
         buffer[location] = letter;
 
         //echo letter
-        serial_print(&letter);
+        serial_print(&buffer[location]);
 
         //Increase location
         ++location;

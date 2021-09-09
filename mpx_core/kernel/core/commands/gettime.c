@@ -7,50 +7,35 @@
 #include <core/serial.h>
 #include <include/string.h>
 
-int base = 10;
-
 
 int run_gettime() {
-  char* secChar = "\0";
-  memset(secChar,'\0',99);
-  char* hoursChar = "\0";
-  memset(hoursChar,'\0',99);
-  char* minutesChar = "\0";
-  memset(minutesChar,'\0',99);
+  int str_length = 4;
+  char secChar [5] = "\0";
+  memset(secChar,'\0',4);
+  char hoursChar [5] = "\0";
+  memset(hoursChar,'\0',4);
+  char minutesChar [5] = "\0";
+  memset(minutesChar,'\0',4);
 
   outb(0x70, 0x04);
   int hoursVal = inb(0x71);
   int hours = (hoursVal & 0x0f) + ((hoursVal/16)*10);
   itoa(hours, hoursChar);
-  serial_print(hoursChar);
-
-
-
-
-  if (base == 20){
-    serial_println("Not Okay");
-  }
-
-  serial_print(":");
-
+  strcat(hoursChar, ":");
+  sys_req(WRITE,DEFAULT_DEVICE,hoursChar,&str_length);
 
   outb(0x70, 0x02);
   int minutesVal = inb(0x71);
   int minutes = (minutesVal & 0x0f) + ((minutesVal/16)*10);
   itoa(minutes, minutesChar);
-  serial_print(minutesChar);
-
-
-
-
-
-
-
+  strcat(minutesChar, ":");
+  sys_req(WRITE,DEFAULT_DEVICE,minutesChar,&str_length);
 
   outb(0x70, 0x00);
   int secondsVal = inb(0x71);
   int seconds = (secondsVal & 0x0f) + ((secondsVal/16)*10);
   itoa(seconds, secChar);
-  serial_println(secChar);
+  strcat(secChar, "\n");
+  sys_req(WRITE,DEFAULT_DEVICE,secChar,&str_length);
   return 0;
 }

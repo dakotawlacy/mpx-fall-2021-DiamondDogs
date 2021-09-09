@@ -40,31 +40,31 @@ int run_setdate(char * commandBuff) {
   int yearLSBNum = atoi(yearLSB);
 
   cli();
-  //
+
   outb(0x70, 0x08);
 
   unsigned char monthBCD = monthNum % 10 + ((monthNum/10) << 4);
 
   outb(0x71, monthBCD);
-  //
+
   outb(0x70, 0x07);
 
   unsigned char dayBCD = dayNum % 10 + ((dayNum/10) << 4);
 
   outb(0x71, dayBCD);
-  //
+
   outb(0x70, 0x09);
 
   unsigned char yearlBCD = yearLSBNum % 10 + ((yearLSBNum/10) << 4);
 
   outb(0x71, yearlBCD);
-  //
+
   outb(0x70, 0x32);
 
   unsigned char yearmBCD = yearMSBNum % 10 + ((yearMSBNum/10) << 4);
 
   outb(0x71, yearmBCD);
-  //
+  
   sti();
 
   return 0;
