@@ -8,7 +8,7 @@
 
 int run_help(char * commandBuff, int bufferSize) {
 
-//  serial_println(commandBuff);
+  //serial_println(commandBuff);
     char command[99];
   //Copy first word into command
     int i = 5;

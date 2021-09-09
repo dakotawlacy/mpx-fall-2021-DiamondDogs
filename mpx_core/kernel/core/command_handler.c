@@ -96,7 +96,7 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
-    run_setdate();
+    run_setdate(commandBuff);
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
