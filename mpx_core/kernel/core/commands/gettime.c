@@ -10,6 +10,7 @@
 
 int run_gettime() {
   int str_length = 4;
+  int leadingZero = 2;
   char secChar [5] = "\0";
   memset(secChar,'\0',4);
   char hoursChar [5] = "\0";
@@ -20,6 +21,9 @@ int run_gettime() {
   outb(0x70, 0x04);
   int hoursVal = inb(0x71);
   int hours = (hoursVal & 0x0f) + ((hoursVal/16)*10);
+  if (hours < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(hours, hoursChar);
   strcat(hoursChar, ":");
   sys_req(WRITE,DEFAULT_DEVICE,hoursChar,&str_length);
@@ -27,6 +31,9 @@ int run_gettime() {
   outb(0x70, 0x02);
   int minutesVal = inb(0x71);
   int minutes = (minutesVal & 0x0f) + ((minutesVal/16)*10);
+  if (minutes < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(minutes, minutesChar);
   strcat(minutesChar, ":");
   sys_req(WRITE,DEFAULT_DEVICE,minutesChar,&str_length);
@@ -34,6 +41,9 @@ int run_gettime() {
   outb(0x70, 0x00);
   int secondsVal = inb(0x71);
   int seconds = (secondsVal & 0x0f) + ((secondsVal/16)*10);
+  if (seconds < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(seconds, secChar);
   strcat(secChar, "\n");
   sys_req(WRITE,DEFAULT_DEVICE,secChar,&str_length);

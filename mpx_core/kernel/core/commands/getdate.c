@@ -9,6 +9,8 @@
 
 int run_getdate() {
   int strlength = 4;
+  int leadingZero = 2;
+
   char daysChar [5] = "\0";
   memset(daysChar,'\0',4);
   char monthChar [5] = "\0";
@@ -21,6 +23,9 @@ int run_getdate() {
   outb(0x70, 0x08);
   int monthVal = inb(0x71);
   int month = (monthVal & 0x0f) + ((monthVal/16)*10);
+  if (month < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(month, monthChar);
   strcat(monthChar, ":");
   sys_req(WRITE,DEFAULT_DEVICE,monthChar,&strlength);
@@ -28,6 +33,9 @@ int run_getdate() {
   outb(0x70, 0x07);
   int daysVal = inb(0x71);
   int days = (daysVal & 0x0f) + ((daysVal/16)*10);
+  if (days < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(days, daysChar);
   strcat(daysChar, ":");
   sys_req(WRITE,DEFAULT_DEVICE,daysChar,&strlength);
@@ -35,12 +43,18 @@ int run_getdate() {
   outb(0x70, 0x32);
   int milVal = inb(0x71);
   int mil = (milVal & 0x0f) + ((milVal/16)*10);
+  if (mil < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(mil, milChar);
   sys_req(WRITE,DEFAULT_DEVICE,milChar,&strlength);
 
   outb(0x70, 0x09);
   int yearVal = inb(0x71);
   int year = (yearVal & 0x0f) + ((yearVal/16)*10);
+  if (year < 10){
+    sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
+  }
   itoa(year, yearChar);
   strcat(yearChar, "\n");
   sys_req(WRITE,DEFAULT_DEVICE,yearChar,&strlength);

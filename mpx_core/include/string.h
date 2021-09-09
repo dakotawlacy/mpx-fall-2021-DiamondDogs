@@ -63,6 +63,8 @@ int atoi(const char *s);
 Procedure ...: itoa
 Descriptio..: Convert integer to ASCII String
 Params..
+Source: geeksforgeeks.com
+Author: Neha Mahajan
 */
 char* itoa(int num, char* buffer);
 

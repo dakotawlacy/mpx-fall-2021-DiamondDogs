@@ -9,7 +9,8 @@
 int run_help(char * commandBuff, int bufferSize) {
 
   //serial_println(commandBuff);
-    char command[99];
+    char command[100];
+    memset(&command, '\0', 99);
   //Copy first word into command
     int i = 5;
     for (i = 5; i < bufferSize; i++) {
@@ -68,7 +69,7 @@ int run_help(char * commandBuff, int bufferSize) {
   }
   else {
 
-  char * helpList = "List of Commands:\n";
+  char * helpList = "\nList of Commands:\n";
   int helpList_length = strlen(helpList);
 
   char * versionHelp = "'version' - To receive the OS current version.\n";
@@ -92,7 +93,7 @@ int run_help(char * commandBuff, int bufferSize) {
   char * clearHelp = "'clear' - To clear the terminal window.\n";
   int clearHelp_length = strlen(clearHelp);
 
-  char * helpFunc = "Please use <help 'commandname'> to view commands functionality.\n";
+  char * helpFunc = "\nPlease use <help 'commandname'> to view commands functionality.\n";
   int helpFunc_length = strlen(helpFunc);
 
   //List commands
