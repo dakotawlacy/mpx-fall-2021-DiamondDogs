@@ -21,6 +21,49 @@ int keyCap(char* buffer, int location, int length) {
       if (letter == 0x5B) {
         //Get next char
         letter = inb(COM1);
+        if (letter == '3') {
+          letter = inb(COM1);
+          if (letter == '~') {
+            //Check end
+            if (location == length) {
+
+              return location;
+            }
+            //If not end
+            else {
+              //May be able to in future change for loop to saved cursor position
+              int i = location;
+              for (i = location; i < length; i++) {
+              buffer[i] = buffer[i + 1];
+
+              }
+              //Reset to beginning of line
+              serial_print("\e[0F");
+              serial_print("\e[0E");
+
+              //Print buffer
+              serial_print(&buffer[0]);
+              //Clear last character
+              serial_print(" ");
+
+              //Go back to beginning of line
+              serial_print("\e[0F");
+              serial_print("\e[0E");
+
+              //Set cursor back to originial position
+              int j = 0;
+              for (j = 0; j < location; j++) {
+                serial_print("\e[1C");
+              }
+
+              //Decrement length
+              length--;
+
+              return location;
+            }
+            //In middle
+          }
+        }
         //Check to see what arrow key is pressed
         //If left
         if (letter == 0x44) {
@@ -66,6 +109,7 @@ int keyCap(char* buffer, int location, int length) {
           serial_println("up");//Up
         }
       }
+
     }//End ESC check
 
     //If Escape is not the first key

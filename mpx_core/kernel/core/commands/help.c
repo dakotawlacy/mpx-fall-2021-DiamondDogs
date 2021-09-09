@@ -47,7 +47,7 @@ int run_help(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
-    char * setdateFunc = "\nType 'setdate MM/DD/YYYY' to set the date to whatever date is current.\n";
+    char * setdateFunc = "\nType 'setdate MM DD YYYY' to set the date to whatever date is current.\n";
     int setdateFunc_length = strlen(setdateFunc);
     sys_req(WRITE,DEFAULT_DEVICE,setdateFunc,&setdateFunc_length);
 
@@ -68,7 +68,7 @@ int run_help(char * commandBuff, int bufferSize) {
   }
   else {
 
-  char * helpList = "List of Commands:\n";
+  char * helpList = "\nList of Commands:\n";
   int helpList_length = strlen(helpList);
 
   char * versionHelp = "'version' - To receive the OS current version.\n";
@@ -110,7 +110,6 @@ int run_help(char * commandBuff, int bufferSize) {
     buffClear--;
   }
    buffClear = 99;
-
 
   return 0;
 }
