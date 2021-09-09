@@ -32,7 +32,7 @@ int run_getdate() {
   }
 
   itoa(month, monthChar);
-  strcat(monthChar, ":");
+  strcat(monthChar, "/");
   sys_req(WRITE,DEFAULT_DEVICE,monthChar,&strlength);
 
   //Read day value from register, convert, and print
@@ -45,7 +45,7 @@ int run_getdate() {
   }
 
   itoa(days, daysChar);
-  strcat(daysChar, ":");
+  strcat(daysChar, "/");
   sys_req(WRITE,DEFAULT_DEVICE,daysChar,&strlength);
 
   //Read millenium value from register, convert, and print
