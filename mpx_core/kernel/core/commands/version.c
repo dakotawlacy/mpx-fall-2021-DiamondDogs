@@ -7,8 +7,11 @@
 #include <core/serial.h>
 
 int run_version() {
+
+  //Print version
   char * versionDisp = "DiamondDogs OS Version R1.\n";
   int versionDisp_length = strlen(versionDisp);
   sys_req(WRITE,DEFAULT_DEVICE,versionDisp,&versionDisp_length);
+
   return 0;
 }

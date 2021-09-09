@@ -11,39 +11,51 @@
 
 int run_settime(char * commandBuff) {
 
+  //Initialize arrays
   char hours[3];
   char minutes[3];
   char seconds[3];
-    hours[0] = commandBuff[8];
-    hours[1] = commandBuff[9];
-    hours[2] = '\0';
 
-    minutes[0] = commandBuff[11];
-    minutes[1] = commandBuff[12];
-    minutes[2] = '\0';
+  //Insert values into hours
+  hours[0] = commandBuff[8];
+  hours[1] = commandBuff[9];
+  hours[2] = '\0';
 
-    seconds[0] = commandBuff[14];
-    seconds[1] = commandBuff[15];
-    seconds[2] = '\0';
+  //Insert values into minutes
+  minutes[0] = commandBuff[11];
+  minutes[1] = commandBuff[12];
+  minutes[2] = '\0';
 
-      int hrs = atoi(hours);
-      int mins = atoi(minutes);
-      int sec = atoi(seconds);
+  //Insert values into seconds
+  seconds[0] = commandBuff[14];
+  seconds[1] = commandBuff[15];
+  seconds[2] = '\0';
 
-      cli();
+  //convert to int
+  int hrs = atoi(hours);
+  int mins = atoi(minutes);
+  int sec = atoi(seconds);
 
-      outb(0x70, 0x04);
-      unsigned char hrBCD = hrs % 10 + ((hrs/10) << 4);
-      outb(0x71, hrBCD);
+  //disable interrupts
+  cli();
 
-      outb(0x70, 0x02);
-      unsigned char minBCD = mins % 10 + ((mins/10) << 4);
-      outb(0x71, minBCD);
+  //Place hour value into register
+  outb(0x70, 0x04);
+  unsigned char hrBCD = hrs % 10 + ((hrs/10) << 4);
+  outb(0x71, hrBCD);
 
-      outb(0x70, 0x00);
-      unsigned char secBCD = sec % 10 + ((sec/10) << 4);
-      outb(0x71, secBCD);
+  //Place minutes into register
+  outb(0x70, 0x02);
+  unsigned char minBCD = mins % 10 + ((mins/10) << 4);
+  outb(0x71, minBCD);
 
-      sti();
+  //Place seconds into register
+  outb(0x70, 0x00);
+  unsigned char secBCD = sec % 10 + ((sec/10) << 4);
+  outb(0x71, secBCD);
+
+  //enable interrupts
+  sti();
+
   return 0;
 }

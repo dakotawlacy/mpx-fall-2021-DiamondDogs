@@ -6,7 +6,6 @@
 #include <core/serial.h>
 
 #include <core/command_handler.h>
-
 #include <core/commands/help.h>
 #include <core/commands/shutdown.h>
 #include <core/commands/version.h>

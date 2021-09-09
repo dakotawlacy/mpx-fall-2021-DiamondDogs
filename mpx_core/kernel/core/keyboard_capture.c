@@ -141,15 +141,16 @@ int keyCap(char* buffer, int location, int length) {
 
           return location;
 
-        }//In the middle
+        }
         else {
 
+          //Decrement location
           --location;
 
+          //Replace current location and print rest
           int i = location;
           for (i = location; i < length; i++) {
-          buffer[i] = buffer[i + 1];
-
+            buffer[i] = buffer[i + 1];
           }
 
           //Reset to beginning of line
@@ -174,6 +175,7 @@ int keyCap(char* buffer, int location, int length) {
           //Decrement length
           length--;
 
+          //Return location
           return location;
 
         }

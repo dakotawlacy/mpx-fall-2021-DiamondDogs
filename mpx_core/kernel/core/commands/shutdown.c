@@ -7,34 +7,40 @@
 #include <core/serial.h>
 
 int run_shutdown(char* buffer, int size) {
+
+  //Print shutdown confirmation
   char* shutdown_check = "Are you sure you want to shutdown your system?\n";
   int sdCheck = strlen(shutdown_check);
-
   sys_req(WRITE, DEFAULT_DEVICE, shutdown_check, &sdCheck);
 
+  //Clear buffer
   while(size >= 0){
     buffer[size] = '\0';
     size--;
   }
   size = 99;
 
+  //Print choice message
   char* yn = "Type '1' to shutdown or Type '2' to continue working\n";
   int ynCheck = strlen(yn);
-
   sys_req(WRITE, DEFAULT_DEVICE, yn, &ynCheck);
 
+  //Read in confirmation
   sys_req(READ, DEFAULT_DEVICE, buffer, &size);
 
+  //Check what choice was make
   if(strcmp(buffer, "1") == 0){
-    //sys_req(EXIT, DEFAULT_DEVICE, "\0", 0);
+    //run shutdown
     return 1;
   }
+
   if(strcmp(buffer, "2") == 0){
-    //sys_req(EXIT, DEFAULT_DEVICE, "\0", 0);
+    //Run cancellation
     char * noSdMSG = "\nShutdown Denied\n";
     int noSdMSG_length = strlen(noSdMSG);
-    //Print Shutdown message
     sys_req(WRITE,DEFAULT_DEVICE,noSdMSG,&noSdMSG_length);
+    return 0;
   }
+
   return 0;
 }
