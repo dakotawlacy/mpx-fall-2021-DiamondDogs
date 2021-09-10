@@ -54,7 +54,7 @@ int run_help(char * commandBuff, int bufferSize) {
   }
   else if ((strcmp(command,"settime") == 0) && strlen(command) == 7) {
     //Run help settime
-    char * settimeFunc = "Type 'settime HH:MM' to set the time to whatever time is current.\n";
+    char * settimeFunc = "Type 'settime HH MM SS' to set the time to whatever time is current.\n";
     int settimeFunc_length = strlen(settimeFunc);
     sys_req(WRITE,DEFAULT_DEVICE,settimeFunc,&settimeFunc_length);
 
