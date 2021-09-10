@@ -37,7 +37,6 @@ int run_setdate(char * commandBuff) {
   yearLSB[2] = '\0';
 
   if (commandBuff[10] != ' ' || commandBuff[13] != ' ') {
-    //serial_println("swag");
     return -1;
   }
 

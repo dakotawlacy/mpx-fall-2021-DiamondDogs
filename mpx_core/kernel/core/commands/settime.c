@@ -16,6 +16,14 @@ int run_settime(char * commandBuff) {
   char minutes[3];
   char seconds[3];
 
+  if (commandBuff[10] != ' ' || commandBuff[13] != ' ') {
+    return -1;
+  }
+
+  if(strlen(commandBuff) > 16){
+        return 1;
+  }
+
   //Insert values into hours
   hours[0] = commandBuff[8];
   hours[1] = commandBuff[9];
