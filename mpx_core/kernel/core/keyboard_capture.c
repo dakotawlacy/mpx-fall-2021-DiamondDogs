@@ -103,10 +103,10 @@ int keyCap(char* buffer, int location, int length) {
           }
         }
         else if (letter == 0x42){
-          serial_println("down");///Down
+          ///Down
         }
         else  if (letter == 0x41){
-          serial_println("up");//Up
+          //Up
         }
       }
 
