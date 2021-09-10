@@ -36,6 +36,15 @@ int run_setdate(char * commandBuff) {
   yearLSB[1] = commandBuff[17];
   yearLSB[2] = '\0';
 
+  if (commandBuff[10] != ' ' || commandBuff[13] != ' ') {
+    //serial_println("swag");
+    return -1;
+  }
+
+
+  if(strlen(commandBuff) > 18){
+        return 1;
+  }
   //Convert string to num
   int monthNum = atoi(month);
   int dayNum = atoi(days);
@@ -51,6 +60,15 @@ int run_setdate(char * commandBuff) {
   //Disable interrupt
   cli();
 
+  //Convert year int to BCD and place into register
+  outb(0x70, 0x09);
+  unsigned char yearlBCD = yearLSBNum % 10 + ((yearLSBNum/10) << 4);
+  outb(0x71, yearlBCD);
+
+  outb(0x70, 0x32);
+  unsigned char yearmBCD = yearMSBNum % 10 + ((yearMSBNum/10) << 4);
+  outb(0x71, yearmBCD);
+
   //Convert month int to BCD and place into register
   outb(0x70, 0x08);
   unsigned char monthBCD = monthNum % 10 + ((monthNum/10) << 4);
@@ -61,14 +79,6 @@ int run_setdate(char * commandBuff) {
   unsigned char dayBCD = dayNum % 10 + ((dayNum/10) << 4);
   outb(0x71, dayBCD);
 
-  //Convert year int to BCD and place into register
-  outb(0x70, 0x09);
-  unsigned char yearlBCD = yearLSBNum % 10 + ((yearLSBNum/10) << 4);
-  outb(0x71, yearlBCD);
-
-  outb(0x70, 0x32);
-  unsigned char yearmBCD = yearMSBNum % 10 + ((yearMSBNum/10) << 4);
-  outb(0x71, yearmBCD);
 
   //Reenable interrupt
   sti();

@@ -109,9 +109,14 @@ int *polling(char *buffer, int *count){
 
       //Set previous place
       currentPlace = val;
+      if (strlen(buffer) >= 99){
+        //buffer[99] = '\0';
+        val = -1;
+      }
+      else{
       //Get key logic and current place
       val = keyCap(buffer,val, length);
-
+      }
       //Check for enter
       if (val == -1) {
         break;
