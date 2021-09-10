@@ -122,12 +122,5 @@ int *polling(char *buffer, int *count){
 if (currentPlace == -1)
   serial_print("wow");//NEED to figure out how to make it where unused variables dont do anyhting
 
-
-// remove the following line after implementing your module, this is present
-// just to allow the program to compile before R1 is complete
-
-
-//commandBuff = buffer;
-
 return count;
 }

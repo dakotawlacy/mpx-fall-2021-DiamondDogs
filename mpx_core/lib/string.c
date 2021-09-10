@@ -88,9 +88,10 @@ void reverse(char str[], int length){
 Procedure..: itoa
 Description: Int to ASCII strings
 params: int num, char* buffer, int base
-*/
 
-char* itoa(int num, char* str){
+Source: geeksforgeeks
+*/
+char* itoa(int num, char* str) {
   int i = 0;
   int base = 10;
   int negative = 0;

@@ -42,6 +42,7 @@ int run_setdate(char * commandBuff) {
   int yearMSBNum = atoi(yearMSB);
   int yearLSBNum = atoi(yearLSB);
 
+  //Simple error checking
   if (monthNum > 12 || monthNum < 0 || dayNum > 31 || dayNum < 0 || yearLSBNum < 0) {
     return 1;
   }
