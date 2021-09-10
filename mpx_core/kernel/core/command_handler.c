@@ -102,7 +102,10 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"setdate") == 0) {
     //Run setdate
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    run_setdate(commandBuff);
+    if (run_setdate(commandBuff)) {
+      int invalidDate = 12;
+      sys_req(WRITE,DEFAULT_DEVICE, "Invalid date\n", &invalidDate);
+    }
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
@@ -112,7 +115,10 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"settime") == 0) {
     //Run settime
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    run_settime(commandBuff);
+    if (run_settime(commandBuff)) {
+      int invalidTime = 12;
+      sys_req(WRITE,DEFAULT_DEVICE, "Invalid time\n", &invalidTime);
+    }
   }
   else if (strcmp(command,"clear") == 0) {
     //Run clear
