@@ -65,6 +65,11 @@ int run_help(char * commandBuff, int bufferSize) {
     int clearFunc_length = strlen(clearFunc);
     sys_req(WRITE,DEFAULT_DEVICE,clearFunc,&clearFunc_length);
   }
+  ///////////////////////////////
+
+  //WRITE SYNTAX FOR NEW COMMANDS IN HERE...
+
+  ///////////////////////////////
   else {
     //Invalid command catch
     if(strlen(commandBuff) > 4){
@@ -98,7 +103,40 @@ int run_help(char * commandBuff, int bufferSize) {
 
       char * clearHelp = "'clear' - To clear the terminal window.\n";
       int clearHelp_length = strlen(clearHelp);
+////////////////////////
+      char * suspendHelp = "'suspend' - to suspend.....\n";
+      int suspendHelp_length = strlen(suspendHelp);
 
+      char * resumeHelp = "'resume' - to resume.....\n";
+      int resumeHelp_length = strlen(resumeHelp);
+
+      char * setPrioHelp = "'set_priority' - to set priority.....\n";
+      int setPrioHelp_length = strlen(setPrioHelp);
+
+      char * showPCBHelp = "'show_pcb' - to show the PCB.....\n";
+      int showPCBHelp_length = strlen(showPCBHelp);
+
+      char * showAllHelp = "'show_all' - to show all.....\n";
+      int showAllHelp_length = strlen(showAllHelp);
+
+      char * showReadyHelp = "'show_ready' - to show ready processes.....\n";
+      int showReadyHelp_length = strlen(showReadyHelp);
+
+      char * showBlockedHelp = "'show_blocked' - to show blocked processes.....\n";
+      int showBlockedHelp_length = strlen(showBlockedHelp);
+
+      char * createPCBHelp = "'create_pcb' - to create the pcb.....\n";
+      int createPCBHelp_length = strlen(createPCBHelp);
+
+      char * deletePCBHelp = "'delete_pcb' - to delete the pcb.....\n";
+      int deletePCBHelp_length = strlen(deletePCBHelp);
+
+      char * blockHelp = "'block' - to block a process.....\n";
+      int blockHelp_length = strlen(blockHelp);
+
+      char * unblockHelp = "'unblock' - to unblock a process.....\n";
+      int unblockHelp_length = strlen(unblockHelp);
+///////////////////////////
       char * helpFunc = "\nPlease use <help 'commandname'> to view commands functionality.\n";
       int helpFunc_length = strlen(helpFunc);
 
@@ -111,6 +149,20 @@ int run_help(char * commandBuff, int bufferSize) {
       sys_req(WRITE,DEFAULT_DEVICE,setdateHelp,&setdateHelp_length);
       sys_req(WRITE,DEFAULT_DEVICE,shutdownHelp,&shutdownHelp_length);
       sys_req(WRITE,DEFAULT_DEVICE, clearHelp, &clearHelp_length);
+      /////////////////////////////
+      sys_req(WRITE,DEFAULT_DEVICE, suspendHelp, &suspendHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, resumeHelp, &resumeHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, setPrioHelp, &setPrioHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showPCBHelp, &showPCBHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showAllHelp, &showAllHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showReadyHelp, &showReadyHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showBlockedHelp, &showBlockedHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, createPCBHelp, &createPCBHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, deletePCBHelp, &deletePCBHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, blockHelp, &blockHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, unblockHelp, &unblockHelp_length);
+
+      ////////////////////////////
       sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);
     }
   }

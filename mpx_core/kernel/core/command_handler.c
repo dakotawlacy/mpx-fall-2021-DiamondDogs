@@ -127,6 +127,44 @@ int get_command(char * commandBuff, int bufferSize) {
     sys_req(WRITE,DEFAULT_DEVICE,"\e[2J",&clear_length);
     sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
   }
+  ///////////////////////////
+  else if(strcmp(command,"suspend")==0){
+    serial_println("suspended.");
+  }
+  else if(strcmp(command,"resume")==0){
+    serial_println("resumed.");
+  }
+  else if(strcmp(command,"set_priority")==0){
+    serial_println("priority set.");
+  }
+  else if(strcmp(command,"show_pcb")==0){
+    serial_println("PCB:");
+  }
+  else if(strcmp(command,"show_all")==0){
+    serial_println("ALL:");
+  }
+  else if(strcmp(command,"show_ready")==0){
+    serial_println("READY:");
+  }
+  else if(strcmp(command,"show_blocked")==0){
+    serial_println("BLOCKED:");
+  }
+  /////////////////////////////
+  else if(strcmp(command,"create_pcb")==0){
+    serial_println("PCB created.");
+  }
+  else if(strcmp(command,"delete_pcb")==0){
+    serial_println("PCB deleted.");
+  }
+  else if(strcmp(command,"block")==0){
+    serial_println("is blocked.");
+  }
+  else if(strcmp(command,"unblock")==0){
+    serial_println("is unblocked.");
+  }
+  ///////////////////////////////////
+
+
   else {
     //Invalid code
     char * errorMSG = "\n\x1b[1;31mInvalid command\x1b[1;0m\n";
