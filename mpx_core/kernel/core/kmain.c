@@ -24,6 +24,8 @@
 #include <mem/paging.h>
 #include <core/startup.h>
 #include "modules/mpx_supt.h"
+#include <core/struct.h>
+#include <core/create_queue.h>
 
 
 void kmain(void)
@@ -45,10 +47,10 @@ void kmain(void)
    klogv("Starting MPX boot sequence...");
    klogv("Initialized serial I/O on COM1 device...");
 
-   // 1) Initialize the support software by identifying the current
    //     MPX Module.  This will change with each module.
+   // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
- 	 mpx_init(MODULE_R1);
+ 	 mpx_init(MODULE_R2);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){
@@ -85,10 +87,13 @@ void kmain(void)
        init_paging();
        klogv("Initializing virtual memory...");
 
-
        // 6) Call YOUR command handler -  interface method
+       createQ();
+
+
        run_startup();
        run_ch();
+
        klogv("Transferring control to commhand...");
 
 

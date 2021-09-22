@@ -12,13 +12,24 @@ typedef struct PCB{
   int priority;
   int state;
   unsigned char* process_stack;//1024 bytes
-  PCB *next;
-  PCB *previous;
+  struct PCB* next;
+  struct PCB* previous;
 
-}
+}PCB;
 
-typedef struct queue{
+struct queue{
   int count;
   PCB *head;
   PCB *tail;
-}
+};
+
+typedef struct queue queue;
+
+struct readyQueue{
+  int count;
+  int priority;
+  PCB *head;
+  PCB *tail;
+};
+
+typedef struct readyQueue readyQueue;
