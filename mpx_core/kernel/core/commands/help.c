@@ -110,25 +110,25 @@ int run_help(char * commandBuff, int bufferSize) {
       char * resumeHelp = "'resume' - to resume.....\n";
       int resumeHelp_length = strlen(resumeHelp);
 
-      char * setPrioHelp = "'set_priority' - to set priority.....\n";
+      char * setPrioHelp = "'setPriority' - to set priority.....\n";
       int setPrioHelp_length = strlen(setPrioHelp);
 
-      char * showPCBHelp = "'show_pcb' - to show the PCB.....\n";
+      char * showPCBHelp = "'showPCB' - to show the PCB.....\n";
       int showPCBHelp_length = strlen(showPCBHelp);
 
-      char * showAllHelp = "'show_all' - to show all.....\n";
+      char * showAllHelp = "'showAll' - to show all.....\n";
       int showAllHelp_length = strlen(showAllHelp);
 
-      char * showReadyHelp = "'show_ready' - to show ready processes.....\n";
+      char * showReadyHelp = "'showReady' - to show ready processes.....\n";
       int showReadyHelp_length = strlen(showReadyHelp);
 
-      char * showBlockedHelp = "'show_blocked' - to show blocked processes.....\n";
+      char * showBlockedHelp = "'showBlocked' - to show blocked processes.....\n";
       int showBlockedHelp_length = strlen(showBlockedHelp);
 
-      char * createPCBHelp = "'create_pcb' - to create the pcb.....\n";
+      char * createPCBHelp = "'createPCB' - to create the pcb.....\n";
       int createPCBHelp_length = strlen(createPCBHelp);
 
-      char * deletePCBHelp = "'delete_pcb' - to delete the pcb.....\n";
+      char * deletePCBHelp = "'deletePCB' - to delete the pcb.....\n";
       int deletePCBHelp_length = strlen(deletePCBHelp);
 
       char * blockHelp = "'block' - to block a process.....\n";

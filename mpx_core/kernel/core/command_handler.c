@@ -134,26 +134,26 @@ int get_command(char * commandBuff, int bufferSize) {
   else if(strcmp(command,"resume")==0){
     serial_println("resumed.");
   }
-  else if(strcmp(command,"set_priority")==0){
+  else if(strcmp(command,"setPriority")==0){
     serial_println("priority set.");
   }
-  else if(strcmp(command,"show_pcb")==0){
+  else if(strcmp(command,"showPCB")==0){
     serial_println("PCB:");
   }
-  else if(strcmp(command,"show_all")==0){
+  else if(strcmp(command,"showAll")==0){
     serial_println("ALL:");
   }
-  else if(strcmp(command,"show_ready")==0){
+  else if(strcmp(command,"showReady")==0){
     serial_println("READY:");
   }
-  else if(strcmp(command,"show_blocked")==0){
+  else if(strcmp(command,"showBlocked")==0){
     serial_println("BLOCKED:");
   }
   /////////////////////////////
-  else if(strcmp(command,"create_pcb")==0){
+  else if(strcmp(command,"createPCB")==0){
     serial_println("PCB created.");
   }
-  else if(strcmp(command,"delete_pcb")==0){
+  else if(strcmp(command,"deletePCB")==0){
     serial_println("PCB deleted.");
   }
   else if(strcmp(command,"block")==0){
