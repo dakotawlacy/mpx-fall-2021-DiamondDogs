@@ -30,7 +30,6 @@ core/commands/getdate.o\
 core/commands/setdate.o\
 core/commands/gettime.o\
 core/commands/settime.o\
-core/struct.o\
 core/create_queue.o
 
 .s.o:

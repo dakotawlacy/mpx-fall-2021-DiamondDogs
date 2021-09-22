@@ -8,10 +8,14 @@
 #include <core/create_queue.h>
 
 void createQ(){
-  queue q1;
-  readyQueue rQ;
-  ready_initialize(&rQ);
-  blocked_initialize(&q1);
+  queue blockedQueue;
+  queue suspendedBlocked;
+  readyQueue suspendedQueue;
+  readyQueue readyQueue;
+  ready_initialize(&readyQueue);
+  ready_initialize(&suspendedQueue);
+  blocked_initialize(&blockedQueue);
+  blocked_initialize(&suspendedBlocked);
 }
 
 void ready_initialize(readyQueue *q){
