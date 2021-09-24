@@ -1,17 +1,30 @@
 #ifndef _PCB_H
 #define _PCB_H
 
+#include <core/struct.h>
 
-struct PCB* AllocatePCB();
+extern queue readyQueue;
+extern queue blockedQueue;
+extern queue suspendedReady;
+extern queue suspendedBlock;
 
-struct PCB* FindPCB(char* name);
+void get_pcb_data(char* commandBuff);
 
-struct PCB* FreePCB(PCB* pcbName);
+struct PCB* allocatePCB();
 
-struct PCB* SetupPCB(char* processName, int class, int priority);
+int freePCB(PCB* pcbName);
 
-struct PCB* InsertPCB(PCB* pcbName);
+struct PCB* setupPCB(char* processName, int class, int priority);
 
-struct PCB* RemovePCB(PCB* pcbName);
+struct PCB* insertPCB(PCB* pcbName);
+
+int removePCB(PCB* pcb);
+
+void printReady();
+void deletePCB(char* commandBuff);
+void showPCB(char* commandBuff);
+
+void initQueues();
+PCB* findPCB(char* name);
 
 #endif

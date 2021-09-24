@@ -25,7 +25,8 @@
 #include <core/startup.h>
 #include "modules/mpx_supt.h"
 #include <core/struct.h>
-#include <core/create_queue.h>
+#include <core/PCB.h>
+
 
 
 void kmain(void)
@@ -88,9 +89,7 @@ void kmain(void)
        klogv("Initializing virtual memory...");
 
        // 6) Call YOUR command handler -  interface method
-       createQ();
-
-
+       initQueues();
        run_startup();
        run_ch();
 

@@ -183,11 +183,13 @@ int keyCap(char* buffer, int location, int length) {
 
       //Enter
       if (letter == (0x0A)) {
+        serial_print("\n");
         return -1;
       }
 
       //Enter
       if (letter == (0x0D)) {
+        serial_print("\n");
         return -1;
       }
 

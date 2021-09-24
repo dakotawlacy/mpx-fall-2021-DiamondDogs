@@ -13,6 +13,7 @@
 #include <core/commands/setdate.h>
 #include <core/commands/gettime.h>
 #include <core/commands/settime.h>
+#include <core/PCB.h>
 
 //Run the Command Handler function
 int run_ch() {
@@ -138,23 +139,24 @@ int get_command(char * commandBuff, int bufferSize) {
     serial_println("priority set.");
   }
   else if(strcmp(command,"showPCB")==0){
-    serial_println("PCB:");
+    showPCB(commandBuff);
   }
   else if(strcmp(command,"showAll")==0){
     serial_println("ALL:");
   }
   else if(strcmp(command,"showReady")==0){
     serial_println("READY:");
+    printReady();
   }
   else if(strcmp(command,"showBlocked")==0){
     serial_println("BLOCKED:");
   }
   /////////////////////////////
   else if(strcmp(command,"createPCB")==0){
-    serial_println("PCB created.");
+    get_pcb_data(commandBuff);
   }
   else if(strcmp(command,"deletePCB")==0){
-    serial_println("PCB deleted.");
+    deletePCB(commandBuff);
   }
   else if(strcmp(command,"block")==0){
     serial_println("is blocked.");
@@ -163,8 +165,6 @@ int get_command(char * commandBuff, int bufferSize) {
     serial_println("is unblocked.");
   }
   ///////////////////////////////////
-
-
   else {
     //Invalid code
     char * errorMSG = "\n\x1b[1;31mInvalid command\x1b[1;0m\n";

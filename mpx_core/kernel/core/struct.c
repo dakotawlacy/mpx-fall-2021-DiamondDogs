@@ -6,19 +6,22 @@
 #include <core/serial.h>
 #include <core/struct.h>
 
-typedef struct PCB{
+typedef struct PCB {
+
   char process_name[15];
   int process_class;
   int priority;
   int state;
+  int susState;
   unsigned char* process_stack;//1024 bytes
-  PCB *next;
-  PCB *previous;
+  struct PCB* next;
+  struct PCB* previous;
 
-}
+}PCB;
+
 
 typedef struct queue{
   int count;
   PCB *head;
   PCB *tail;
-}
+} queue;
