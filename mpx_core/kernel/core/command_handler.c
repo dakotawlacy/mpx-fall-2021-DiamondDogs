@@ -129,13 +129,16 @@ int get_command(char * commandBuff, int bufferSize) {
     sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
   }
   ///////////////////////////
-  else if(strcmp(command,"suspend")==0){
-    serial_println("suspended.");
+  else if(strcmp(command,"suspendPCB")==0){
+    suspendPCB(commandBuff);
+    //serial_println("suspended.");
   }
-  else if(strcmp(command,"resume")==0){
-    serial_println("resumed.");
+  else if(strcmp(command,"resumePCB")==0){
+    resumePCB(commandBuff);
+    //serial_println("resumed.");
   }
   else if(strcmp(command,"setPriority")==0){
+    setPriority(commandBuff);
     serial_println("priority set.");
   }
   else if(strcmp(command,"showPCB")==0){
@@ -143,13 +146,15 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if(strcmp(command,"showAll")==0){
     serial_println("ALL:");
+    printAll();
   }
   else if(strcmp(command,"showReady")==0){
     serial_println("READY:");
     printReady();
   }
   else if(strcmp(command,"showBlocked")==0){
-    serial_println("BLOCKED:");
+    
+    printBlock();
   }
   /////////////////////////////
   else if(strcmp(command,"createPCB")==0){
@@ -158,10 +163,12 @@ int get_command(char * commandBuff, int bufferSize) {
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
   }
-  else if(strcmp(command,"block")==0){
+  else if(strcmp(command,"blockPCB")==0){
+    blockPCB(commandBuff);
     serial_println("is blocked.");
   }
-  else if(strcmp(command,"unblock")==0){
+  else if(strcmp(command,"unblockPCB")==0){
+    unblockPCB(commandBuff);
     serial_println("is unblocked.");
   }
   ///////////////////////////////////

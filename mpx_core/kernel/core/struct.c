@@ -13,7 +13,9 @@ typedef struct PCB {
   int priority;
   int state;
   int susState;
-  unsigned char* process_stack;//1024 bytes
+  unsigned char process_stack[1024];//1024 bytes
+  unsigned char* stackBase;
+  unsigned char* stackTop;
   struct PCB* next;
   struct PCB* previous;
 
