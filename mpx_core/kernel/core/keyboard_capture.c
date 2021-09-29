@@ -115,6 +115,472 @@ int keyCap(char* buffer, int location, int length) {
     //If Escape is not the first key
     else {
 
+      //Exclamation Point
+      if(letter == (0x21)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //@ Symbol
+      if(letter == (0x40)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //# Symbol
+      if(letter == (0x23)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+
+      //# Symbol
+      if(letter == (0x23)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //$ Symbol
+      if(letter == (0x24)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //% Symbol
+      if(letter == (0x25)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //^ Symbol
+      if(letter == (0x5E)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //& Symbol
+      if(letter == (0x26)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //* Symbol
+      if(letter == (0x2A)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //( Symbol
+      if(letter == (0x28)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //) Symbol
+      if(letter == (0x29)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //\ Symbol
+      if(letter == (0x5C)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      // Forward Slash Symbol
+      if(letter == (0x2F)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //. Symbol
+      if(letter == (0x2E)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //, Symbol
+      if(letter == (0x2C)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //- Symbol
+      if(letter == (0x2D)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //' Symbol
+      if(letter == (0x27)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //"" Symbol
+      if(letter == (0x22)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //; Symbol
+      if(letter == (0x3A)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //: Symbol
+      if(letter == (0x3B)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //< Symbol
+      if(letter == (0x3C)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //> Symbol
+      if(letter == (0x3E)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //+ Symbol
+      if(letter == (0x2B)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //= Symbol
+      if(letter == (0x3D)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //[ Symbol
+      if(letter == (0x5B)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //] Symbol
+      if(letter == (0x5D)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //{ Symbol
+      if(letter == (0x7B)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //} Symbol
+      if(letter == (0x7D)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //| Symbol
+      if(letter == (0x7C)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //_ Symbol
+      if(letter == (0x5F)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
+      //? Symbol
+      if(letter == (0x3F)){
+        //Place letter into location
+        buffer[location] = letter;
+
+        //echo letter
+        serial_print(&buffer[location]);
+
+        //Increase location
+        ++location;
+        ++length;
+
+        return location;
+      }
+
       //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
       if (letter == (0x7F)) {
         //Check if at beginning
