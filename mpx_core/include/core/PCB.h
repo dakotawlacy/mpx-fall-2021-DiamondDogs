@@ -27,14 +27,19 @@ struct PCB* insertPCB(PCB* pcbName);
 int removePCB(PCB* pcb);
 
 void printReady();
+
 void printBlock();
+
+void print(PCB* q);
+
 void printAll();
+
 void deletePCB(char* commandBuff);
+
 void showPCB(char* commandBuff);
 
 int setPriority(char* commandBuff);
 
-void initQueues();
 PCB* findPCB(char* name);
 
 struct PCB* blockPCB(char* commandBuff);
@@ -44,5 +49,7 @@ struct PCB* unblockPCB(char* commandBuff);
 struct PCB* suspendPCB(char* commandBuff);
 
 struct PCB* resumePCB(char* commandBuff);
+
+void initQueues();
 
 #endif

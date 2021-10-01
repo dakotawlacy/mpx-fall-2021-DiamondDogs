@@ -380,61 +380,157 @@ int setPriority(char* commandBuff) {
 
 }
 
+void print(PCB* q) {
+
+  while (q != NULL) {
+
+    char* nl = "\n";
+    int nl_len = strlen(nl);
+
+    char* temp = "------------";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+    temp = "Process Name: ";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    temp = q->process_name;
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+
+    temp = "Process Class: ";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    if (q->process_class == 1) {
+      temp = "System";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    } else {
+      temp = "Application";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+    temp = "Process State: ";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+
+    if (q->state == 1) {
+      temp = "Ready";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    } else if (q->state == 2){
+      temp = "Blocked";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+    temp = "Suspended State: ";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+
+    if (q->susState == 0) {
+      temp = "Not Suspended";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    } else if (q->state == 1){
+      temp = "Suspended";
+      temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+    temp = "Priority: ";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    char* prio = "";
+    itoa(q->priority,prio);
+    temp_len = strlen(prio);
+    sys_req(WRITE,DEFAULT_DEVICE,prio,&temp_len);
+
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+    //New line
+    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+    q = q->next;
+  }
+}
+
+
 //Print Ready Queue
 void printReady() {
 
   struct PCB *q = readyQueue.head;
+  char* message = "Ready Queue:\n";
+  int message_length = strlen(message);
+  sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
 
-  serial_println("READY:");
-
-  while (q != NULL) {
-    serial_println(q->process_name);
-    q = q->next;
-  }
-
-  serial_println("SUSPENDED READY;");
+  print(q);
 
   q = suspendedReady.head;
+  message = "Suspended Ready Queue:\n";
+  message_length = strlen(message);
+  sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
+  print(q);
 
-  while (q != NULL) {
-    serial_println(q->process_name);
-    q = q->next;
-  }
+
 }
 
 //Print Block Queue
 void printBlock() {
 
   struct PCB *q = blockedQueue.head;
+  char* message = "Blocked Queue:\n";
+  int message_length = strlen(message);
+  sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
 
-  serial_println("BLOCKED:");
-
-  while (q != NULL) {
-    serial_println(q->process_name);
-    q = q->next;
-  }
-
-  serial_println("SUSPENDED BLOCK:");
+  print(q);
 
   q = suspendedBlock.head;
-
-  while (q != NULL) {
-    serial_println(q->process_name);
-    q = q->next;
-  }
+  message = "Suspended Blocked Queue:\n";
+  message_length = strlen(message);
+  sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
+  print(q);
 
 }
 
+//Print Every Queue
 void printAll() {
   printReady();
   printBlock();
 }
 
+//Find PCB in all queues
 struct PCB* findPCB(char* name) {
 
    PCB* current;
-   current = readyQueue.head;
 
+   //Search ready
+   current = readyQueue.head;
    while (current != NULL) {
      if (strcmp(current->process_name,name) == 0) {
        return current;
@@ -444,6 +540,7 @@ struct PCB* findPCB(char* name) {
      }
    }
 
+   //Search suspended Ready
    current = suspendedReady.head;
    while (current != NULL) {
      if (strcmp(current->process_name,name) == 0) {
@@ -454,6 +551,7 @@ struct PCB* findPCB(char* name) {
      }
    }
 
+   //Search blocked
    current = blockedQueue.head;
    while (current != NULL) {
      if (strcmp(current->process_name,name) == 0) {
@@ -465,6 +563,7 @@ struct PCB* findPCB(char* name) {
      }
    }
 
+   //Search Suspended Block
    current = suspendedBlock.head;
    while (current != NULL) {
      if (strcmp(current->process_name,name) == 0) {
@@ -474,20 +573,17 @@ struct PCB* findPCB(char* name) {
 
      }
    }
-
-
-
+   //Not inside
    return NULL;
 
  }
 
+//Delete pcb from queue
 void deletePCB(char* commandBuff) {
 
   //getName
   char name[16];
-
   strcpy(name,get_name(commandBuff));
-
 
   struct PCB* pcb = findPCB(name);
 
@@ -497,9 +593,9 @@ void deletePCB(char* commandBuff) {
   } else {
     serial_println("pcb does not exist");
   }
-
 }
 
+//Remove PCB from correct queue
 int removePCB(struct PCB* pcb){
 
   struct PCB *curr;
@@ -524,13 +620,11 @@ int removePCB(struct PCB* pcb){
   }
 
   struct PCB *temp;
-
   //If node at beginning
   if (curr == pcb) {
     temp = currQ->head;
     currQ->head = curr->next;
     freePCB(temp);
-
     return 1;
   }
 
@@ -547,39 +641,100 @@ int removePCB(struct PCB* pcb){
       return 1;
 
     }
-
   }
-
 
   return 0;
 }
 
+//Show contents of PCB
 void showPCB(char* commandBuff) {
+
+  char* nl = "\n";
+  int nl_len = strlen(nl);
 
   //getName
   char name[16];
-
   strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
   pcb = findPCB(name);
 
-  serial_println(pcb->process_name);
+  char* temp = "Process Name: ";
+  int temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
-  char* temp = "";
-  itoa(pcb->process_class,temp);
+  temp = pcb->process_name;
+  temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
-  serial_println(temp);
-
-  itoa(pcb->state,temp);
-  serial_println(temp);
+  //New line
+  sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
 
 
-  itoa(pcb->susState,temp);
-  serial_println(temp);
+  temp = "Process Class: ";
+  temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
-  itoa(pcb->priority,temp);
-  serial_println(temp);
+  if (pcb->process_class == 1) {
+    temp = "System";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+  } else {
+    temp = "Application";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+  }
+
+  //New line
+  sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+  temp = "Process State: ";
+  temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+
+  if (pcb->state == 1) {
+    temp = "Ready";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+  } else if (pcb->state == 2){
+    temp = "Blocked";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+  }
+
+  //New line
+  sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+  temp = "Suspended State: ";
+  temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+
+  if (pcb->susState == 0) {
+    temp = "Not Suspended";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+  } else if (pcb->state == 1){
+    temp = "Suspended";
+    temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+  }
+
+  //New line
+  sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
+  temp = "Priority: ";
+  temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+  char* prio = "";
+  itoa(pcb->priority,prio);
+  temp_len = strlen(prio);
+  sys_req(WRITE,DEFAULT_DEVICE,prio,&temp_len);
 
 }
 
@@ -587,9 +742,7 @@ struct PCB* blockPCB(char* commandBuff) {
 
   //getName
   char name[16];
-
   strcpy(name,get_name(commandBuff));
-
 
   struct PCB* pcb;
   pcb = findPCB(name);
@@ -601,8 +754,6 @@ struct PCB* blockPCB(char* commandBuff) {
   insertPCB(pcb);
 
   return pcb;
-
-
 }
 
 struct PCB* unblockPCB(char* commandBuff) {

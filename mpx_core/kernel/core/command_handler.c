@@ -145,15 +145,12 @@ int get_command(char * commandBuff, int bufferSize) {
     showPCB(commandBuff);
   }
   else if(strcmp(command,"showAll")==0){
-    serial_println("ALL:");
     printAll();
   }
   else if(strcmp(command,"showReady")==0){
-    serial_println("READY:");
     printReady();
   }
   else if(strcmp(command,"showBlocked")==0){
-    
     printBlock();
   }
   /////////////////////////////
