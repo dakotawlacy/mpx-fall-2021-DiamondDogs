@@ -8,6 +8,12 @@ extern queue blockedQueue;
 extern queue suspendedReady;
 extern queue suspendedBlock;
 
+char* get_name(char* commandBuff);
+
+char* get_class(char* commandBuff);
+
+char* get_prio(char* commandBuff);
+
 struct PCB* allocatePCB();
 
 void freePCB(PCB* pcbName);
@@ -26,7 +32,7 @@ void printAll();
 void deletePCB(char* commandBuff);
 void showPCB(char* commandBuff);
 
-void setPriority(char* commandBuff);
+int setPriority(char* commandBuff);
 
 void initQueues();
 PCB* findPCB(char* name);

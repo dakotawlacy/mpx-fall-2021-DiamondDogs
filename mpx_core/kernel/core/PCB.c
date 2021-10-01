@@ -11,6 +11,147 @@ queue blockedQueue;
 queue suspendedReady;
 queue suspendedBlock;
 
+//Get Name
+char* get_name(char* commandBuff) {
+
+  //Get Name
+  char name[16];
+  memset(name,'\0',16);
+
+  //Get to the first space;
+  int i = 0;
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Name");
+    return NULL;
+  }
+
+  //Set value to first letter
+  i++;
+  int j = 0;
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+
+    if (j == 16) {
+      break;
+    }
+
+    char temp = commandBuff[i];
+    name[j] = temp;
+
+    j++;
+    i++;
+  }
+
+  //Set NULL Point
+  name[15] = '\0';
+
+  char* name_ptr = name;
+
+  return name_ptr;
+
+}
+
+char* get_class(char* commandBuff) {
+
+  //Get class
+  char class[2];
+  memset(class,'\0',2);
+
+  //Get to the first space;
+  int i = 0;
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Name");
+    return NULL;
+  }
+
+  i++;
+  //Get to second space
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Cla444ss");
+    return NULL;
+  }
+
+
+  i++;
+
+
+  class[0] = commandBuff[i];
+
+  char* class_ptr = class;
+
+  return class_ptr;
+
+}
+
+char* get_prio(char* commandBuff) {
+
+  char prio[2];
+  memset(prio,'\0',2);
+
+  int i = 0;
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Name");
+    return NULL;
+  }
+
+  i++;
+  //Get to second space
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Cla222ss");
+    return NULL;
+  }
+
+  i++;
+
+  //Get to third space
+  while (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
+    i++;
+  }
+
+  if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
+    serial_println("Invalid Prio");
+    return NULL;
+  }
+
+  i++;
+
+  if (commandBuff[i + 1] != '\0') {
+    serial_println("Prio too big");
+    return NULL;
+  }
+
+  if (commandBuff[i] < (0x30) || commandBuff[i] > (0x39) ) {
+    serial_println("prio not a number");
+    return NULL;
+  }
+
+  prio[0] = commandBuff[i];
+
+  char* prio_ptr = prio;
+
+  return prio_ptr;
+
+}
+
 //Allocate PCB Memory
 struct PCB* allocatePCB() {
 
@@ -32,72 +173,25 @@ void freePCB(struct PCB* pcb){
 //Get PCB data
 int get_pcb_data(char* commandBuff) {
 
-  //Check name length
-  if (strlen(commandBuff) > 29) {
-    return 4000;
-    serial_println("name too long");
+  if (get_name(commandBuff) == NULL || get_class(commandBuff) == NULL || get_prio(commandBuff) == NULL) {
+    return 8000;//invalid name;
   }
 
-  //Get Name
   char name[16];
-  memset(name,'\0',14);
-  int i = 10;
-  int j = i;
-  for (i = 10; i <= j + 15; i++) {
+  char class[2];
+  char prio[2];
 
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      if (commandBuff[i] >= (0x30) && commandBuff[i] <= (0x39)) {
-        serial_println("number in name");
-        return 5000;
-      }
+  strcpy(name,get_name(commandBuff));
+  strcpy(class,get_class(commandBuff));
+  strcpy(prio,get_prio(commandBuff));
 
-      char temp = commandBuff[i];
-      name[i - 10] = temp;
-    }
-    else {
-      break;
-    }
-  }
-
-  //Set NULL Point
-  name[15] = '\0';
-
-  //Error Checking
-  //Two digit number
-  if (commandBuff[i+2] != ' ' || commandBuff[i+4] != '\0') {
-    serial_println("Two digit number");
-    return 1000;//Invalid Number
-  }
-
-  //Invalid Class
-  if (commandBuff[i + 1] < (0x31) || commandBuff[i + 1] > (0x32)) {
-    serial_println("Invalid class");
-    return 2000;//Not a number
-  }
-
-  //Invalid Priority
-  if (commandBuff[i + 3] < (0x30) || commandBuff[i + 3] > (0x39)) {
-    serial_println("Invalid priority");
-    return 2000;//Not a number
-  }
 
   //Initialize class and priority
   int classI;
   int pri;
 
-  //Get class
-  char class[2];
-  memset(class, '\0', 1);
-  class[0] = commandBuff[i+1];
-  class[1] = '\0';
-  classI = atoi(&class[0]);
-
-  //Get priority
-  char priority[2];
-  memset(priority, '\0', 1);
-  priority[0] = commandBuff[i+3];
-  priority[1] = '\0';
-  pri = atoi(&priority[0]);
+  classI = atoi(class);
+  pri = atoi(prio);
 
   //Call setup
   if (setupPCB(name, classI, pri) == NULL) {
@@ -256,40 +350,18 @@ struct PCB* insertPCB(struct PCB* pcb){
 }
 
 //Set new priority of pcb
-void setPriority(char* commandBuff) {
+int setPriority(char* commandBuff) {
 
   //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 12;
-  int j = i;
-  for (i = 12; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 12] = temp;
-    }
-    else {
-      break;
-    }
-  }
+  char prio[2];
 
-  name[15] = '\0';
-
-  //error checking
-  if (commandBuff[i + 2] != '\0') {
-    return;
-    serial_println("invalid priority");
-  }
+  strcpy(name,get_name(commandBuff));
+  strcpy(prio,get_class(commandBuff));
 
   //initalize priority value
   int pri;
-
-  //Get priority
-  char priority[2];
-  memset(priority, '\0', 1);
-  priority[0] = commandBuff[i+1];
-  priority[1] = '\0';
-  pri = atoi(&priority[0]);
+  pri = atoi(prio);
 
   //find pcb and save data
   struct PCB* pcb;
@@ -303,6 +375,8 @@ void setPriority(char* commandBuff) {
 
   //place pcb back into correct queue
   insertPCB(pcb);
+
+  return 1;
 
 }
 
@@ -411,20 +485,8 @@ void deletePCB(char* commandBuff) {
 
   //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 10;
-  int j = i;
-  for (i = 10; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 10] = temp;
-    }
-    else {
-      break;
-    }
-  }
 
-  name[15] = '\0';
+  strcpy(name,get_name(commandBuff));
 
 
   struct PCB* pcb = findPCB(name);
@@ -496,20 +558,9 @@ void showPCB(char* commandBuff) {
 
   //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 8;
-  int j = i;
-  for (i = 8; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 8] = temp;
-    }
-    else {
-      break;
-    }
-  }
 
-  name[15] = '\0';
+  strcpy(name,get_name(commandBuff));
+
   struct PCB* pcb;
   pcb = findPCB(name);
 
@@ -534,22 +585,10 @@ void showPCB(char* commandBuff) {
 
 struct PCB* blockPCB(char* commandBuff) {
 
-  //Get Name
+  //getName
   char name[16];
-  memset(name,'\0',14);
-  int i = 9;
-  int j = i;
-  for (i = 9; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 9] = temp;
-    }
-    else {
-      break;
-    }
-  }
-  //Set NULL Point
-  name[15] = '\0';
+
+  strcpy(name,get_name(commandBuff));
 
 
   struct PCB* pcb;
@@ -568,22 +607,10 @@ struct PCB* blockPCB(char* commandBuff) {
 
 struct PCB* unblockPCB(char* commandBuff) {
 
-  //Get Name
+  //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 11;
-  int j = i;
-  for (i = 11; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 11] = temp;
-    }
-    else {
-      break;
-    }
-  }
-  //Set NULL Point
-  name[15] = '\0';
+
+  strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
   pcb = findPCB(name);
@@ -600,22 +627,10 @@ struct PCB* unblockPCB(char* commandBuff) {
 
 struct PCB* suspendPCB(char* commandBuff) {
 
-  //Get Name
+  //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 11;
-  int j = i;
-  for (i = 11; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 11] = temp;
-    }
-    else {
-      break;
-    }
-  }
-  //Set NULL Point
-  name[15] = '\0';
+
+  strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
   pcb = findPCB(name);
@@ -632,22 +647,10 @@ struct PCB* suspendPCB(char* commandBuff) {
 
 struct PCB* resumePCB(char* commandBuff) {
 
-  //Get Name
+  //getName
   char name[16];
-  memset(name,'\0',15);
-  int i = 10;
-  int j = i;
-  for (i = 10; i <= j + 15; i++) {
-    if (commandBuff[i] != ' ' && commandBuff[i] != '\0') {
-      char temp = commandBuff[i];
-      name[i - 10] = temp;
-    }
-    else {
-      break;
-    }
-  }
-  //Set NULL Point
-  name[15] = '\0';
+
+  strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
   pcb = findPCB(name);
@@ -663,8 +666,22 @@ struct PCB* resumePCB(char* commandBuff) {
 }
 
 void initQueues() {
+
    readyQueue.head = NULL;
    readyQueue.tail = NULL;
    readyQueue.count = 0;
+
+   suspendedReady.head = NULL;
+   suspendedReady.tail = NULL;
+   suspendedReady.count = 0;
+
+   blockedQueue.head = NULL;
+   blockedQueue.tail = NULL;
+   blockedQueue.count = 0;
+
+   suspendedBlock.head = NULL;
+   suspendedBlock.tail = NULL;
+   suspendedBlock.count = 0;
+
 
  }
