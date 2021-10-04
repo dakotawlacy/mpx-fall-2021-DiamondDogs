@@ -10,6 +10,7 @@ queue readyQueue;
 queue blockedQueue;
 queue suspendedReady;
 queue suspendedBlock;
+int newLine = 2;
 
 //Get Name
 char* get_name(char* commandBuff) {
@@ -25,7 +26,9 @@ char* get_name(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Name");
+    char* invName = "Invalid Name\n";
+    int invName_len = strlen(invName);
+    sys_req(WRITE,DEFAULT_DEVICE,invName,&invName_len);
     return NULL;
   }
 
@@ -67,7 +70,9 @@ char* get_class(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Name");
+    char* invName = "Invalid Name\n";
+    int invName_len = strlen(invName);
+    sys_req(WRITE,DEFAULT_DEVICE,invName,&invName_len);
     return NULL;
   }
 
@@ -78,7 +83,9 @@ char* get_class(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Cla444ss");
+    char* invClass = "Invalid Class\n";
+    int invClass_len = strlen(invClass);
+    sys_req(WRITE,DEFAULT_DEVICE,invClass,&invClass_len);
     return NULL;
   }
 
@@ -105,7 +112,9 @@ char* get_prio(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Name");
+    char* invName = "Invalid Name\n";
+    int invName_len = strlen(invName);
+    sys_req(WRITE,DEFAULT_DEVICE,invName,&invName_len);
     return NULL;
   }
 
@@ -116,7 +125,9 @@ char* get_prio(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Cla222ss");
+    char* invClass = "Invalid Class\n";
+    int invClass_len = strlen(invClass);
+    sys_req(WRITE,DEFAULT_DEVICE,invClass,&invClass_len);
     return NULL;
   }
 
@@ -128,19 +139,25 @@ char* get_prio(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    serial_println("Invalid Prio");
+    char* invPrio = "Invalid Priority\n";
+    int invPrio_len = strlen(invPrio);
+    sys_req(WRITE,DEFAULT_DEVICE,invPrio,&invPrio_len);
     return NULL;
   }
 
   i++;
 
   if (commandBuff[i + 1] != '\0') {
-    serial_println("Prio too big");
+    char* invPrio = "Priority Too Big\n";
+    int invPrio_len = strlen(invPrio);
+    sys_req(WRITE,DEFAULT_DEVICE,invPrio,&invPrio_len);
     return NULL;
   }
 
   if (commandBuff[i] < (0x30) || commandBuff[i] > (0x39) ) {
-    serial_println("prio not a number");
+    char* invPrio = "Priority is not a number.\n";
+    int invPrio_len = strlen(invPrio);
+    sys_req(WRITE,DEFAULT_DEVICE,invPrio,&invPrio_len);
     return NULL;
   }
 
@@ -282,11 +299,9 @@ struct PCB* insertPCB(struct PCB* pcb){
         pcb->next = NULL;
         pcb->previous = curr;
         currQ->tail = pcb;
-        //serial_println("Added at tail");
         return pcb;
 
       } else {
-        //serial_println("Added at head");
         pcb->next = curr;
         currQ->head = pcb;
         return pcb;
@@ -309,7 +324,6 @@ struct PCB* insertPCB(struct PCB* pcb){
           currQ->head = pcb;
           pcb->next = curr;
           curr->previous = pcb;
-          //serial_println("added at head");
           return pcb;
         }
 
@@ -317,8 +331,10 @@ struct PCB* insertPCB(struct PCB* pcb){
         curr->previous->next = pcb;
         pcb->previous = curr->previous;
         curr->previous = pcb;
-        serial_print(pcb->previous->process_name);
-        serial_print(pcb->next->process_name);
+        int pcbNameLen = strlen(pcb->previous->process_name);
+        sys_req(WRITE, DEFAULT_DEVICE, pcb->previous->process_name, &pcbNameLen);
+        pcbNameLen = strlen(pcb->next->process_name);
+        sys_req(WRITE, DEFAULT_DEVICE, pcb->next->process_name, &pcbNameLen);
         return pcb;
       }
     }
@@ -473,8 +489,8 @@ void print(PCB* q) {
 
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
-    //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+    //New line
 
     q = q->next;
   }
@@ -588,10 +604,17 @@ void deletePCB(char* commandBuff) {
   struct PCB* pcb = findPCB(name);
 
   if (pcb != NULL) {
-    serial_println("removed + name");
+    char* remove = "Removed ";
+    int remName_len = strlen(remove);
+    sys_req(WRITE,DEFAULT_DEVICE,remove,&remName_len);
+    int pcbNameLen = strlen(pcb->process_name);
+    sys_req(WRITE, DEFAULT_DEVICE, pcb->process_name, &pcbNameLen);
+    sys_req(WRITE, DEFAULT_DEVICE, "\n", &newLine);
     removePCB(pcb);
   } else {
-    serial_println("pcb does not exist");
+    char* noExist = "PCB does not exist.\n";
+    int noExist_len = strlen(noExist);
+    sys_req(WRITE,DEFAULT_DEVICE,noExist,&noExist_len);
   }
 }
 
@@ -735,6 +758,8 @@ void showPCB(char* commandBuff) {
   itoa(pcb->priority,prio);
   temp_len = strlen(prio);
   sys_req(WRITE,DEFAULT_DEVICE,prio,&temp_len);
+  sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
+
 
 }
 
