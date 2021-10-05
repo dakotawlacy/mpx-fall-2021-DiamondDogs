@@ -26,7 +26,6 @@ int keyCap(char* buffer, int location, int length) {
           if (letter == '~') {
             //Check end
             if (location == length) {
-
               return location;
             }
             //If not end
@@ -117,138 +116,444 @@ int keyCap(char* buffer, int location, int length) {
 
       //Exclamation Point
       if(letter == (0x21)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //@ Symbol
       if(letter == (0x40)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //# Symbol
       if(letter == (0x23)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
 
       //# Symbol
       if(letter == (0x23)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //$ Symbol
       if(letter == (0x24)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //% Symbol
       if(letter == (0x25)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //^ Symbol
       if(letter == (0x5E)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //& Symbol
       if(letter == (0x26)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //* Symbol
       if(letter == (0x2A)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //( Symbol
@@ -268,317 +573,1031 @@ int keyCap(char* buffer, int location, int length) {
 
       //) Symbol
       if(letter == (0x29)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //\ Symbol
       if(letter == (0x5C)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       // Forward Slash Symbol
       if(letter == (0x2F)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //. Symbol
       if(letter == (0x2E)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //, Symbol
       if(letter == (0x2C)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //- Symbol
       if(letter == (0x2D)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //' Symbol
       if(letter == (0x27)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //"" Symbol
       if(letter == (0x22)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //; Symbol
       if(letter == (0x3A)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //: Symbol
       if(letter == (0x3B)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //< Symbol
       if(letter == (0x3C)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //> Symbol
       if(letter == (0x3E)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //+ Symbol
       if(letter == (0x2B)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //= Symbol
       if(letter == (0x3D)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //[ Symbol
       if(letter == (0x5B)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //] Symbol
       if(letter == (0x5D)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //{ Symbol
       if(letter == (0x7B)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //} Symbol
       if(letter == (0x7D)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //| Symbol
       if(letter == (0x7C)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //_ Symbol
       if(letter == (0x5F)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //? Symbol
       if(letter == (0x3F)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
 
       //Backspace - NEED TO CHECK IF AT END, BEGINNING OR MIDDLE
@@ -662,61 +1681,198 @@ int keyCap(char* buffer, int location, int length) {
       //Space
       if (letter == 0x20) {
 
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
 
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
       //Lowercase a-z
       if (letter >= (0x61) && letter <= (0x7A)){
 
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
-        ++length;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
 
       }
       //Lowercase A-Z
       if (letter >= (0x41) && letter <= (0x5A)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //echo letter
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
 
       }
       //Number
       if (letter >= (0x30) && letter <=(0x39)){
-        //Place letter into location
-        buffer[location] = letter;
+        //Beginning
+        if (location < length) {
+          int i = length - 1;
+          for (i = length - 1; i >= location; i--) {
+            buffer[i + 1] = buffer[i];
+          }
 
-        //Echo number
-        serial_print(&buffer[location]);
+          buffer[location] = letter;
 
-        //Increase location
-        ++location;
+          ++location;
+          ++length;
 
-        return location;
+          //Reset to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+
+          //Print buffer
+          serial_print(&buffer[0]);
+
+          //Go back to beginning of line
+          serial_print("\e[0F");
+          serial_print("\e[0E");
+          int j = 0;
+          for (j = 0; j < location; j++) {
+            //Move right
+            serial_print("\e[1C");
+          }
+
+          return location;
+
+        }
+        //At end
+        else {
+          //Place letter into location
+          buffer[location] = letter;
+
+          //echo letter
+          serial_print(&buffer[location]);
+
+          //Increase location
+          ++location;
+          ++length;
+
+          return location;
+        }
       }
   }//End numbers and letters
 
