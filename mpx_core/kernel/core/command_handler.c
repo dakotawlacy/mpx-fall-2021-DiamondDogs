@@ -131,15 +131,23 @@ int get_command(char * commandBuff, int bufferSize) {
   ///////////////////////////
   else if(strcmp(command,"suspendPCB")==0){
     suspendPCB(commandBuff);
-    //serial_println("suspended.");
+    char* temp = "PCB suspended\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
   }
   else if(strcmp(command,"resumePCB")==0){
     resumePCB(commandBuff);
-    //serial_println("resumed.");
+    char* temp = "PCB resumed\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
   }
   else if(strcmp(command,"setPriority")==0){
     setPriority(commandBuff);
-    serial_println("priority set.");
+    char* temp = "PCB priority changed\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
   }
   else if(strcmp(command,"showPCB")==0){
     showPCB(commandBuff);
@@ -155,18 +163,52 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   /////////////////////////////
   else if(strcmp(command,"createPCB")==0){
-    get_pcb_data(commandBuff);
+    int result = get_pcb_data(commandBuff);
+
+    if (result == 1) {
+      char* temp = "PCB added\n";
+      int temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    }
+    else if (result == 1000) {
+      //invalid name
+      char* temp = "Invalid Name\n";
+      int temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+    else if (result == 2000) {
+      //invalid class
+      char* temp = "Invalid Class\n";
+      int temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+    else if (result == 3000) {
+      //already inside
+      char* temp = "Already Exists\n";
+      int temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
+
   }
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
+    char* temp = "PCB deleted\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
   }
   else if(strcmp(command,"blockPCB")==0){
     blockPCB(commandBuff);
-    serial_println("is blocked.");
+    char* temp = "PCB blocked\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
   }
   else if(strcmp(command,"unblockPCB")==0){
     unblockPCB(commandBuff);
-    serial_println("is unblocked.");
+    char* temp = "PCB unblocked\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
   }
   ///////////////////////////////////
   else {

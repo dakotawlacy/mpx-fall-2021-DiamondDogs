@@ -6,6 +6,12 @@
 #include <core/PCB.h>
 #include <core/struct.h>
 
+#define SUCCESS 1;
+#define INVALIDNAME 1000;
+#define INVALIDCLASS 2000;
+#define ALREADYINSIDE 3000;
+#define DOESNOTEXIST 4000;
+
 queue readyQueue;
 queue blockedQueue;
 queue suspendedReady;
@@ -91,7 +97,6 @@ char* get_class(char* commandBuff) {
 
 
   i++;
-
 
   class[0] = commandBuff[i];
 
@@ -191,7 +196,7 @@ void freePCB(struct PCB* pcb){
 int get_pcb_data(char* commandBuff) {
 
   if (get_name(commandBuff) == NULL || get_class(commandBuff) == NULL || get_prio(commandBuff) == NULL) {
-    return 8000;//invalid name;
+    return INVALIDNAME;//invalid name;
   }
 
   char name[16];
@@ -202,7 +207,6 @@ int get_pcb_data(char* commandBuff) {
   strcpy(class,get_class(commandBuff));
   strcpy(prio,get_prio(commandBuff));
 
-
   //Initialize class and priority
   int classI;
   int pri;
@@ -210,12 +214,16 @@ int get_pcb_data(char* commandBuff) {
   classI = atoi(class);
   pri = atoi(prio);
 
+  if (classI != 1 && classI != 2) {
+    return INVALIDCLASS;
+  }
+
   //Call setup
-  if (setupPCB(name, classI, pri) == NULL) {
-    return 3000;//Already Inside
+  if (setupPCB(name, classI, pri) == NULL && readyQueue.head != NULL) {
+    return ALREADYINSIDE;//Already Inside
   };
 
-  return 1;
+  return SUCCESS;
 
 }
 
@@ -226,7 +234,10 @@ struct PCB* setupPCB(char * name, int class, int priority){
     struct PCB *newPCB;
 
     //Check for duplicate name
-    if (findPCB(name) != NULL) { return NULL; }
+    if (findPCB(name) != NULL) {
+      return NULL;
+    }
+
 
     //Allocate PCB
     newPCB = allocatePCB();
@@ -331,10 +342,6 @@ struct PCB* insertPCB(struct PCB* pcb){
         curr->previous->next = pcb;
         pcb->previous = curr->previous;
         curr->previous = pcb;
-        int pcbNameLen = strlen(pcb->previous->process_name);
-        sys_req(WRITE, DEFAULT_DEVICE, pcb->previous->process_name, &pcbNameLen);
-        pcbNameLen = strlen(pcb->next->process_name);
-        sys_req(WRITE, DEFAULT_DEVICE, pcb->next->process_name, &pcbNameLen);
         return pcb;
       }
     }
@@ -350,7 +357,7 @@ struct PCB* insertPCB(struct PCB* pcb){
   }
   else {//If blocked or suspendedBlock
 
-    //If queue is empty
+   //If queue is empty
     if (currQ->head == NULL) {
       currQ->head = pcb;
       pcb->next = NULL;
@@ -392,10 +399,11 @@ int setPriority(char* commandBuff) {
   //place pcb back into correct queue
   insertPCB(pcb);
 
-  return 1;
+  return SUCCESS;
 
 }
 
+//Print individual pcb
 void print(PCB* q) {
 
   while (q != NULL) {
@@ -403,20 +411,32 @@ void print(PCB* q) {
     char* nl = "\n";
     int nl_len = strlen(nl);
 
-    char* temp = "------------";
-    int temp_len = strlen(temp);
+    char* temp = "";
+    int temp_len = 0;
+
+    temp = "------------";
+    temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
 
+    temp = "";
+    temp_len = 0;
+
     temp = "Process Name: ";
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
+    temp = "";
+    temp_len = 0;
+
     temp = q->process_name;
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    temp = "";
+    temp_len = 0;
 
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
@@ -426,16 +446,23 @@ void print(PCB* q) {
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
+    temp = "";
+    temp_len = 0;
+
     if (q->process_class == 1) {
       temp = "System";
       temp_len = strlen(temp);
       sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
 
     } else {
       temp = "Application";
       temp_len = strlen(temp);
       sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
     }
+
+    temp = "";
+    temp_len = 0;
 
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
@@ -444,6 +471,8 @@ void print(PCB* q) {
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
+    temp = "";
+    temp_len = 0;
 
     if (q->state == 1) {
       temp = "Ready";
@@ -455,6 +484,8 @@ void print(PCB* q) {
       temp_len = strlen(temp);
       sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
     }
+    temp = "";
+    temp_len = 0;
 
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
@@ -462,9 +493,10 @@ void print(PCB* q) {
     temp = "Suspended State: ";
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-
+    temp = "";
 
     if (q->susState == 0) {
+
       temp = "Not Suspended";
       temp_len = strlen(temp);
       sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
@@ -475,6 +507,9 @@ void print(PCB* q) {
       sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
     }
 
+    temp = "";
+    temp_len = 0;
+
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
 
@@ -482,33 +517,41 @@ void print(PCB* q) {
     temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
+    temp = "";
+    temp_len = 0;
+
     char* prio = "";
     itoa(q->priority,prio);
     temp_len = strlen(prio);
     sys_req(WRITE,DEFAULT_DEVICE,prio,&temp_len);
 
+    temp = "";
+    temp_len = 0;
+
     //New line
     sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
-    sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
-    //New line
 
     q = q->next;
   }
 }
 
-
 //Print Ready Queue
 void printReady() {
 
   struct PCB *q = readyQueue.head;
-  char* message = "Ready Queue:\n";
+
+  char* message = "\x1b[1;30mReady Queue:\x1b[1;0m\n";
   int message_length = strlen(message);
   sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
 
   print(q);
 
+  char* temp = "------------\n";
+  int temp_len = strlen(temp);
+  sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
   q = suspendedReady.head;
-  message = "Suspended Ready Queue:\n";
+  message = "\x1b[1;30mSuspended Ready Queue:\x1b[1;0m\n";
   message_length = strlen(message);
   sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
   print(q);
@@ -520,14 +563,14 @@ void printReady() {
 void printBlock() {
 
   struct PCB *q = blockedQueue.head;
-  char* message = "Blocked Queue:\n";
+  char* message = "\x1b[1;30mBlocked Queue:\x1b[1;0m\n";
   int message_length = strlen(message);
   sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
 
   print(q);
 
   q = suspendedBlock.head;
-  message = "Suspended Blocked Queue:\n";
+  message = "\x1b[1;30mSuspended Blocked Queue:\x1b[1;0m\n";
   message_length = strlen(message);
   sys_req(WRITE,DEFAULT_DEVICE,message,&message_length);
   print(q);
@@ -571,7 +614,6 @@ struct PCB* findPCB(char* name) {
    current = blockedQueue.head;
    while (current != NULL) {
      if (strcmp(current->process_name,name) == 0) {
-
        return current;
      } else {
        current = current->next;
@@ -648,7 +690,7 @@ int removePCB(struct PCB* pcb){
     temp = currQ->head;
     currQ->head = curr->next;
     freePCB(temp);
-    return 1;
+    return SUCCESS;
   }
 
   while (curr != NULL) {
@@ -661,16 +703,16 @@ int removePCB(struct PCB* pcb){
       curr->previous->next = curr->next;
 
       freePCB(temp);
-      return 1;
+      return SUCCESS;
 
     }
   }
 
-  return 0;
+  return SUCCESS;
 }
 
 //Show contents of PCB
-void showPCB(char* commandBuff) {
+int showPCB(char* commandBuff) {
 
   char* nl = "\n";
   int nl_len = strlen(nl);
@@ -681,6 +723,17 @@ void showPCB(char* commandBuff) {
 
   struct PCB* pcb;
   pcb = findPCB(name);
+
+
+  //If doesn't exist
+  if (pcb == NULL) {
+
+    char* temp = "Does not exist\n";
+    int temp_len = strlen(temp);
+    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    return DOESNOTEXIST;
+  }
 
   char* temp = "Process Name: ";
   int temp_len = strlen(temp);
@@ -760,6 +813,7 @@ void showPCB(char* commandBuff) {
   sys_req(WRITE,DEFAULT_DEVICE,prio,&temp_len);
   sys_req(WRITE,DEFAULT_DEVICE,nl,&nl_len);
 
+  return SUCCESS;
 
 }
 

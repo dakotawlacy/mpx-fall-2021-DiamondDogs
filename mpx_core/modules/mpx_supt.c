@@ -69,9 +69,6 @@ int sys_req( 	int  op_code,
     if (buffer_ptr == NULL)
       return_code = INVALID_BUFFER;
     else if (count_ptr == NULL || *count_ptr <= 0) {
-
-				serial_println("here");
-
 			return_code = INVALID_COUNT;
 		}
 

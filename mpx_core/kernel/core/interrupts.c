@@ -23,7 +23,7 @@
 /*
   Procedure..: io_wait
   Description..: The i386 can do an io wait by accessing another port.
-      Mainly used in initializing the PIC. the 
+      Mainly used in initializing the PIC. the
 */
 #define io_wait() asm volatile ("outb $0x80")
 
@@ -54,7 +54,7 @@ void do_isr()
 {
   char in = inb(COM2);
   serial_print(&in);
-  serial_println("here");
+
   outb(0x20,0x20); //EOI
 }
 
