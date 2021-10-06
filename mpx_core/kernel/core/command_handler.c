@@ -193,22 +193,22 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
-    char* temp = "PCB deleted\n";
-    int temp_len = strlen(temp);
-    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
   }
+  
   else if(strcmp(command,"blockPCB")==0){
-    blockPCB(commandBuff);
+    if(blockPCB(commandBuff) != NULL){
     char* temp = "PCB blocked\n";
     int temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-
+    }
   }
   else if(strcmp(command,"unblockPCB")==0){
-    unblockPCB(commandBuff);
+    if(unblockPCB(commandBuff) != NULL){
     char* temp = "PCB unblocked\n";
     int temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+  }
+
   }
   ///////////////////////////////////
   else {

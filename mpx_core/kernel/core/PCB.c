@@ -823,6 +823,13 @@ struct PCB* blockPCB(char* commandBuff) {
   char name[16];
   strcpy(name,get_name(commandBuff));
 
+  if(findPCB(name) == NULL){
+    char* temp = "Invalid Name\n";
+    int temp1 = strlen(temp);
+    sys_req(WRITE, DEFAULT_DEVICE, temp, &temp1);
+    return NULL;
+  }
+
   struct PCB* pcb;
   pcb = findPCB(name);
 
@@ -841,6 +848,13 @@ struct PCB* unblockPCB(char* commandBuff) {
   char name[16];
 
   strcpy(name,get_name(commandBuff));
+
+  if(findPCB(name) == NULL){
+    char* temp = "Invalid Name\n";
+    int temp1 = strlen(temp);
+    sys_req(WRITE, DEFAULT_DEVICE, temp, &temp1);
+    return NULL;
+  }
 
   struct PCB* pcb;
   pcb = findPCB(name);
