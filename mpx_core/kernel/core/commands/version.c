@@ -14,3 +14,5 @@ int run_version() {
   sys_req(WRITE,DEFAULT_DEVICE,versionDisp,&versionDisp_length);
 
   return 0;
+
+}
