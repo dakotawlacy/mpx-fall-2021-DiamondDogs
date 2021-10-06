@@ -65,6 +65,72 @@ int run_help(char * commandBuff, int bufferSize) {
     int clearFunc_length = strlen(clearFunc);
     sys_req(WRITE,DEFAULT_DEVICE,clearFunc,&clearFunc_length);
   }
+  else if ((strcmp(command,"suspendPCB") == 0) && strlen(command) == 10) {
+    //Run help clear
+    char * suspendFunc = "Type 'suspendPCB NameOfPCB' to suspend that PCB\n";
+    int suspendFunc_length = strlen(suspendFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,suspendFunc,&suspendFunc_length);
+  }
+  else if ((strcmp(command,"resumePCB") == 0) && strlen(command) == 9) {
+    //Run help clear
+    char * resumeFunc = "Type 'resumePCB NameOfPCB' to resume that PCB\n";
+    int resumeFunc_length = strlen(resumeFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,resumeFunc,&resumeFunc_length);
+  }
+  else if ((strcmp(command,"setPriority") == 0) && strlen(command) == 11) {
+    //Run help clear
+    char * setPrioFunc = "Type 'setPriority <NameOfPCB> <priority value between 0 and 9>' to change the priority of that PCB\n";
+    int setPrioFunc_length = strlen(setPrioFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,setPrioFunc,&setPrioFunc_length);
+  }
+  else if ((strcmp(command,"showPCB") == 0) && strlen(command) == 7) {
+    //Run help clear
+    char * showPCBFunc = "Type 'showPCB <NameOfPCB>' to show the contents of the PCB\n";
+    int showPCBFunc_length = strlen(showPCBFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,showPCBFunc,&showPCBFunc_length);
+  }
+  else if ((strcmp(command,"showAll") == 0) && strlen(command) == 7) {
+    //Run help clear
+    char * showAllFunc = "Type 'showAll' to show PCB's from ready and blocked queue\n";
+    int showAllFunc_length = strlen(showAllFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,showAllFunc,&showAllFunc_length);
+  }
+  else if ((strcmp(command,"showReady") == 0) && strlen(command) == 9) {
+    //Run help clear
+    char * showReadyFunc = "Type 'showReady' to show PCB's from ready and suspended ready queue\n";
+    int showReadyFunc_length = strlen(showReadyFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,showReadyFunc,&showReadyFunc_length);
+  }
+  else if ((strcmp(command,"showBlocked") == 0) && strlen(command) == 11) {
+    //Run help clear
+    char * showBlockedFunc = "Type 'clear' to clear screen\n";
+    int showBlockedFunc_length = strlen(showBlockedFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,showBlockedFunc,&showBlockedFunc_length);
+  }
+  else if ((strcmp(command,"createPCB") == 0) && strlen(command) == 9) {
+    //Run help clear
+    char * createFunc = "Type 'createPCB <NameOfPCB> <#1 or #2 for application or system> <#0-#9 for priority>' to create a PCB\n";
+    int createFunc_length = strlen(createFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,createFunc,&createFunc_length);
+  }
+  else if ((strcmp(command,"deletePCB") == 0) && strlen(command) == 9) {
+    //Run help clear
+    char * deleteFunc = "Type 'deletePCB <NameOfPCB>' to delete the PCB from the queues\n";
+    int deleteFunc_length = strlen(deleteFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,deleteFunc,&deleteFunc_length);
+  }
+  else if ((strcmp(command,"blockPCB") == 0) && strlen(command) == 8) {
+    //Run help clear
+    char * blockFunc = "Type 'blockPCB <NameOfPCB>' to block the PCB\n";
+    int blockFunc_length = strlen(blockFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,blockFunc,&blockFunc_length);
+  }
+  else if ((strcmp(command,"unblockPCB") == 0) && strlen(command) == 10) {
+    //Run help clear
+    char * unblockFunc = "Type 'unblockPCB <NameOfPCB>' to unblock the PCB\n";
+    int unblockFunc_length = strlen(unblockFunc);
+    sys_req(WRITE,DEFAULT_DEVICE,unblockFunc,&unblockFunc_length);
+  }
   ///////////////////////////////
 
   //WRITE SYNTAX FOR NEW COMMANDS IN HERE...
@@ -104,37 +170,37 @@ int run_help(char * commandBuff, int bufferSize) {
       char * clearHelp = "'clear' - To clear the terminal window.\n";
       int clearHelp_length = strlen(clearHelp);
 ////////////////////////
-      char * suspendHelp = "'suspend' - to suspend.....\n";
+      char * suspendHelp = "'suspendPCB' - to suspend selected PCB\n";
       int suspendHelp_length = strlen(suspendHelp);
 
-      char * resumeHelp = "'resume' - to resume.....\n";
+      char * resumeHelp = "'resumePCB' - to resume selected PCB\n";
       int resumeHelp_length = strlen(resumeHelp);
 
-      char * setPrioHelp = "'setPriority' - to set priority.....\n";
+      char * setPrioHelp = "'setPriority' - to set new priority of selected PCB\n";
       int setPrioHelp_length = strlen(setPrioHelp);
 
-      char * showPCBHelp = "'showPCB' - to show the PCB.....\n";
+      char * showPCBHelp = "'showPCB' - to show the contents of selected PCB\n";
       int showPCBHelp_length = strlen(showPCBHelp);
 
-      char * showAllHelp = "'showAll' - to show all.....\n";
+      char * showAllHelp = "'showAll' - to show all PCB's in a queue\n";
       int showAllHelp_length = strlen(showAllHelp);
 
-      char * showReadyHelp = "'showReady' - to show ready processes.....\n";
+      char * showReadyHelp = "'showReady' - to show ready processes\n";
       int showReadyHelp_length = strlen(showReadyHelp);
 
-      char * showBlockedHelp = "'showBlocked' - to show blocked processes.....\n";
+      char * showBlockedHelp = "'showBlocked' - to show blocked processes\n";
       int showBlockedHelp_length = strlen(showBlockedHelp);
 
-      char * createPCBHelp = "'createPCB' - to create the pcb.....\n";
+      char * createPCBHelp = "'createPCB' - to create a PCB\n";
       int createPCBHelp_length = strlen(createPCBHelp);
 
-      char * deletePCBHelp = "'deletePCB' - to delete the pcb.....\n";
+      char * deletePCBHelp = "'deletePCB' - to delete the selected PCB\n";
       int deletePCBHelp_length = strlen(deletePCBHelp);
 
-      char * blockHelp = "'block' - to block a process.....\n";
+      char * blockHelp = "'blockPCB' - to block a PCB\n";
       int blockHelp_length = strlen(blockHelp);
 
-      char * unblockHelp = "'unblock' - to unblock a process.....\n";
+      char * unblockHelp = "'unblockPCB' - to unblock a PCB\n";
       int unblockHelp_length = strlen(unblockHelp);
 ///////////////////////////
       char * helpFunc = "\nPlease use <help 'commandname'> to view commands functionality.\n";
