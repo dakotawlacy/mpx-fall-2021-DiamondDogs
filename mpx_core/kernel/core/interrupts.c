@@ -11,6 +11,7 @@
 #include <core/serial.h>
 #include <core/tables.h>
 #include <core/interrupts.h>
+//#include <core/irq.s>
 
 // Programmable Interrupt Controllers
 #define PIC1 0x20
@@ -97,7 +98,7 @@ void init_irq(void)
   idt_set_gate(0x08, (u32int)rtc_isr, 0x08, 0x8e);
 
   //Add R3 command
-  idt_set_gate(60, (u32int)sys_call_isr, 0x08, 0x8e);
+  //idt_set_gate(60, (u32int)sys_call_isr, 0x08, 0x8e);
 }
 
 /*

@@ -14,6 +14,7 @@
 #include <core/commands/gettime.h>
 #include <core/commands/settime.h>
 #include <core/PCB.h>
+#include <core/commands/yield.h>
 
 //Run the Command Handler function
 int run_ch() {
@@ -194,7 +195,7 @@ int get_command(char * commandBuff, int bufferSize) {
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
   }
-  
+
   else if(strcmp(command,"blockPCB")==0){
     if(blockPCB(commandBuff) != NULL){
     char* temp = "PCB blocked\n";
@@ -207,7 +208,18 @@ int get_command(char * commandBuff, int bufferSize) {
     char* temp = "PCB unblocked\n";
     int temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    }
   }
+  else if (strcmp(command,"yield") == 0) {
+    //Run gettime
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
+    run_yield();
+  }
+  else if (strcmp(command,"loadr3") == 0) {
+    //Run gettime
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
+    serial_print("load r3 command");
+  
 
   }
   ///////////////////////////////////
