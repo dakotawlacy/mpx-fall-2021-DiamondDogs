@@ -250,7 +250,7 @@ struct PCB* setupPCB(char * name, int class, int priority){
     newPCB->susState = 0;
     memset(&newPCB->process_stack,'\0',1024);
     newPCB->stackBase = &newPCB->process_stack[0];
-    newPCB->stackTop = newPCB->stackBase + 1024;
+    newPCB->stackTop = newPCB->stackBase + 1024 - sizeof(struct context);
 
     //Place PCB into correct queue
     insertPCB(newPCB);
