@@ -40,7 +40,7 @@ typedef struct {
   Description..: Generate interrupt 60H
   Params..: int op_code one of (IDLE, EXIT, READ, WRITE)
 */
-int sys_req( int op_code, int device_id, char *buffer_ptr, 
+int sys_req( int op_code, int device_id, char *buffer_ptr,
 			int *count_ptr );
 
 /*
@@ -86,5 +86,7 @@ int sys_free_mem(void *ptr);
   Params..: None
 */
 void idle();
+
+u32int* sys_call(context* registers);
 
 #endif
