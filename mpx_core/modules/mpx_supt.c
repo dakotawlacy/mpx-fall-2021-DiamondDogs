@@ -9,6 +9,8 @@
 #include <mem/heap.h>
 #include <string.h>
 #include <core/serial.h>
+#include <core/struct.h>
+#include <core/pcb.h>
 
 
 
@@ -187,4 +189,32 @@ void idle()
 	sys_req( WRITE, DEFAULT_DEVICE, msg, &count);
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
+}
+
+//Sys call function
+u32int* sys_call(context* registers) {
+
+	if (cop) {
+		if (params.op_code == IDLE) {
+			cop->stackTop = (unsigned char*)registers;
+			cop->state = = 1;
+			insertPCB(cop);
+		}
+		else if (params.op_code == EXIT) {
+			freePCB(cop);
+		}
+	}
+	else {
+		context* context = registers
+	}
+
+	if (readyQueue.head	!= NULL) {
+		cop = readyQueue.head;
+		deletePCB(cop->process_name);
+		cop->state = 0;//set to running
+		return (u32int*) cop->stackTop;
+	} else {
+		return (u32int*) registers
+	}
+
 }

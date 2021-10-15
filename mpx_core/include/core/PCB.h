@@ -8,6 +8,8 @@ extern queue blockedQueue;
 extern queue suspendedReady;
 extern queue suspendedBlock;
 
+extern PCB* cop;
+
 char* get_name(char* commandBuff);
 
 char* get_class(char* commandBuff);
