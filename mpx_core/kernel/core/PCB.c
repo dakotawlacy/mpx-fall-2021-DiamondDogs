@@ -18,7 +18,7 @@ queue suspendedReady;
 queue suspendedBlock;
 int newLine = 2;
 
-PCB* cop = 0;
+PCB* cop = NULL;
 
 //Get Name
 char* get_name(char* commandBuff) {

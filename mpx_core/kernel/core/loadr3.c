@@ -31,15 +31,15 @@ void loadr3(){
     insertPCB(PCBnew);
     suspendPCB(r3procs);
 
-    context* cp = (context*) (PCBnew -> head);
+    context* cp = (context*)(PCBnew->stackTop);
     memset(cp,0, sizeof(context));
     cp->fs = 0x10;
     cp->gs = 0x10;
     cp->ds = 0x10;
     cp->es = 0x10;
     cp->cs = 0x8;
-    cp->ebp = (u32int) (PCBnew->stack);
-    cp->esp = (u32int) (PCBnew->stack_top);
+    cp->ebp = (u32int)(PCBnew->stackBase);
+    cp->esp = (u32int) (PCBnew->stackTop);
 
     //Switch Cases to Run Each Process;
     switch(i){

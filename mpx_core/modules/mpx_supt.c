@@ -194,7 +194,7 @@ void idle()
 //Sys call function
 u32int* sys_call(context* registers) {
 	context* context;
-	if (cop) {
+	if (cop != NULL) {
 		if (params.op_code == IDLE) {
 			cop->stackTop = (unsigned char*)registers;
 			cop->state =  1;
@@ -202,6 +202,7 @@ u32int* sys_call(context* registers) {
 		}
 		else if (params.op_code == EXIT) {
 			freePCB(cop);
+			cop = NULL;
 		}
 	}
 	else {
