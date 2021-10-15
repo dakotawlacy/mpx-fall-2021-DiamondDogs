@@ -335,6 +335,7 @@ struct PCB* insertPCB(struct PCB* pcb){
           currQ->head = pcb;
           pcb->next = curr;
           curr->previous = pcb;
+          pcb->previous = NULL;
           return pcb;
         }
 
