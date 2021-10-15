@@ -95,6 +95,9 @@ void init_irq(void)
   }
   // Ignore interrupts from the real time clock
   idt_set_gate(0x08, (u32int)rtc_isr, 0x08, 0x8e);
+
+  //Add R3 command
+  idt_set_gate(60, (u32int)sys_call_isr, 0x08, 0x8e);
 }
 
 /*
