@@ -17,6 +17,7 @@
 #include <core/commands/yield.h>
 #include <core/loadr3.h>
 #include <core/commands/alarm.h>
+
 PCB* cop;
 
 //Run the Command Handler function
@@ -100,7 +101,9 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    return run_shutdown(commandBuff, bufferSize);
+    if (run_shutdown(commandBuff, bufferSize)) {
+      sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
+    }
   }
   else if (strcmp(command,"getdate") == 0) {
     //Run getdate
@@ -198,10 +201,10 @@ int get_command(char * commandBuff, int bufferSize) {
   //   }
   //
   // }
-  // else if(strcmp(command,"deletePCB")==0){
-  //   deletePCB(commandBuff);
-  // }
-  //
+  else if(strcmp(command,"deletePCB")==0){
+    deletePCB(commandBuff);
+  }
+
   // else if(strcmp(command,"blockPCB")==0){
   //   if(blockPCB(commandBuff) != NULL){
   //   char* temp = "PCB blocked\n";

@@ -12,4 +12,5 @@ void add_alarm(char* hr, char* min, char* sec);
 
 void check_alarm();
 
+char* get_current_time();
 #endif

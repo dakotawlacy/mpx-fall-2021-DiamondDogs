@@ -653,10 +653,12 @@ struct PCB* findPCB(char* name) {
 void deletePCB(char* commandBuff) {
 
   //getName
-  //char name[16];
-  //strcpy(name,get_name(commandBuff));
+  char name[16];
+  strcpy(name,get_name(commandBuff));
 
-  struct PCB* pcb = findPCB(commandBuff);
+  struct PCB* pcb = findPCB(name);
+
+
 
   if (pcb != NULL) {
   //  char* remove = "Removed ";
@@ -664,8 +666,14 @@ void deletePCB(char* commandBuff) {
   //  sys_req(WRITE,DEFAULT_DEVICE,remove,&remName_len);
     //int pcbNameLen = strlen(pcb->process_name);
     //sys_req(WRITE, DEFAULT_DEVICE, pcb->process_name, &pcbNameLen);
-    sys_req(WRITE, DEFAULT_DEVICE, "\n", &newLine);
-    removePCB(pcb);
+
+    if (pcb->susState == 1) {
+      sys_req(WRITE, DEFAULT_DEVICE, "\n", &newLine);
+      removePCB(pcb);
+    }
+    else {
+      serial_println("PCB not suspended");
+    }
   } else {
     char* noExist = "PCB does not exist.\n";
     int noExist_len = strlen(noExist);
@@ -896,12 +904,12 @@ struct PCB* unblockPCB(char* commandBuff) {
 struct PCB* suspendPCB(char* commandBuff) {
 
   //getName
-  //char name[16];
+  char name[16];
 
-  //strcpy(name,get_name(commandBuff));
+  strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
-  pcb = findPCB(commandBuff);
+  pcb = findPCB(name);
 
   removePCB(pcb);
 
@@ -923,8 +931,6 @@ void resumeAll(){
       removePCB(resume);
 
       resume->susState = 0;
-
-      serial_println(resume->process_name);
 
       insertPCB(resume);
 

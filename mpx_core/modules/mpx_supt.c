@@ -221,7 +221,7 @@ u32int* sys_call(context* registers) {
 	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
 		cop = temp;
-		deletePCB(cop->process_name);
+		removePCB(cop);
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;
 	}

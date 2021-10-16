@@ -24,7 +24,6 @@ void loadr3(){
   context* cp;
   PCB* newPCB;
 
-
   newPCB = setupPCB("proc1",1,1);
   cp = (context*) newPCB->stackTop;
   memset(cp,0,sizeof(context));
