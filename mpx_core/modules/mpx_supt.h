@@ -2,6 +2,7 @@
 #define _MPX_SUPT_H
 
 #include <system.h>
+#include <core/struct.h>
 
 #define EXIT 0
 #define IDLE 1

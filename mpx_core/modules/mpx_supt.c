@@ -10,7 +10,7 @@
 #include <string.h>
 #include <core/serial.h>
 #include <core/struct.h>
-#include <core/pcb.h>
+#include <core/PCB.h>
 
 
 
@@ -193,11 +193,11 @@ void idle()
 
 //Sys call function
 u32int* sys_call(context* registers) {
-
+	context* context;
 	if (cop) {
 		if (params.op_code == IDLE) {
 			cop->stackTop = (unsigned char*)registers;
-			cop->state = = 1;
+			cop->state =  1;
 			insertPCB(cop);
 		}
 		else if (params.op_code == EXIT) {
@@ -205,7 +205,7 @@ u32int* sys_call(context* registers) {
 		}
 	}
 	else {
-		context* context = registers
+		context = registers;
 	}
 
 	if (readyQueue.head	!= NULL) {
@@ -214,7 +214,7 @@ u32int* sys_call(context* registers) {
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;
 	} else {
-		return (u32int*) registers
+		return (u32int*) context;
 	}
 
 }
