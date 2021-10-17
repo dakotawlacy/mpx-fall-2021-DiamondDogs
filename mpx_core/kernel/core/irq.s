@@ -43,6 +43,8 @@ extern do_general_protection
 extern do_page_fault
 extern do_reserved
 extern do_coprocessor
+
+;Our Call to sys_call
 extern sys_call
 
 ; RTC interrupt handler
@@ -121,15 +123,22 @@ coprocessor:
 ;;; access the registers. The C handler returns the address of the
 ;;; new processes stack top/pointer.
 sys_call_isr:
+
+  psuha
   push ds
   push es
   push fs
   push gs
   push esp
+
   call sys_call
-  pop esp
+  mov esp, eax
+
   pop gs
   pop fs
   pop es
   pop ds
+
+  popa
+
   iret
