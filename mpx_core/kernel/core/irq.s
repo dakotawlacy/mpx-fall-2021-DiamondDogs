@@ -44,7 +44,7 @@ extern do_page_fault
 extern do_reserved
 extern do_coprocessor
 
-;Our Call to sys_call
+;sys_call function
 extern sys_call
 
 ; RTC interrupt handler
@@ -124,7 +124,7 @@ coprocessor:
 ;;; new processes stack top/pointer.
 sys_call_isr:
 
-  psuha
+  pusha
   push ds
   push es
   push fs

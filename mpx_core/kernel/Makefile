@@ -31,6 +31,8 @@ core/commands/setdate.o\
 core/commands/gettime.o\
 core/commands/settime.o\
 core/commands/yield.o\
+core/loadr3.o\
+core/testProcesses.o\
 core/PCB.o
 
 .s.o:
