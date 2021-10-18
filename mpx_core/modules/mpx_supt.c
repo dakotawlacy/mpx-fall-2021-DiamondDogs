@@ -191,12 +191,16 @@ void idle()
   }
 }
 
+
 //Sys call function
 u32int* sys_call(context* registers) {
+
 	context* context;
+
+	//Has Ran
 	if (cop != NULL) {
 		if (params.op_code == IDLE) {
-			cop->stackTop = (unsigned char*)registers;
+			cop->stackTop = (unsigned char*) registers;
 			cop->state =  1;
 			insertPCB(cop);
 		}
@@ -205,16 +209,19 @@ u32int* sys_call(context* registers) {
 			cop = NULL;
 		}
 	}
+	//Has not ran
 	else {
 		context = registers;
 	}
 
 	if (readyQueue.head	!= NULL) {
+
 		cop = readyQueue.head;
 		deletePCB(cop->process_name);
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;
 	} else {
+		cop = NULL;
 		return (u32int*) context;
 	}
 

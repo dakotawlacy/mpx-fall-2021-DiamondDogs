@@ -43,6 +43,7 @@ extern do_general_protection
 extern do_page_fault
 extern do_reserved
 extern do_coprocessor
+extern sys_call_isr
 
 ;sys_call function
 extern sys_call

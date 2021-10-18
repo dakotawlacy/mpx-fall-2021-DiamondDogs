@@ -9,9 +9,9 @@
 #include <core/commands/yield.h>
 
 
-int run_yield(){
-  asm volatile ("int $60");
-  serial_print("test");
+int run_yield() {
 
+  asm volatile ("int $60");
   return 0;
+  
 }

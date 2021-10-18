@@ -3,6 +3,8 @@
 
 #include <system.h>
 #include <core/struct.h>
+#include <core/struct.h>
+#include <core/PCB.h>
 
 #define EXIT 0
 #define IDLE 1

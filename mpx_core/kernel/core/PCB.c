@@ -643,17 +643,17 @@ struct PCB* findPCB(char* name) {
 void deletePCB(char* commandBuff) {
 
   //getName
-  char name[16];
-  strcpy(name,get_name(commandBuff));
+  //char name[16];
+  //strcpy(name,get_name(commandBuff));
 
-  struct PCB* pcb = findPCB(name);
+  struct PCB* pcb = findPCB(commandBuff);
 
   if (pcb != NULL) {
-    char* remove = "Removed ";
-    int remName_len = strlen(remove);
-    sys_req(WRITE,DEFAULT_DEVICE,remove,&remName_len);
-    int pcbNameLen = strlen(pcb->process_name);
-    sys_req(WRITE, DEFAULT_DEVICE, pcb->process_name, &pcbNameLen);
+  //  char* remove = "Removed ";
+  //  int remName_len = strlen(remove);
+  //  sys_req(WRITE,DEFAULT_DEVICE,remove,&remName_len);
+    //int pcbNameLen = strlen(pcb->process_name);
+    //sys_req(WRITE, DEFAULT_DEVICE, pcb->process_name, &pcbNameLen);
     sys_req(WRITE, DEFAULT_DEVICE, "\n", &newLine);
     removePCB(pcb);
   } else {

@@ -1,7 +1,6 @@
 #include <stdint.h>
 #include <string.h>
 #include <modules/mpx_supt.h>
-
 #include <core/io.h>
 #include <core/serial.h>
 #include <core/struct.h>
@@ -21,8 +20,7 @@ typedef struct PCB {
 
 }PCB;
 
-
-typedef struct queue{
+typedef struct queue {
   int count;
   PCB *head;
   PCB *tail;
@@ -32,4 +30,4 @@ typedef struct context {
   u32int gs, fs, es, ds;
   u32int edi, esi, ebp, esp, ebx, edx, ecx, eax;
   u32int eip, cs, eflags;
-} context;
+};
