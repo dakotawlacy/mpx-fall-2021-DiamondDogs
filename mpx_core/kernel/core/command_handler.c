@@ -16,6 +16,7 @@
 #include <core/PCB.h>
 #include <core/commands/yield.h>
 #include <core/loadr3.h>
+#include <core/commands/alarm.h>
 
 PCB* cop;
 
@@ -147,12 +148,12 @@ int get_command(char * commandBuff, int bufferSize) {
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
 
   }
+
   else if(strcmp(command,"resumePCB")==0){
     resumePCB(commandBuff);
     char* temp = "PCB resumed\n";
     int temp_len = strlen(temp);
     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-
   }
   else if(strcmp(command,"setPriority")==0){
     setPriority(commandBuff);
@@ -229,7 +230,11 @@ int get_command(char * commandBuff, int bufferSize) {
     //Run gettime
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
     loadr3();
-
+  }
+  else if (strcmp(command,"alarm") == 0) {
+    //Run gettime
+    sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
+    alarm(commandBuff);
 
   }
   ///////////////////////////////////

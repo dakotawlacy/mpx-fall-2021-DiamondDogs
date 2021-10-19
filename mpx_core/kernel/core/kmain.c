@@ -119,7 +119,7 @@ void kmain(void)
         cp->eip = (u32int) &idle;
         cp->eflags = 0x202;
 
-        // printReady();
+        printReady();
 
         run_yield();
 

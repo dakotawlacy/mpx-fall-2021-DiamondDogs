@@ -33,6 +33,7 @@ core/commands/settime.o\
 core/commands/yield.o\
 core/loadr3.o\
 core/testProcesses.o\
+core/commands/alarm.o\
 core/PCB.o
 
 .s.o:
