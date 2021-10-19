@@ -16,6 +16,7 @@
 PCB* cop;
 context* cont;
 
+
 // global variable containing parameter used when making
 // system calls via sys_req
 param params;
@@ -187,13 +188,15 @@ void idle()
 	count = strlen(msg);
 
   while(1){
-	sys_req( WRITE, DEFAULT_DEVICE, msg, &count);
+		sys_req(WRITE, DEFAULT_DEVICE, msg, &count);
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
 }
 
 //Sys call function
 u32int* sys_call(context* registers) {
+
+	
 
 	//Has Ran before
 	if (cop != NULL) {

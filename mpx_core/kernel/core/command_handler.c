@@ -17,6 +17,8 @@
 #include <core/commands/yield.h>
 #include <core/loadr3.h>
 
+PCB* cop;
+
 //Run the Command Handler function
 int run_ch() {
 
@@ -56,6 +58,13 @@ int run_ch() {
       bufferSize--;
     }
      bufferSize = 99;
+
+     cop->priority = 0;
+
+     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
+
+     cop->priority = 9;
+
    }
 
   //Return when done

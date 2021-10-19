@@ -6,7 +6,7 @@
 #include <core/struct.h>
 #include <core/PCB.h>
 
-
+extern PCB* cop;
 
 #define EXIT 0
 #define IDLE 1

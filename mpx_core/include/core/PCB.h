@@ -42,7 +42,7 @@ int showPCB(char* commandBuff);
 
 int setPriority(char* commandBuff);
 
-PCB* findPCB(char* name);
+struct PCB* findPCB(char* name);
 
 struct PCB* blockPCB(char* commandBuff);
 

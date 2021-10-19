@@ -26,6 +26,7 @@
 #include "modules/mpx_supt.h"
 #include <core/struct.h>
 #include <core/PCB.h>
+#include <core/commands/yield.h>
 
 
 
@@ -91,7 +92,36 @@ void kmain(void)
        // 6) Call YOUR command handler -  interface method
        initQueues();
        run_startup();
-       run_ch();
+
+        PCB* newPCB = setupPCB("command_handler",1,9);
+        context* cp = (context*) newPCB->stackTop;
+        memset(cp,0,sizeof(context));
+        cp->fs = 0x10;
+        cp->gs = 0x10;
+        cp->ds = 0x10;
+        cp->es = 0x10;
+        cp->cs = 0x8;
+        cp->ebp = (u32int)(newPCB->stackBase);
+        cp->esp = (u32int) (newPCB->stackTop);
+        cp->eip = (u32int) &run_ch;
+        cp->eflags = 0x202;
+
+        newPCB = setupPCB("IDLE",1,0);
+        cp = (context*) newPCB->stackTop;
+        memset(cp,0,sizeof(context));
+        cp->fs = 0x10;
+        cp->gs = 0x10;
+        cp->ds = 0x10;
+        cp->es = 0x10;
+        cp->cs = 0x8;
+        cp->ebp = (u32int)(newPCB->stackBase);
+        cp->esp = (u32int) (newPCB->stackTop);
+        cp->eip = (u32int) &idle;
+        cp->eflags = 0x202;
+
+        // printReady();
+
+        run_yield();
 
        klogv("Transferring control to commhand...");
 

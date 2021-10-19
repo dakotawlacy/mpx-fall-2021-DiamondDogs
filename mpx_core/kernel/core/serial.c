@@ -122,6 +122,8 @@ int *polling(char *buffer, int *count){
         break;
       }
   }
+
+
 }
 
 if (currentPlace == -1)
