@@ -322,6 +322,16 @@ struct PCB* insertPCB(struct PCB* pcb){
       }
     }
 
+    //Add at head
+    if (curr->priority < pcb->priority) {
+      pcb->next = curr;
+      currQ->head = pcb;
+      curr->previous = pcb;
+      pcb->previous = NULL;
+      return pcb;
+    }
+
+
     //Traversal
     while (curr != NULL) {
       //Traverse
@@ -333,13 +343,13 @@ struct PCB* insertPCB(struct PCB* pcb){
       }
       else {//
 
-        if (curr->previous == NULL) {//Adding at head
-          currQ->head = pcb;
-          pcb->next = curr;
-          curr->previous = pcb;
-          pcb->previous = NULL;
-          return pcb;
-        }
+        // if (curr->previous == NULL) {//Adding at head
+        //   currQ->head = pcb;
+        //   pcb->next = curr;
+        //   curr->previous = pcb;
+        //   pcb->previous = NULL;
+        //   return pcb;
+        // }
 
         pcb->next = curr;
         curr->previous->next = pcb;
