@@ -139,7 +139,6 @@ sys_call_isr:
   pop fs
   pop es
   pop ds
-
   popa
 
   iret

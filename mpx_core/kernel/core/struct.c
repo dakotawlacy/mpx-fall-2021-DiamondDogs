@@ -17,6 +17,7 @@ typedef struct PCB {
   unsigned char* stackTop;
   struct PCB* next;
   struct PCB* previous;
+  struct context* cont;
 
 }PCB;
 

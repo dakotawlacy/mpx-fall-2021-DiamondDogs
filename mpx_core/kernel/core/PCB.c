@@ -18,7 +18,7 @@ queue suspendedReady;
 queue suspendedBlock;
 int newLine = 2;
 
-PCB* cop = NULL;
+
 
 //Get Name
 char* get_name(char* commandBuff) {
@@ -191,6 +191,7 @@ void freePCB(struct PCB* pcb){
 
   //Free memory
   sys_free_mem(pcb);
+  sys_free_mem(pcb->stackBase);
 
 }
 
@@ -240,7 +241,6 @@ struct PCB* setupPCB(char * name, int class, int priority){
       return NULL;
     }
 
-
     //Allocate PCB
     newPCB = allocatePCB();
 
@@ -253,7 +253,7 @@ struct PCB* setupPCB(char * name, int class, int priority){
     memset(&newPCB->process_stack,'\0',1024);
     newPCB->stackBase = &newPCB->process_stack[0];
     newPCB->stackTop = newPCB->stackBase + 1024 - sizeof(struct context);
-
+    newPCB->cont = (context*)newPCB->stackTop;
     //Place PCB into correct queue
     insertPCB(newPCB);
 
@@ -696,6 +696,14 @@ int removePCB(struct PCB* pcb){
     return SUCCESS;
   }
 
+  //Last one
+  if (curr->next == NULL) {
+    currQ->head = NULL;
+    currQ->tail = NULL;
+    freePCB(curr);
+    return SUCCESS;
+  }
+  //Traverse
   while (curr != NULL) {
     temp = curr;
     curr = curr->next;
@@ -875,12 +883,12 @@ struct PCB* unblockPCB(char* commandBuff) {
 struct PCB* suspendPCB(char* commandBuff) {
 
   //getName
-  char name[16];
+  //char name[16];
 
-  strcpy(name,get_name(commandBuff));
+  //strcpy(name,get_name(commandBuff));
 
   struct PCB* pcb;
-  pcb = findPCB(name);
+  pcb = findPCB(commandBuff);
 
   removePCB(pcb);
 

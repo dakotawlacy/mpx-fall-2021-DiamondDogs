@@ -32,12 +32,12 @@ void proc1()
   while(1){
     for(i=0; i<RC_1; i++){
       //serial_println("proc1 dispatched");
-	sys_req(WRITE, DEFAULT_DEVICE, msg1, &msgSize);
-      sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
+	     sys_req(WRITE, DEFAULT_DEVICE, msg1, &msgSize);
+       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
     //serial_println("proc1 ran after it was terminated");
-	sys_req(WRITE, DEFAULT_DEVICE, er1, &erSize);
+	     sys_req(WRITE, DEFAULT_DEVICE, er1, &erSize);
   }
 }
 
@@ -52,7 +52,7 @@ void proc2()
       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
-    sys_req(WRITE, DEFAULT_DEVICE, er2, &erSize);
+      sys_req(WRITE, DEFAULT_DEVICE, er2, &erSize);
   }
 }
 
@@ -67,7 +67,7 @@ void proc3()
       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
-    sys_req(WRITE, DEFAULT_DEVICE, er3, &erSize);
+      sys_req(WRITE, DEFAULT_DEVICE, er3, &erSize);
   }
 }
 
@@ -82,7 +82,7 @@ void proc4()
       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
-    sys_req(WRITE, DEFAULT_DEVICE, er4, &erSize);
+      sys_req(WRITE, DEFAULT_DEVICE, er4, &erSize);
   }
 }
 
@@ -97,6 +97,6 @@ void proc5()
       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
-    sys_req(WRITE, DEFAULT_DEVICE, er5, &erSize);
+      sys_req(WRITE, DEFAULT_DEVICE, er5, &erSize);
   }
 }

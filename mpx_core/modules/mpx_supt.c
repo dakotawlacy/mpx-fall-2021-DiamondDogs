@@ -13,7 +13,8 @@
 #include <core/PCB.h>
 
 
-
+PCB* cop;
+context* cont;
 
 // global variable containing parameter used when making
 // system calls via sys_req
@@ -191,38 +192,39 @@ void idle()
   }
 }
 
-
 //Sys call function
 u32int* sys_call(context* registers) {
 
-	context* context;
-
-	//Has Ran
+	//Has Ran before
 	if (cop != NULL) {
+
 		if (params.op_code == IDLE) {
-			cop->stackTop = (unsigned char*) registers;
-			cop->state =  1;
+			//serial_println("idled");
+			cop->stackTop = (unsigned char*)registers;
+			cop->state =  1;//Ready
 			insertPCB(cop);
 		}
 		else if (params.op_code == EXIT) {
+			//serial_println("exited");
 			freePCB(cop);
 			cop = NULL;
 		}
-	}
-	//Has not ran
+	}//Has not ran
 	else {
-		context = registers;
+		//serial_println("Cop is null");
+		cont = registers;
 	}
 
+	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
-
 		cop = readyQueue.head;
-		deletePCB(cop->process_name);
+		removePCB(cop);
+
+		serial_println(" ");
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;
-	} else {
-		cop = NULL;
-		return (u32int*) context;
 	}
-
+	else {
+		return (u32int*) cont;
+	}
 }
