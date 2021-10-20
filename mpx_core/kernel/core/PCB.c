@@ -910,6 +910,18 @@ struct PCB* suspendPCB(char* commandBuff) {
 
 }
 
+void resumeAll(){
+
+PCB *resume = suspendedReady.head;
+
+while(resume != NULL){
+resume -> susState = 0;
+
+resume = resume.next;
+}
+
+}
+
 struct PCB* resumePCB(char* commandBuff) {
 
   //getName

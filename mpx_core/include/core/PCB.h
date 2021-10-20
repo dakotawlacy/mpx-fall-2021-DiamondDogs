@@ -38,6 +38,8 @@ void printAll();
 
 void deletePCB(char* commandBuff);
 
+void resumeAll();
+
 int showPCB(char* commandBuff);
 
 int setPriority(char* commandBuff);
