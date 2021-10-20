@@ -912,6 +912,7 @@ struct PCB* suspendPCB(char* commandBuff) {
 
 void resumeAll(){
 
+<<<<<<< HEAD
   PCB* resume;
   resume = suspendedReady.head;
 
@@ -932,6 +933,16 @@ void resumeAll(){
 
 
   return;
+=======
+PCB *resume = suspendedReady.head;
+
+while(resume != NULL){
+resume -> susState = 0;
+
+resume = resume.next;
+}
+
+>>>>>>> 85795b11571a58af1324d003b8cce40af138db50
 }
 
 struct PCB* resumePCB(char* commandBuff) {
