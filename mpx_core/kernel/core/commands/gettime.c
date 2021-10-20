@@ -7,7 +7,7 @@
 #include <core/serial.h>
 #include <include/string.h>
 
-int run_gettime() {
+void run_gettime() {
 
   //Initialize char arrays
   int str_length = 4;
@@ -24,9 +24,11 @@ int run_gettime() {
   int hoursVal = inb(0x71);
   int hours = (hoursVal & 0x0f) + ((hoursVal/16)*10);
 
+
   if (hours < 10){
     sys_req(WRITE,DEFAULT_DEVICE,"0\0",&leadingZero);
   }
+  //serial_println(hr);
 
   itoa(hours, hoursChar);
   strcat(hoursChar, ":");
@@ -58,5 +60,10 @@ int run_gettime() {
   strcat(secChar, "\n");
   sys_req(WRITE,DEFAULT_DEVICE,secChar,&str_length);
 
-  return 0;
+
+
+
+  return;
+
+
 }

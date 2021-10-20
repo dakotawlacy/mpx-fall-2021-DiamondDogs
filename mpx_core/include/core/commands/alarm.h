@@ -8,4 +8,8 @@
 */
 void alarm(char* buffer);
 
+void add_alarm(char* hr, char* min, char* sec);
+
+void check_alarm();
+
 #endif

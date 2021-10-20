@@ -7,6 +7,6 @@
   Description..: Runs the gettime function that reads the time from
   register values
 */
-int run_gettime();
+void run_gettime();
 
 #endif

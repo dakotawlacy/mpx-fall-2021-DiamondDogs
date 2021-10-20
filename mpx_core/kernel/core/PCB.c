@@ -702,17 +702,12 @@ int removePCB(struct PCB* pcb){
   if (curr == pcb) {
     temp = currQ->head;
     currQ->head = curr->next;
+    curr->previous = NULL;
     freePCB(temp);
     return SUCCESS;
   }
 
-  //Last one
-  if (curr->next == NULL) {
-    currQ->head = NULL;
-    currQ->tail = NULL;
-    freePCB(curr);
-    return SUCCESS;
-  }
+
   //Traverse
   while (curr != NULL) {
     temp = curr;
@@ -727,6 +722,14 @@ int removePCB(struct PCB* pcb){
       return SUCCESS;
 
     }
+  }
+
+  //Last one
+  if (curr->next == NULL) {
+    currQ->head = NULL;
+    currQ->tail = NULL;
+    freePCB(curr);
+    return SUCCESS;
   }
 
   return SUCCESS;
@@ -912,37 +915,24 @@ struct PCB* suspendPCB(char* commandBuff) {
 
 void resumeAll(){
 
-<<<<<<< HEAD
-  PCB* resume;
+  struct PCB* resume;
   resume = suspendedReady.head;
-
 
   while (resume != NULL) {
 
-    removePCB(resume);
+      removePCB(resume);
 
-    resume->susState = 0;
-    serial_println(resume->process_name);
-    insertPCB(resume);
+      resume->susState = 0;
 
-    resume = resume->next;
+      serial_println(resume->process_name);
+
+      insertPCB(resume);
+
+      resume = suspendedReady.head;
+
   }
 
 
-
-
-
-  return;
-=======
-PCB *resume = suspendedReady.head;
-
-while(resume != NULL){
-resume -> susState = 0;
-
-resume = resume.next;
-}
-
->>>>>>> 85795b11571a58af1324d003b8cce40af138db50
 }
 
 struct PCB* resumePCB(char* commandBuff) {
