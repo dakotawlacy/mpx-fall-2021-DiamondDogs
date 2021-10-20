@@ -55,11 +55,11 @@ void create_alarm() {
   getSec = sys_alloc_mem(sizeof(char[3]));
 
 
-  memset(alarm1,'0',6);
-  memset(alarm2,'0',6);
-  memset(alarm3,'0',6);
-  memset(alarm4,'0',6);
-  memset(alarm5,'0',6);
+  memset(alarm1,'Z',6);
+  memset(alarm2,'Z',6);
+  memset(alarm3,'Z',6);
+  memset(alarm4,'Z',6);
+  memset(alarm5,'Z',6);
 
   alarm1[6] = '\0';
   alarm2[6] = '\0';
@@ -76,8 +76,8 @@ void alarm(char* buffer){
     create_alarm();
    }
 
-  char m[50];
-  memset(m,'\0',50);
+  char message[50];
+  memset(message,'\0',50);
 
   //These will be used at a later time to use the time offered
   // int hours = 0;
@@ -87,10 +87,9 @@ void alarm(char* buffer){
   int i = 6;
   //Grabbing Message
   for (i = 6; i < strlen(buffer)-9; i++){
-      m[i-6] = buffer[i];
+      message[i-6] = buffer[i];
   }
 
-  serial_println(m);
 
   //Capturing Hours:Minutes:Seconds
   char times1[3];
@@ -118,7 +117,7 @@ void alarm(char* buffer){
   //serial_println(times3);
 
   add_alarm(times1,times2,times3);
-  //check_alarm();
+  //_alarm();
 
   return;
 
@@ -143,29 +142,28 @@ void add_alarm(char* hr, char* min, char* sec) {
   strcat(hr,min);
   strcat(hr,sec);
 
-  serial_println(hr);
 
   //serial_println("aaaaaaaa");
 
-  if (strcmp(alarm1,"000000") == 0) {
+  if (strcmp(alarm1,"ZZZZZZ") == 0) {
     serial_println("alarm1");
     strcpy(alarm1,hr);
     return;
    }
-  else if (strcmp(alarm2,"000000") == 0) {
+  else if (strcmp(alarm2,"ZZZZZZ") == 0) {
     serial_println("alarm2");
     strcpy(alarm2,hr);
     return;
   }
-  else if (strcmp(alarm3,"000000") == 0) {
+  else if (strcmp(alarm3,"ZZZZZZ") == 0) {
     strcpy(alarm3,hr);
     return;
   }
-  else if (strcmp(alarm4,"000000") == 0) {
+  else if (strcmp(alarm4,"ZZZZZZ") == 0) {
     strcpy(alarm4,hr);
     return;
   }
-  else if (strcmp(alarm5,"000000") == 0) {
+  else if (strcmp(alarm5,"ZZZZZZ") == 0) {
     strcpy(alarm5,hr);
     return;
   } else {
@@ -185,8 +183,27 @@ void check_alarm() {
     // serial_println(alarm4);
     // serial_println(alarm5);
 
-    get_current_time();
-    //if(strcmp(alarm1))
+    char* temp = get_current_time();
+    if(strcmp(alarm1, temp) <= 0){
+        serial_println("Alarm1 has been dispatched.");
+        memset(alarm1, 'Z', 6);
+    }
+    if(strcmp(alarm2, temp) <= 0){
+        serial_println("Alarm2 has been dispatched.");
+        memset(alarm1, 'Z', 6);
+    }
+    if(strcmp(alarm3, temp) <= 0){
+        serial_println("Alarm3 has been dispatched.");
+        memset(alarm1, 'Z', 6);
+    }
+    if(strcmp(alarm4, temp) <= 0){
+        serial_println("Alarm4 has been dispatched.");
+        memset(alarm1, 'Z', 6);
+    }
+    if(strcmp(alarm5, temp) <= 0){
+        serial_println("Alarm5 has been dispatched.");
+        memset(alarm1, 'Z', 6);
+    }
 
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
@@ -243,8 +260,6 @@ char* get_current_time() {
   strcat(getTime, getMin);
   strcat(getTime, getSec);
 
-
-  serial_print(getTime);
 
   return getTime;
 }
