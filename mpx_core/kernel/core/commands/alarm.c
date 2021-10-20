@@ -90,7 +90,7 @@ void alarm(char* buffer){
       m[i-6] = buffer[i];
   }
 
-//  serial_println(m);
+  serial_println(m);
 
   //Capturing Hours:Minutes:Seconds
   char times1[3];
@@ -186,6 +186,7 @@ void check_alarm() {
     // serial_println(alarm5);
 
     get_current_time();
+    //if(strcmp(alarm1))
 
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
@@ -201,69 +202,49 @@ void check_alarm() {
 
 char* get_current_time() {
 
-  strcpy(getTime,"");
+  memset(getTime, '\0', 7);
+  memset(getHours, '\0', 3);
+  memset(getMin, '\0', 3);
+  memset(getSec, '\0', 3);
 
-  // memset(getTime,'0',7);
-  memset(getHours,'0',3);
-  memset(getMin,'0',3);
-  memset(getSec,'0',3);
+  //run_gettime();
 
-  getTime[6] = '\0';
-  getHours[2] = '\0';
-  getMin[2] = '\0';
-  getSec[2] = '\0';
+  outb(0x70, 0x04);
+  int hoursVal = inb(0x71);
+  int hours = (hoursVal & 0x0f) + ((hoursVal/16)*10);
 
-
-  outb(0x70,0x04);
-  int hourVal = inb(0x71);
-  int hours = (hourVal & 0x0f) + ((hourVal/16)*10);
-
-  itoa(hours, getHours);
-
-  char* hr = "0";
-  if (hours < 10) {
-    strcat(hr,getHours);
-  } else {
-    strcpy(hr,getHours);
-  }
-
-  outb(0x70,0x02);
+  outb(0x70, 0x02);
   int minutesVal = inb(0x71);
   int minutes = (minutesVal & 0x0f) + ((minutesVal/16)*10);
 
-  itoa(minutes,getMin);
-
-  char* min = "0";
-  if (minutes < 10) {
-    serial_println("FUCK");
-    strcat(min,getMin);
-  } else {
-    strcpy(min,getMin);
-  }
-
-  outb(0x70,0x00);
+  outb(0x70, 0x00);
   int secondsVal = inb(0x71);
   int seconds = (secondsVal & 0x0f) + ((secondsVal/16)*10);
 
+  itoa(hours, getHours);
+  if(hours < 10){
+    getHours[1] = getHours[0];
+    getHours[0] = '0';
+  }
 
-  itoa(seconds,getSec);
+  itoa(minutes, getMin);
+  if(minutes < 10){
+    getMin[1] = getMin[0];
+    getMin[0] = '0';
+  }
 
-  //serial_print(getHours);
-  //serial_println(getMin);
+  itoa(seconds, getSec);
+  if(seconds < 10){
+    getSec[1] = getSec[0];
+    getSec[0] = '0';
+  }
 
-  serial_println(hr);
-
-
-   strcat(getTime,hr);
-   strcat(getTime,min);
-   //strcat(getTime,getSec);
-
-   serial_println(getTime);
+  strcat(getTime, getHours);
+  strcat(getTime, getMin);
+  strcat(getTime, getSec);
 
 
-
+  serial_print(getTime);
 
   return getTime;
-
-
 }
