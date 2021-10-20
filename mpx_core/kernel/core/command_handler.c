@@ -229,6 +229,9 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"alarm") == 0) {
     alarm(commandBuff);
   }
+  else if (strcmp(command,"resumeAll") == 0) {
+    resumeAll();
+  }
 
   ///////////////////////////////////
   else {

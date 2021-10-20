@@ -249,7 +249,7 @@ struct PCB* setupPCB(char * name, int class, int priority){
     newPCB->process_class = class;
     newPCB->priority = priority;
     newPCB->state = 1;//0 running, 1 ready, 2 blocked
-    newPCB->susState = 0;
+    newPCB->susState = 1;
     memset(&newPCB->process_stack,'\0',1024);
     newPCB->stackBase = &newPCB->process_stack[0];
     newPCB->stackTop = newPCB->stackBase + 1024 - sizeof(struct context);
@@ -908,6 +908,30 @@ struct PCB* suspendPCB(char* commandBuff) {
 
   return pcb;
 
+}
+
+void resumeAll(){
+
+  PCB* resume;
+  resume = suspendedReady.head;
+
+
+  while (resume != NULL) {
+
+    removePCB(resume);
+
+    resume->susState = 0;
+    serial_println(resume->process_name);
+    insertPCB(resume);
+
+    resume = resume->next;
+  }
+
+
+
+
+
+  return;
 }
 
 struct PCB* resumePCB(char* commandBuff) {
