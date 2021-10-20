@@ -106,6 +106,12 @@ void kmain(void)
         cp->eip = (u32int) &run_ch;
         cp->eflags = 0x202;
 
+        removePCB(newPCB);
+
+        newPCB->susState = 0;
+
+        insertPCB(newPCB);
+
         newPCB = setupPCB("IDLE",1,0);
         cp = (context*) newPCB->stackTop;
         memset(cp,0,sizeof(context));
@@ -119,7 +125,11 @@ void kmain(void)
         cp->eip = (u32int) &idle;
         cp->eflags = 0x202;
 
-        printReady();
+        removePCB(newPCB);
+
+        newPCB->susState = 0;
+
+        insertPCB(newPCB);
 
         run_yield();
 

@@ -196,13 +196,13 @@ void idle()
 //Sys call function
 u32int* sys_call(context* registers) {
 
-	
-
+	PCB* temp;
+	temp = readyQueue.head;
 	//Has Ran before
 	if (cop != NULL) {
 
 		if (params.op_code == IDLE) {
-			//serial_println("idled");
+
 			cop->stackTop = (unsigned char*)registers;
 			cop->state =  1;//Ready
 			insertPCB(cop);
@@ -220,7 +220,7 @@ u32int* sys_call(context* registers) {
 
 	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
-		cop = readyQueue.head;
+		cop = temp;
 		deletePCB(cop->process_name);
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;
