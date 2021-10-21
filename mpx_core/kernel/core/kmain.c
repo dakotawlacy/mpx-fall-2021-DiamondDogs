@@ -130,24 +130,6 @@ void kmain(void)
        newPCB->susState = 0;
        insertPCB(newPCB);
 
-       //Infinite Process
-       // newPCB = setupPCB("INFINITE",2,3);
-       // cp = (context*) newPCB->stackTop;
-       // memset(cp,0,sizeof(context));
-       // cp->fs = 0x10;
-       // cp->gs = 0x10;
-       // cp->ds = 0x10;
-       // cp->es = 0x10;
-       // cp->cs = 0x8;
-       // cp->ebp = (u32int)(newPCB->stackBase);
-       // cp->esp = (u32int) (newPCB->stackTop);
-       // cp->eip = (u32int) &infinite;
-       // cp->eflags = 0x202;
-       //
-       // removePCB(newPCB);
-       // newPCB->susState = 0;
-       // insertPCB(newPCB);
-
        run_yield();
 
        // 7) System Shutdown on return from your command handler

@@ -242,6 +242,9 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"resumeAll") == 0) {
     resumeAll();
   }
+  else if (strcmp(command,"infinite") == 0) {
+    create_infinite();
+  }
   //If invalid command is entered
   else {
     //Invalid code

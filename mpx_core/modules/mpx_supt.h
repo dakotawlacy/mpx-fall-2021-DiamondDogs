@@ -94,4 +94,8 @@ void idle();
 
 u32int* sys_call(context* registers);
 
+void infinite();
+
+void create_infinite();
+
 #endif

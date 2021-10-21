@@ -101,14 +101,12 @@ void alarm(char* buffer){
   int minutes = 0;
 
   int i = 6;
-  int hours, minutes, seconds = 0;
   //Grabbing Message
   for (i = 6; i < strlen(buffer)-9; i++){
       message[i-6] = buffer[i];
   }
 
   if(strlen(message) == 0){
-<<<<<<< HEAD
    serial_println("Error: No Message Added");
    return;
   }
@@ -141,12 +139,6 @@ void alarm(char* buffer){
     serial_println("Not a number");
     return;
   }
-=======
-    serial_println("Error: No Message Added");
-    return;
-  }
-
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
 
   //Capturing Hours:Minutes:Seconds
   char times1[3];
@@ -197,7 +189,6 @@ void alarm(char* buffer){
   hours = atoi(times1);
   minutes = atoi(times2);
   seconds = atoi(times3);
-<<<<<<< HEAD
 
   if (hours > 23){
     serial_print("Error: Hours too Large");
@@ -208,8 +199,6 @@ void alarm(char* buffer){
     serial_print("Error: Seconds or Minutes too large");
     return;
   }
-=======
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
 
   if (hours >= 24){
      serial_print("Error: Hours Either Too Large or Not Valid\n");
@@ -224,12 +213,9 @@ void alarm(char* buffer){
   add_alarm(times1,times2,times3, copy);
 
 
-<<<<<<< HEAD
 
     return;
 
-=======
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
 }
 
 void add_alarm(char* hr, char* min, char* sec, char message[50]) {
@@ -243,20 +229,12 @@ void add_alarm(char* hr, char* min, char* sec, char message[50]) {
   int full_len = strlen(full);
 
   if (strcmp(alarm1,"ZZZZZZ") == 0) {
-<<<<<<< HEAD
-=======
-    serial_println("\nAlarm1 has been added");
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
     strcpy(alarm1,hr);
     strcpy(mess1,message);
     sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
    }
   else if (strcmp(alarm2,"ZZZZZZ") == 0) {
-<<<<<<< HEAD
-=======
-    serial_println("\nAlarm2 has been added");
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
     strcpy(alarm2,hr);
     strcpy(mess2,message);
     sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
@@ -298,7 +276,6 @@ void check_alarm() {
 
     char* temp = get_current_time();
     if(strcmp(alarm1, temp) <= 0){
-<<<<<<< HEAD
 
       mes = "Alarm 1: \n";
       len = strlen(mes);
@@ -339,37 +316,10 @@ void check_alarm() {
       len = strlen(mess1);
       sys_req(WRITE, DEFAULT_DEVICE, mess4, &len);
       serial_print("\n");
-=======
-        serial_print("\nAlarm1: ");
-        serial_print(mess1);
-        serial_print(" has been dispatched\n");
-        memset(alarm1, 'Z', 6);
-        memset(mess1, ' ', 49);
-    }
-    if(strcmp(alarm2, temp) <= 0){
-      serial_print("\nAlarm2: ");
-      serial_print(mess2);
-      serial_print(" has been dispatched\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess2, ' ', 49);
-    }
-    if(strcmp(alarm3, temp) <= 0){
-      serial_println("\nAlarm3: ");
-      serial_print(mess3);
-      serial_print("has been dispatched\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess3, ' ', 49);
-    }
-    if(strcmp(alarm4, temp) <= 0){
-      serial_println("\nAlarm4: ");
-      serial_print(mess4);
-      serial_print(" has been dispatched\n\n");
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
       memset(alarm2, 'Z', 6);
       memset(mess4, ' ', 49);
     }
     if(strcmp(alarm5, temp) <= 0){
-<<<<<<< HEAD
 
       mes = "Alarm 5: \n";
       len = strlen(mes);
@@ -379,13 +329,6 @@ void check_alarm() {
       serial_print("\n");
       memset(alarm2, 'Z', 6);
       memset(mess5, ' ', 49);
-=======
-      serial_println("\nAlarm5: ");
-      serial_print(mess5);
-      serial_print(" has been dispatched\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess5, ' ', 49);
->>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
     }
 
     if (strcmp(alarm1,"ZZZZZZ") == 0 && strcmp(alarm2,"ZZZZZZ")== 0 && strcmp(alarm3,"ZZZZZZ")== 0 && strcmp(alarm4,"ZZZZZZ")== 0 && strcmp(alarm5,"ZZZZZZ") == 0) {
@@ -394,14 +337,6 @@ void check_alarm() {
       sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
     }
   }
-
-
-  // serial_println(alarm4);
-  // serial_println(alarm5);
-  //sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
-
-  //run_gettime();
-
 }
 
 char* get_current_time() {

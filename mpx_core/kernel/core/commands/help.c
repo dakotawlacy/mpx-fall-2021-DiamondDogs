@@ -107,33 +107,56 @@ int run_help(char * commandBuff, int bufferSize) {
     int showBlockedFunc_length = strlen(showBlockedFunc);
     sys_req(WRITE,DEFAULT_DEVICE,showBlockedFunc,&showBlockedFunc_length);
   }
-  else if ((strcmp(command,"createPCB") == 0) && strlen(command) == 9) {
-    //Run help clear
-    char * createFunc = "Type 'createPCB <NameOfPCB> <#1 or #2 for application or system> <#0-#9 for priority>' to create a PCB\n";
-    int createFunc_length = strlen(createFunc);
-    sys_req(WRITE,DEFAULT_DEVICE,createFunc,&createFunc_length);
-  }
-  else if ((strcmp(command,"deletePCB") == 0) && strlen(command) == 9) {
-    //Run help clear
-    char * deleteFunc = "Type 'deletePCB <NameOfPCB>' to delete the PCB from the queues\n";
-    int deleteFunc_length = strlen(deleteFunc);
-    sys_req(WRITE,DEFAULT_DEVICE,deleteFunc,&deleteFunc_length);
-  }
-  else if ((strcmp(command,"blockPCB") == 0) && strlen(command) == 8) {
-    //Run help clear
-    char * blockFunc = "Type 'blockPCB <NameOfPCB>' to block the PCB\n";
-    int blockFunc_length = strlen(blockFunc);
-    sys_req(WRITE,DEFAULT_DEVICE,blockFunc,&blockFunc_length);
-  }
-  else if ((strcmp(command,"unblockPCB") == 0) && strlen(command) == 10) {
-    //Run help clear
-    char * unblockFunc = "Type 'unblockPCB <NameOfPCB>' to unblock the PCB\n";
-    int unblockFunc_length = strlen(unblockFunc);
-    sys_req(WRITE,DEFAULT_DEVICE,unblockFunc,&unblockFunc_length);
-  }
+  // else if ((strcmp(command,"createPCB") == 0) && strlen(command) == 9) {
+  //   //Run help clear
+  //   char * createFunc = "Type 'createPCB <NameOfPCB> <#1 or #2 for application or system> <#0-#9 for priority>' to create a PCB\n";
+  //   int createFunc_length = strlen(createFunc);
+  //   sys_req(WRITE,DEFAULT_DEVICE,createFunc,&createFunc_length);
+  // }
+  // else if ((strcmp(command,"deletePCB") == 0) && strlen(command) == 9) {
+  //   //Run help clear
+  //   char * deleteFunc = "Type 'deletePCB <NameOfPCB>' to delete the PCB from the queues\n";
+  //   int deleteFunc_length = strlen(deleteFunc);
+  //   sys_req(WRITE,DEFAULT_DEVICE,deleteFunc,&deleteFunc_length);
+  // }
+  // else if ((strcmp(command,"blockPCB") == 0) && strlen(command) == 8) {
+  //   //Run help clear
+  //   char * blockFunc = "Type 'blockPCB <NameOfPCB>' to block the PCB\n";
+  //   int blockFunc_length = strlen(blockFunc);
+  //   sys_req(WRITE,DEFAULT_DEVICE,blockFunc,&blockFunc_length);
+  // }
+  // else if ((strcmp(command,"unblockPCB") == 0) && strlen(command) == 10) {
+  //   //Run help clear
+  //   char * unblockFunc = "Type 'unblockPCB <NameOfPCB>' to unblock the PCB\n";
+  //   int unblockFunc_length = strlen(unblockFunc);
+  //   sys_req(WRITE,DEFAULT_DEVICE,unblockFunc,&unblockFunc_length);
+  // }
   ///////////////////////////////
-
   //WRITE SYNTAX FOR NEW COMMANDS IN HERE...
+  else if ((strcmp(command,"loadr3") == 0) && strlen(command) == 6) {
+    //Run help clear
+    char * showLoadR3 = "Type 'loadr3' to load R3 commands\n";
+    int showLoadR3_length = strlen(showLoadR3);
+    sys_req(WRITE,DEFAULT_DEVICE,showLoadR3,&showLoadR3_length);
+  }
+  else if ((strcmp(command,"alarm") == 0) && strlen(command) == 5) {
+    //Run help clear
+    char * showAlarm = "Type 'alarm <message> hr:min:sec' to add an alarm. 5 alarm slots are available\n";
+    int showAlarm_length = strlen(showAlarm);
+    sys_req(WRITE,DEFAULT_DEVICE,showAlarm,&showAlarm_length);
+  }
+  else if ((strcmp(command,"resumeAll") == 0) && strlen(command) == 9) {
+    //Run help clear
+    char * showResumeAll = "Type 'resumeAll' to resume all PCB's in the suspended ready queue\n";
+    int showResumeAll_length = strlen(showResumeAll);
+    sys_req(WRITE,DEFAULT_DEVICE,showResumeAll,&showResumeAll_length);
+  }
+  else if ((strcmp(command,"infinite") == 0) && strlen(command) == 8) {
+    //Run help clear
+    char * showInfinite = "Type 'infinite' to create an infinite process\n";
+    int showInfinite_length = strlen(showInfinite);
+    sys_req(WRITE,DEFAULT_DEVICE,showInfinite,&showInfinite_length);
+  }
 
   ///////////////////////////////
   else {
@@ -191,17 +214,29 @@ int run_help(char * commandBuff, int bufferSize) {
       char * showBlockedHelp = "'showBlocked' - to show blocked processes\n";
       int showBlockedHelp_length = strlen(showBlockedHelp);
 
-      char * createPCBHelp = "'createPCB' - to create a PCB\n";
-      int createPCBHelp_length = strlen(createPCBHelp);
+      // char * createPCBHelp = "'createPCB' - to create a PCB\n";
+      // int createPCBHelp_length = strlen(createPCBHelp);
+      //
+      // char * deletePCBHelp = "'deletePCB' - to delete the selected PCB\n";
+      // int deletePCBHelp_length = strlen(deletePCBHelp);
+      //
+      // char * blockHelp = "'blockPCB' - to block a PCB\n";
+      // int blockHelp_length = strlen(blockHelp);
+      //
+      // char * unblockHelp = "'unblockPCB' - to unblock a PCB\n";
+      // int unblockHelp_length = strlen(unblockHelp);
 
-      char * deletePCBHelp = "'deletePCB' - to delete the selected PCB\n";
-      int deletePCBHelp_length = strlen(deletePCBHelp);
+      char * showLoadR3 = "'loadr3' - to show load R3 processes\n";
+      int showLoadR3_length = strlen(showLoadR3);
 
-      char * blockHelp = "'blockPCB' - to block a PCB\n";
-      int blockHelp_length = strlen(blockHelp);
+      char * showAlarm = "'alarm' - to create an alarm\n";
+      int showAlarm_length = strlen(showAlarm);
 
-      char * unblockHelp = "'unblockPCB' - to unblock a PCB\n";
-      int unblockHelp_length = strlen(unblockHelp);
+      char * showResumeAll = "'resumeAll' - to resume all processes\n";
+      int showResume_length = strlen(showResumeAll);
+
+      char * showInfinite = "'infinite' - to create an infinite process\n";
+      int showInfinite_length = strlen(showInfinite);
 ///////////////////////////
       char * helpFunc = "\nPlease use <help 'commandname'> to view commands functionality.\n";
       int helpFunc_length = strlen(helpFunc);
@@ -223,10 +258,10 @@ int run_help(char * commandBuff, int bufferSize) {
       sys_req(WRITE,DEFAULT_DEVICE, showAllHelp, &showAllHelp_length);
       sys_req(WRITE,DEFAULT_DEVICE, showReadyHelp, &showReadyHelp_length);
       sys_req(WRITE,DEFAULT_DEVICE, showBlockedHelp, &showBlockedHelp_length);
-      sys_req(WRITE,DEFAULT_DEVICE, createPCBHelp, &createPCBHelp_length);
-      sys_req(WRITE,DEFAULT_DEVICE, deletePCBHelp, &deletePCBHelp_length);
-      sys_req(WRITE,DEFAULT_DEVICE, blockHelp, &blockHelp_length);
-      sys_req(WRITE,DEFAULT_DEVICE, unblockHelp, &unblockHelp_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showLoadR3, &showLoadR3_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showAlarm, &showAlarm_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showResumeAll, &showResume_length);
+      sys_req(WRITE,DEFAULT_DEVICE, showInfinite, &showInfinite_length);
 
       ////////////////////////////
       sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);

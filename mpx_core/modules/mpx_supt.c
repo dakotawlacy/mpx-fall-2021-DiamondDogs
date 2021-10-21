@@ -13,6 +13,7 @@
 #include <core/PCB.h>
 
 
+
 PCB* cop;
 context* cont;
 
@@ -228,4 +229,42 @@ u32int* sys_call(context* registers) {
 	else {
 		return (u32int*) cont;
 	}
+}
+
+//Infinite Command
+void infinite()
+{
+  char msg[30];
+  int count=0;
+
+	memset( msg, '\0', sizeof(msg));
+	strcpy(msg, "Infinite PROCESS EXECUTING.\n");
+	count = strlen(msg);
+
+  while(1){
+		sys_req(WRITE, DEFAULT_DEVICE, msg, &count);
+    sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
+  }
+}
+
+void create_infinite() {
+
+  //Infinite Process
+  PCB* newPCB = setupPCB("INFINITE",2,5);
+  context* cp = (context*) newPCB->stackTop;
+  memset(cp,0,sizeof(context));
+  cp->fs = 0x10;
+  cp->gs = 0x10;
+  cp->ds = 0x10;
+  cp->es = 0x10;
+  cp->cs = 0x8;
+  cp->ebp = (u32int)(newPCB->stackBase);
+  cp->esp = (u32int) (newPCB->stackTop);
+  cp->eip = (u32int) &infinite;
+  cp->eflags = 0x202;
+
+  removePCB(newPCB);
+  newPCB->susState = 0;
+  insertPCB(newPCB);
+
 }
