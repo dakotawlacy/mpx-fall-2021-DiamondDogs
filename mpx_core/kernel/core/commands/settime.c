@@ -45,7 +45,11 @@ int run_settime(char * commandBuff) {
   int sec = atoi(seconds);
 
   //Error checking
+<<<<<<< HEAD
   if (hrs > 23 || hrs < 0 || mins > 59 || mins < 0 || sec > 59 || sec < 0) {
+=======
+  if (hrs > 24 || hrs < 0 || mins > 59 || mins < 0 || sec > 59 || sec < 0) {
+>>>>>>> 5b431d5fe83fbd12b2ac7fec956d12f7eff49167
     return 1;
   }
 
