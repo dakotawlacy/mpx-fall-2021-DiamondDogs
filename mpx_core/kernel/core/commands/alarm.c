@@ -96,14 +96,48 @@ void alarm(char* buffer){
   memset(message,'\0',50);
 
   //These will be used at a later time to use the time offered
-  // int hours = 0;
-  // int seconds = 0;
-  // int minutes = 0;
+  int hours = 0;
+  int seconds = 0;
+  int minutes = 0;
 
   int i = 6;
   //Grabbing Message
   for (i = 6; i < strlen(buffer)-9; i++){
       message[i-6] = buffer[i];
+  }
+
+  if(strlen(message) == 0){
+   serial_println("Error: No Message Added");
+   return;
+  }
+
+  if(buffer[strlen(buffer)-9] != ' '){
+    serial_println("Error: Time Entered Incorrectly");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-8] == ':' || buffer[strlen(buffer)-7] == ':' ||
+    buffer[strlen(buffer)-5] == ':'  || buffer[strlen(buffer)-4] == ':' ||
+    buffer[strlen(buffer)-2] == ':'  || buffer[strlen(buffer)-1] == ':' ){
+    serial_println("Error: Must Be Number in Hours, Minutes, or Seconds Slot");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-6] != ':'){
+    serial_println("Error: Must Be Colon Between Numbers");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-3] != ':'){
+    serial_println("Error: Must Be Colon Between Numbers");
+    return;
+  }
+
+  if ((buffer[strlen(buffer)-1] < '0' || buffer[strlen(buffer)-1] > '9') || (buffer[strlen(buffer)-2] < '0' || buffer[strlen(buffer)-2] > '9')
+  || (buffer[strlen(buffer)-4] < '0' || buffer[strlen(buffer)-4 ] > '9') || (buffer[strlen(buffer)-5] < '0' ||buffer[strlen(buffer)-5] > '9')
+  || (buffer[strlen(buffer)-7] < '0' || buffer[strlen(buffer)- 7] > '9') || (buffer[strlen(buffer)-8] < '0' || buffer[strlen(buffer)-8] > '9')) {
+    serial_println("Not a number");
+    return;
   }
 
   //Capturing Hours:Minutes:Seconds
@@ -130,25 +164,26 @@ void alarm(char* buffer){
   char* copy = NULL;
   strcpy(copy,message);
 
+  hours = atoi(times1);
+  minutes = atoi(times2);
+  seconds = atoi(times3);
+
+  if (hours > 23){
+    serial_print("Error: Hours too Large");
+    return;
+  }
+
+  if (minutes > 59 || seconds > 59){
+    serial_print("Error: Seconds or Minutes too large");
+    return;
+  }
 
 
   add_alarm(times1,times2,times3, copy);
 
-  return;
 
-  // hours = atoi(times1);
-  // minutes = atoi(times2);
-  // seconds = atoi(times3);
 
-  // if (hours > 12){
-  //   serial_print("Error: Hours too Large");
-  //   return;
-  // }
-  //
-  // if (minutes > 60 || seconds > 60){
-  //   serial_print("Error: Seconds or Minutes too large");
-  //   return;
-  // }
+    return;
 
 }
 
@@ -157,35 +192,42 @@ void add_alarm(char* hr, char* min, char* sec, char message[50]) {
   strcat(hr,min);
   strcat(hr,sec);
 
-
+  char* add = "Alarm Added!\n";
+  int add_len = strlen(add);
+  char* full = "Alarms are full";
+  int full_len = strlen(full);
 
   if (strcmp(alarm1,"ZZZZZZ") == 0) {
-    serial_println("alarm1");
     strcpy(alarm1,hr);
     strcpy(mess1,message);
+    sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
    }
   else if (strcmp(alarm2,"ZZZZZZ") == 0) {
-    serial_println("alarm2");
     strcpy(alarm2,hr);
     strcpy(mess2,message);
+    sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
   }
   else if (strcmp(alarm3,"ZZZZZZ") == 0) {
     strcpy(alarm3,hr);
     strcpy(mess3,message);
+    sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
   }
   else if (strcmp(alarm4,"ZZZZZZ") == 0) {
     strcpy(alarm4,hr);
     strcpy(mess4,message);
+    sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
   }
   else if (strcmp(alarm5,"ZZZZZZ") == 0) {
     strcpy(alarm5,hr);
     strcpy(mess5,message);
+    sys_req(WRITE, DEFAULT_DEVICE, add, &add_len);
     return;
   } else {
+    sys_req(WRITE, DEFAULT_DEVICE, full, &full_len);
     return;
   }
 }
