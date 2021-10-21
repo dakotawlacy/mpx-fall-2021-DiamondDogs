@@ -195,41 +195,64 @@ void check_alarm() {
 
   while(1){
 
+    char* mes;
+    int len;
+
     char* temp = get_current_time();
     if(strcmp(alarm1, temp) <= 0){
-        serial_println("Alarm1: ");
-        serial_print(mess1);
-        serial_print("\n");
-        memset(alarm1, 'Z', 6);
-        memset(mess1, ' ', 49);
+
+      mes = "Alarm 1: \n";
+      len = strlen(mes);
+      sys_req(WRITE, DEFAULT_DEVICE, mes, &len);
+      len = strlen(mess1);
+      sys_req(WRITE, DEFAULT_DEVICE, mess1, &len);
+      serial_print("\n");
+      memset(alarm1, 'Z', 6);
+      memset(mess1, ' ', 49);
     }
     if(strcmp(alarm2, temp) <= 0){
-      serial_println("Alarm2: ");
-      serial_print(mess2);
+
+      mes = "Alarm 2: \n";
+      len = strlen(mes);
+      sys_req(WRITE, DEFAULT_DEVICE, mes, &len);
+      len = strlen(mess1);
+      sys_req(WRITE, DEFAULT_DEVICE, mess2, &len);
       serial_print("\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess2, ' ', 49);
+      memset(alarm2, 'Z', 6);
+      memset(mess2, ' ', 49);
     }
     if(strcmp(alarm3, temp) <= 0){
-      serial_println("Alarm3: ");
-      serial_print(mess3);
+
+      mes = "Alarm 3: \n";
+      len = strlen(mes);
+      sys_req(WRITE, DEFAULT_DEVICE, mes, &len);
+      len = strlen(mess1);
+      sys_req(WRITE, DEFAULT_DEVICE, mess3, &len);
       serial_print("\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess3, ' ', 49);
+      memset(alarm2, 'Z', 6);
+      memset(mess3, ' ', 49);
     }
     if(strcmp(alarm4, temp) <= 0){
-      serial_println("Alarm4: ");
-      serial_print(mess4);
+
+      mes = "Alarm 4: \n";
+      len = strlen(mes);
+      sys_req(WRITE, DEFAULT_DEVICE, mes, &len);
+      len = strlen(mess1);
+      sys_req(WRITE, DEFAULT_DEVICE, mess4, &len);
       serial_print("\n");
       memset(alarm2, 'Z', 6);
       memset(mess4, ' ', 49);
     }
     if(strcmp(alarm5, temp) <= 0){
-      serial_println("Alarm5: ");
-      serial_print(mess5);
+
+      mes = "Alarm 5: \n";
+      len = strlen(mes);
+      sys_req(WRITE, DEFAULT_DEVICE, mes, &len);
+      len = strlen(mess1);
+      sys_req(WRITE, DEFAULT_DEVICE, mess5, &len);
       serial_print("\n");
-        memset(alarm2, 'Z', 6);
-        memset(mess5, ' ', 49);
+      memset(alarm2, 'Z', 6);
+      memset(mess5, ' ', 49);
     }
 
     if (strcmp(alarm1,"ZZZZZZ") == 0 && strcmp(alarm2,"ZZZZZZ")== 0 && strcmp(alarm3,"ZZZZZZ")== 0 && strcmp(alarm4,"ZZZZZZ")== 0 && strcmp(alarm5,"ZZZZZZ") == 0) {
