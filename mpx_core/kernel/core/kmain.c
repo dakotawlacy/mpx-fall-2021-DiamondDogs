@@ -45,14 +45,13 @@ void kmain(void)
    // 0) Initialize Serial I/O
    // functions to initialize serial I/O can be found in serial.c
    // there are 3 functions to call
-
    klogv("Starting MPX boot sequence...");
    klogv("Initialized serial I/O on COM1 device...");
 
    //     MPX Module.  This will change with each module.
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
- 	 mpx_init(MODULE_R2);
+ 	 mpx_init(MODULE_R4);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){
@@ -93,48 +92,63 @@ void kmain(void)
        initQueues();
        run_startup();
 
-        PCB* newPCB = setupPCB("command_handler",1,9);
-        context* cp = (context*) newPCB->stackTop;
-        memset(cp,0,sizeof(context));
-        cp->fs = 0x10;
-        cp->gs = 0x10;
-        cp->ds = 0x10;
-        cp->es = 0x10;
-        cp->cs = 0x8;
-        cp->ebp = (u32int)(newPCB->stackBase);
-        cp->esp = (u32int) (newPCB->stackTop);
-        cp->eip = (u32int) &run_ch;
-        cp->eflags = 0x202;
-
-        removePCB(newPCB);
-
-        newPCB->susState = 0;
-
-        insertPCB(newPCB);
-
-        newPCB = setupPCB("IDLE",1,0);
-        cp = (context*) newPCB->stackTop;
-        memset(cp,0,sizeof(context));
-        cp->fs = 0x10;
-        cp->gs = 0x10;
-        cp->ds = 0x10;
-        cp->es = 0x10;
-        cp->cs = 0x8;
-        cp->ebp = (u32int)(newPCB->stackBase);
-        cp->esp = (u32int) (newPCB->stackTop);
-        cp->eip = (u32int) &idle;
-        cp->eflags = 0x202;
-
-        removePCB(newPCB);
-
-        newPCB->susState = 0;
-
-        insertPCB(newPCB);
-
-        run_yield();
-
        klogv("Transferring control to commhand...");
 
+       //Command Handler Process
+       PCB* newPCB = setupPCB("command_handler",1,9);
+       context* cp = (context*) newPCB->stackTop;
+       memset(cp,0,sizeof(context));
+       cp->fs = 0x10;
+       cp->gs = 0x10;
+       cp->ds = 0x10;
+       cp->es = 0x10;
+       cp->cs = 0x8;
+       cp->ebp = (u32int)(newPCB->stackBase);
+       cp->esp = (u32int) (newPCB->stackTop);
+       cp->eip = (u32int) &run_ch;
+       cp->eflags = 0x202;
+
+       removePCB(newPCB);
+       newPCB->susState = 0;
+       insertPCB(newPCB);
+
+       //Idle Process
+       newPCB = setupPCB("IDLE",1,0);
+       cp = (context*) newPCB->stackTop;
+       memset(cp,0,sizeof(context));
+       cp->fs = 0x10;
+       cp->gs = 0x10;
+       cp->ds = 0x10;
+       cp->es = 0x10;
+       cp->cs = 0x8;
+       cp->ebp = (u32int)(newPCB->stackBase);
+       cp->esp = (u32int) (newPCB->stackTop);
+       cp->eip = (u32int) &idle;
+       cp->eflags = 0x202;
+
+       removePCB(newPCB);
+       newPCB->susState = 0;
+       insertPCB(newPCB);
+
+       //Infinite Process
+       // newPCB = setupPCB("INFINITE",2,3);
+       // cp = (context*) newPCB->stackTop;
+       // memset(cp,0,sizeof(context));
+       // cp->fs = 0x10;
+       // cp->gs = 0x10;
+       // cp->ds = 0x10;
+       // cp->es = 0x10;
+       // cp->cs = 0x8;
+       // cp->ebp = (u32int)(newPCB->stackBase);
+       // cp->esp = (u32int) (newPCB->stackTop);
+       // cp->eip = (u32int) &infinite;
+       // cp->eflags = 0x202;
+       //
+       // removePCB(newPCB);
+       // newPCB->susState = 0;
+       // insertPCB(newPCB);
+
+       run_yield();
 
        // 7) System Shutdown on return from your command handler
        klogv("Starting system shutdown procedure...");
@@ -142,4 +156,4 @@ void kmain(void)
        /* Shutdown Procedure */
        klogv("Shutdown complete.");
 
-     }
+}

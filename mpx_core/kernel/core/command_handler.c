@@ -60,6 +60,7 @@ int run_ch() {
     }
      bufferSize = 99;
 
+     //Call Idle
      sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
 
    }
@@ -101,9 +102,7 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"shutdown") == 0) {
     //Run shutdown
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-    if (run_shutdown(commandBuff, bufferSize)) {
-      sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
-    }
+    run_shutdown(commandBuff, bufferSize);
   }
   else if (strcmp(command,"getdate") == 0) {
     //Run getdate
@@ -117,6 +116,7 @@ int get_command(char * commandBuff, int bufferSize) {
       int invalidDate = 12;
       sys_req(WRITE,DEFAULT_DEVICE, "Invalid date\n", &invalidDate);
     }
+
   }
   else if (strcmp(command,"gettime") == 0) {
     //Run gettime
@@ -130,6 +130,7 @@ int get_command(char * commandBuff, int bufferSize) {
       int invalidTime = 12;
       sys_req(WRITE,DEFAULT_DEVICE, "Invalid time\n", &invalidTime);
     }
+
   }
   else if (strcmp(command,"clear") == 0) {
     //Run clear
@@ -138,15 +139,21 @@ int get_command(char * commandBuff, int bufferSize) {
     sys_req(WRITE,DEFAULT_DEVICE,"\e[2J",&clear_length);
     sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
   }
-  ///////////////////////////
+  //R2 Commands
   else if(strcmp(command,"suspendPCB")==0){
-    suspendPCB(commandBuff);
-    char* temp = "PCB suspended\n";
-    int temp_len = strlen(temp);
-    sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+
+    //Run suspendPCB
+    if (suspendPCB(commandBuff) != NULL) {
+      char* temp = "PCB suspended\n";
+      int temp_len = strlen(temp);
+      sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
+    } else {
+      //Say PCB couldnt be suspended
+    }
 
   }
   else if(strcmp(command,"resumePCB")==0){
+    //Run ResumePCB
     resumePCB(commandBuff);
     char* temp = "PCB resumed\n";
     int temp_len = strlen(temp);
@@ -204,7 +211,7 @@ int get_command(char * commandBuff, int bufferSize) {
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
   }
-
+  //TEMP COMMANDS GONE
   // else if(strcmp(command,"blockPCB")==0){
   //   if(blockPCB(commandBuff) != NULL){
   //   char* temp = "PCB blocked\n";
@@ -235,8 +242,7 @@ int get_command(char * commandBuff, int bufferSize) {
   else if (strcmp(command,"resumeAll") == 0) {
     resumeAll();
   }
-
-  ///////////////////////////////////
+  //If invalid command is entered
   else {
     //Invalid code
     char * errorMSG = "\n\x1b[1;31mInvalid command\x1b[1;0m\n";

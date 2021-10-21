@@ -5,6 +5,7 @@
 #include <core/io.h>
 #include <core/command_handler.h>
 #include <core/serial.h>
+#include <core/PCB.h>
 
 int run_shutdown(char* buffer, int size) {
 
@@ -30,8 +31,8 @@ int run_shutdown(char* buffer, int size) {
 
   //Check what choice was make
   if(strcmp(buffer, "1") == 0){
-    //run shutdown
-    return 1;
+    deleteAll();
+    sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
   }
 
   if(strcmp(buffer, "2") == 0){

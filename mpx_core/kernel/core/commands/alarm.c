@@ -16,6 +16,12 @@ char* alarm3 = NULL;
 char* alarm4 = NULL;
 char* alarm5 = NULL;
 
+char* mess1;
+char* mess2;
+char* mess3;
+char* mess4;
+char* mess5;
+
 char* getTime;
 char* getHours;
 char* getMin;
@@ -38,7 +44,6 @@ void create_alarm() {
   //
   removePCB(newPCB);
 
-
   newPCB->susState = 0;
 
   insertPCB(newPCB);
@@ -54,6 +59,17 @@ void create_alarm() {
   getMin = sys_alloc_mem(sizeof(char[3]));
   getSec = sys_alloc_mem(sizeof(char[3]));
 
+  mess1 = sys_alloc_mem(sizeof(char[50]));
+  mess2 = sys_alloc_mem(sizeof(char[50]));
+  mess3 = sys_alloc_mem(sizeof(char[50]));
+  mess4 = sys_alloc_mem(sizeof(char[50]));
+  mess5 = sys_alloc_mem(sizeof(char[50]));
+
+  mess1[49] = '\0';
+  mess2[49] = '\0';
+  mess3[49] = '\0';
+  mess4[49] = '\0';
+  mess5[49] = '\0';
 
   memset(alarm1,'Z',6);
   memset(alarm2,'Z',6);
@@ -90,7 +106,6 @@ void alarm(char* buffer){
       message[i-6] = buffer[i];
   }
 
-
   //Capturing Hours:Minutes:Seconds
   char times1[3];
   char times2[3];
@@ -112,12 +127,12 @@ void alarm(char* buffer){
   times3[1] = buffer[strlen(buffer)-1];
   times3[2] = '\0';
 
-  //serial_println(times1);
-  //serial_println(times2);
-  //serial_println(times3);
+  char* copy = NULL;
+  strcpy(copy,message);
 
-  add_alarm(times1,times2,times3);
-  //_alarm();
+
+
+  add_alarm(times1,times2,times3, copy);
 
   return;
 
@@ -137,75 +152,91 @@ void alarm(char* buffer){
 
 }
 
-void add_alarm(char* hr, char* min, char* sec) {
+void add_alarm(char* hr, char* min, char* sec, char message[50]) {
 
   strcat(hr,min);
   strcat(hr,sec);
 
 
-  //serial_println("aaaaaaaa");
 
   if (strcmp(alarm1,"ZZZZZZ") == 0) {
     serial_println("alarm1");
     strcpy(alarm1,hr);
+    strcpy(mess1,message);
     return;
    }
   else if (strcmp(alarm2,"ZZZZZZ") == 0) {
     serial_println("alarm2");
     strcpy(alarm2,hr);
+    strcpy(mess2,message);
     return;
   }
   else if (strcmp(alarm3,"ZZZZZZ") == 0) {
     strcpy(alarm3,hr);
+    strcpy(mess3,message);
     return;
   }
   else if (strcmp(alarm4,"ZZZZZZ") == 0) {
     strcpy(alarm4,hr);
+    strcpy(mess4,message);
     return;
   }
   else if (strcmp(alarm5,"ZZZZZZ") == 0) {
     strcpy(alarm5,hr);
+    strcpy(mess5,message);
     return;
   } else {
     return;
   }
-
-
 }
 
 //PCB Func
 void check_alarm() {
 
   while(1){
-    // serial_println(alarm1);
-    // serial_println(alarm2);
-    // serial_println(alarm3);
-    // serial_println(alarm4);
-    // serial_println(alarm5);
 
     char* temp = get_current_time();
     if(strcmp(alarm1, temp) <= 0){
-        serial_println("Alarm1 has been dispatched.");
+        serial_println("Alarm1: ");
+        serial_print(mess1);
+        serial_print("\n");
         memset(alarm1, 'Z', 6);
+        memset(mess1, ' ', 49);
     }
     if(strcmp(alarm2, temp) <= 0){
-        serial_println("Alarm2 has been dispatched.");
+      serial_println("Alarm2: ");
+      serial_print(mess2);
+      serial_print("\n");
         memset(alarm1, 'Z', 6);
+        memset(mess2, ' ', 49);
     }
     if(strcmp(alarm3, temp) <= 0){
-        serial_println("Alarm3 has been dispatched.");
+      serial_println("Alarm3: ");
+      serial_print(mess3);
+      serial_print("\n");
         memset(alarm1, 'Z', 6);
+        memset(mess3, ' ', 49);
     }
     if(strcmp(alarm4, temp) <= 0){
-        serial_println("Alarm4 has been dispatched.");
+      serial_println("Alarm4: ");
+      serial_print(mess4);
+      serial_print("\n");
         memset(alarm1, 'Z', 6);
+        memset(mess4, ' ', 49);
     }
     if(strcmp(alarm5, temp) <= 0){
-        serial_println("Alarm5 has been dispatched.");
+      serial_println("Alarm5: ");
+      serial_print(mess5);
+      serial_print("\n");
         memset(alarm1, 'Z', 6);
+        memset(mess5, ' ', 49);
     }
 
-    sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
+    if (strcmp(alarm1,"ZZZZZZ") == 0 && strcmp(alarm2,"ZZZZZZ")== 0 && strcmp(alarm3,"ZZZZZZ")== 0 && strcmp(alarm4,"ZZZZZZ")== 0 && strcmp(alarm5,"ZZZZZZ") == 0) {
+       sys_req(EXIT, DEFAULT_DEVICE, NULL, NULL);
+    } else {
+      sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
+    }
   }
 
 

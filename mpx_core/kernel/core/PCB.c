@@ -667,7 +667,7 @@ void deletePCB(char* commandBuff) {
     //int pcbNameLen = strlen(pcb->process_name);
     //sys_req(WRITE, DEFAULT_DEVICE, pcb->process_name, &pcbNameLen);
 
-    if (pcb->susState == 1) {
+    if (pcb->susState == 1 && pcb->process_class == 2) {
       sys_req(WRITE, DEFAULT_DEVICE, "\n", &newLine);
       removePCB(pcb);
     }
@@ -678,6 +678,35 @@ void deletePCB(char* commandBuff) {
     char* noExist = "PCB does not exist.\n";
     int noExist_len = strlen(noExist);
     sys_req(WRITE,DEFAULT_DEVICE,noExist,&noExist_len);
+  }
+}
+
+void deleteAll() {
+
+  struct PCB* resume;
+
+  resume = readyQueue.head;
+  while (resume != NULL) {
+      removePCB(resume);
+      resume = readyQueue.head;
+  }
+
+  resume = suspendedReady.head;
+  while (resume != NULL) {
+      removePCB(resume);
+      resume = suspendedReady.head;
+  }
+
+  resume = blockedQueue.head;
+  while (resume != NULL) {
+      removePCB(resume);
+      resume = blockedQueue.head;
+  }
+
+  resume = suspendedBlock.head;
+  while (resume != NULL) {
+      removePCB(resume);
+      resume = suspendedBlock.head;
   }
 }
 
@@ -911,13 +940,23 @@ struct PCB* suspendPCB(char* commandBuff) {
   struct PCB* pcb;
   pcb = findPCB(name);
 
-  removePCB(pcb);
+  if (pcb == NULL) {
+    return NULL;
+  }
 
-  pcb->susState = 1;
+  // if (pcb->process_class == 2) {
 
-  insertPCB(pcb);
+    removePCB(pcb);
 
-  return pcb;
+    pcb->susState = 1;
+
+    insertPCB(pcb);
+
+    return pcb;
+  // }
+  // else {
+  //   return NULL;
+  // }
 
 }
 

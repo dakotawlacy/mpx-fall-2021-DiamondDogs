@@ -8,7 +8,7 @@
 */
 void alarm(char* buffer);
 
-void add_alarm(char* hr, char* min, char* sec);
+void add_alarm(char* hr, char* min, char* sec, char message[50]);
 
 void check_alarm();
 
