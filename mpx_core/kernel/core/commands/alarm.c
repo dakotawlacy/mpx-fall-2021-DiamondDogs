@@ -101,10 +101,17 @@ void alarm(char* buffer){
   // int minutes = 0;
 
   int i = 6;
+  int hours, minutes, seconds = 0;
   //Grabbing Message
   for (i = 6; i < strlen(buffer)-9; i++){
       message[i-6] = buffer[i];
   }
+
+  if(strlen(message) == 0){
+    serial_println("Error: No Message Added");
+    return;
+  }
+
 
   //Capturing Hours:Minutes:Seconds
   char times1[3];
@@ -119,6 +126,28 @@ void alarm(char* buffer){
   times1[1] = buffer[strlen(buffer)-7];
   times1[2] = '\0';
 
+  if(buffer[strlen(buffer)-9] != ' '){
+    serial_println("Error: Time Entered Incorrectly");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-8] == ':' || buffer[strlen(buffer)-7] == ':' ||
+    buffer[strlen(buffer)-5] == ':'  || buffer[strlen(buffer)-4] == ':' ||
+    buffer[strlen(buffer)-2] == ':'  || buffer[strlen(buffer)-1] == ':' ){
+    serial_println("Error: Must Be Number in Hours, Minutes, or Seconds Slot");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-6] != ':'){
+    serial_println("Error: Must Be Colon Between Numbers");
+    return;
+  }
+
+  if(buffer[strlen(buffer)-3] != ':'){
+    serial_println("Error: Must Be Colon Between Numbers");
+    return;
+  }
+
   times2[0] = buffer[strlen(buffer)-5];
   times2[1] = buffer[strlen(buffer)-4];
   times2[2] = '\0';
@@ -130,25 +159,23 @@ void alarm(char* buffer){
   char* copy = NULL;
   strcpy(copy,message);
 
+  hours = atoi(times1);
+  minutes = atoi(times2);
+  seconds = atoi(times3);
 
+  if (hours >= 24){
+     serial_print("Error: Hours Either Too Large or Not Valid\n");
+     return;
+   }
+
+   if (minutes > 60 || seconds > 60){
+     serial_print("Error: Seconds or Minutes Either Too Large or Invalid\n");
+     return;
+  }
 
   add_alarm(times1,times2,times3, copy);
 
   return;
-
-  // hours = atoi(times1);
-  // minutes = atoi(times2);
-  // seconds = atoi(times3);
-
-  // if (hours > 12){
-  //   serial_print("Error: Hours too Large");
-  //   return;
-  // }
-  //
-  // if (minutes > 60 || seconds > 60){
-  //   serial_print("Error: Seconds or Minutes too large");
-  //   return;
-  // }
 
 }
 
@@ -160,28 +187,31 @@ void add_alarm(char* hr, char* min, char* sec, char message[50]) {
 
 
   if (strcmp(alarm1,"ZZZZZZ") == 0) {
-    serial_println("alarm1");
+    serial_println("\nAlarm1 has been added");
     strcpy(alarm1,hr);
     strcpy(mess1,message);
     return;
    }
   else if (strcmp(alarm2,"ZZZZZZ") == 0) {
-    serial_println("alarm2");
+    serial_println("\nAlarm2 has been added");
     strcpy(alarm2,hr);
     strcpy(mess2,message);
     return;
   }
   else if (strcmp(alarm3,"ZZZZZZ") == 0) {
+    serial_println("\nAlarm3 has been added");
     strcpy(alarm3,hr);
     strcpy(mess3,message);
     return;
   }
   else if (strcmp(alarm4,"ZZZZZZ") == 0) {
+    serial_println("\nAlarm4 has been added");
     strcpy(alarm4,hr);
     strcpy(mess4,message);
     return;
   }
   else if (strcmp(alarm5,"ZZZZZZ") == 0) {
+    serial_println("\nAlarm5 has been added");
     strcpy(alarm5,hr);
     strcpy(mess5,message);
     return;
@@ -197,37 +227,37 @@ void check_alarm() {
 
     char* temp = get_current_time();
     if(strcmp(alarm1, temp) <= 0){
-        serial_println("Alarm1: ");
+        serial_print("\nAlarm1: ");
         serial_print(mess1);
-        serial_print("\n");
+        serial_print(" has been dispatched\n");
         memset(alarm1, 'Z', 6);
         memset(mess1, ' ', 49);
     }
     if(strcmp(alarm2, temp) <= 0){
-      serial_println("Alarm2: ");
+      serial_print("\nAlarm2: ");
       serial_print(mess2);
-      serial_print("\n");
+      serial_print(" has been dispatched\n");
         memset(alarm2, 'Z', 6);
         memset(mess2, ' ', 49);
     }
     if(strcmp(alarm3, temp) <= 0){
-      serial_println("Alarm3: ");
+      serial_println("\nAlarm3: ");
       serial_print(mess3);
-      serial_print("\n");
+      serial_print("has been dispatched\n");
         memset(alarm2, 'Z', 6);
         memset(mess3, ' ', 49);
     }
     if(strcmp(alarm4, temp) <= 0){
-      serial_println("Alarm4: ");
+      serial_println("\nAlarm4: ");
       serial_print(mess4);
-      serial_print("\n");
+      serial_print(" has been dispatched\n\n");
       memset(alarm2, 'Z', 6);
       memset(mess4, ' ', 49);
     }
     if(strcmp(alarm5, temp) <= 0){
-      serial_println("Alarm5: ");
+      serial_println("\nAlarm5: ");
       serial_print(mess5);
-      serial_print("\n");
+      serial_print(" has been dispatched\n");
         memset(alarm2, 'Z', 6);
         memset(mess5, ' ', 49);
     }
