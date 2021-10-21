@@ -207,28 +207,28 @@ void check_alarm() {
       serial_println("Alarm2: ");
       serial_print(mess2);
       serial_print("\n");
-        memset(alarm1, 'Z', 6);
+        memset(alarm2, 'Z', 6);
         memset(mess2, ' ', 49);
     }
     if(strcmp(alarm3, temp) <= 0){
       serial_println("Alarm3: ");
       serial_print(mess3);
       serial_print("\n");
-        memset(alarm1, 'Z', 6);
+        memset(alarm2, 'Z', 6);
         memset(mess3, ' ', 49);
     }
     if(strcmp(alarm4, temp) <= 0){
       serial_println("Alarm4: ");
       serial_print(mess4);
       serial_print("\n");
-        memset(alarm1, 'Z', 6);
-        memset(mess4, ' ', 49);
+      memset(alarm2, 'Z', 6);
+      memset(mess4, ' ', 49);
     }
     if(strcmp(alarm5, temp) <= 0){
       serial_println("Alarm5: ");
       serial_print(mess5);
       serial_print("\n");
-        memset(alarm1, 'Z', 6);
+        memset(alarm2, 'Z', 6);
         memset(mess5, ' ', 49);
     }
 
