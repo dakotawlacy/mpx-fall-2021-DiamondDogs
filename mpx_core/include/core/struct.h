@@ -38,7 +38,6 @@ typedef struct list {
 
   int count;
   MCB *head;
-  MCB *tail;
 
 }list;
 

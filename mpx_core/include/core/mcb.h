@@ -3,17 +3,17 @@
 
 #include <core/struct.h>
 
-extern list freeList;
-extern list allocList;
+extern list heapList;
+
 
 void initHeap();
 
 void initLists();
 
-void insertMCB(MCB* mcb);
-//
-void insertFree(MCB* mcb);
+void allocateMem();
 
-//void insertAlloc(MCB* mcb);
+struct MCB* findSpace(int size);
+
+void printNodes();
 
 #endif

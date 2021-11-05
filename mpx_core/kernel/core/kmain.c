@@ -95,6 +95,7 @@ void kmain(void)
 
        klogv("Transferring control to commhand...");
 
+       
        initHeap();
 
        //Command Handler Process
