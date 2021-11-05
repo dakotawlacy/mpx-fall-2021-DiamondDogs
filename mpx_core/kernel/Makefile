@@ -34,6 +34,7 @@ core/commands/yield.o\
 core/loadr3.o\
 core/testProcesses.o\
 core/commands/alarm.o\
+core/mcb.o\
 core/PCB.o
 
 .s.o:

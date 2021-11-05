@@ -26,6 +26,7 @@
 #include "modules/mpx_supt.h"
 #include <core/struct.h>
 #include <core/PCB.h>
+#include <core/mcb.h>
 #include <core/commands/yield.h>
 
 
@@ -93,6 +94,8 @@ void kmain(void)
        run_startup();
 
        klogv("Transferring control to commhand...");
+
+       initHeap();
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);

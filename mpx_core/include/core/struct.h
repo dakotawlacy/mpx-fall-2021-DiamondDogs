@@ -1,7 +1,6 @@
 #ifndef _STRUCT_H
 #define _STRUCT_H
 
-
 typedef struct PCB {
 
   char process_name[15];
@@ -18,12 +17,30 @@ typedef struct PCB {
 
 }PCB;
 
+typedef struct MCB {
+
+  char pcb_name[15];
+  int type;//0 for free, 1 for allocated
+  u32int address;
+  int size;
+  struct MCB* next;
+  struct MCB* prev;
+
+}MCB;
 
 typedef struct queue{
   int count;
   PCB *head;
   PCB *tail;
 }queue;
+
+typedef struct list {
+
+  int count;
+  MCB *head;
+  MCB *tail;
+
+}list;
 
 typedef struct context {
   u32int gs, fs, es, ds;
