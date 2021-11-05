@@ -11,8 +11,7 @@
 
 u32int heapAddress = 0;
 
-list freeList;
-list allocList;
+list heapList;
 
 void initHeap() {
 
@@ -25,68 +24,95 @@ void initHeap() {
   heap = (MCB*)heapAddress;
   heap->size = 1000;
   heap->type = 0;//free
-  heap->address = heapAddress;
+  heap->address = heapAddress;//Starting address
   strcpy(heap->pcb_name,"initial");
 
-  insertMCB(heap);
+  if (heapList.head == NULL) {
+
+    heapList.head = heap;
+    heap->next = NULL;
+    heap->prev = NULL;
+
+  }
+
+  allocateMem(100);
+  allocateMem(200);
+  printNodes();
 
 }
 
 void initLists() {
 
-  freeList.head = NULL;
-  freeList.tail = NULL;
-  freeList.count = 0;
-
-  allocList.head = NULL;
-  allocList.tail = NULL;
-  allocList.count = 0;
+  heapList.head = NULL;
+  heapList.count = 0;
 
 }
 
-void insertMCB(MCB* mcb) {
+//Allocate memory
+void allocateMem(int size) {
 
-  if (mcb->type == 0) {
-    insertFree(mcb);
+  //Find MCB that has the space
+  MCB* freeMCB = findSpace(size);
+  //Temp size
+  int temp = freeMCB->size;
+
+  serial_println(freeMCB->pcb_name);
+
+  //Set address of new MCB to start of free MCB
+  struct MCB* newMCB;
+  newMCB = (MCB*)freeMCB->address;
+
+  //Change free MCB to new address
+  freeMCB = (MCB*)(heapAddress + size + sizeof(struct MCB));
+  //Set address
+  freeMCB->address = newMCB->address + size + sizeof(struct MCB);
+
+  // char* wow = "";
+  // serial_println(itoa(freeMCB->address,wow));
+  // wow = "";
+  // serial_println(itoa(newMCB->address,wow));
+
+  newMCB->size = size;//Set size to allocation size
+  newMCB->type = 1;//Set to allocated
+  newMCB->address = freeMCB->address;
+
+  freeMCB->address = freeMCB->address + size + sizeof(struct MCB);
+  freeMCB->size = temp - size - sizeof(struct MCB);
+
+  newMCB->next = freeMCB;
+  newMCB->prev = freeMCB->prev;
+  freeMCB->prev = newMCB;
+
+  //Check to see if new head is null
+
+
+ }
+struct MCB* findSpace(int size) {
+
+  MCB* curr = heapList.head;
+
+  while (curr != NULL) {
+    //Found Space in a free MCB
+    if (size < curr->size && curr->type == 0) {
+      serial_println("Found Space");
+      return curr;
+    } else {
+      curr = curr->next;
+    }
   }
-  else if (mcb->type == 1) {
-    //insertAlloc();
-  }
+
+  return NULL;
 
 
 }
 
-void insertFree(MCB* mcb) {
+void printNodes() {
 
-  //Insert at head
-  if (freeList.head == NULL) {
+  MCB* curr = heapList.head;
+  char* swag = "";
 
-    freeList.head = mcb;
-    mcb->next = NULL;
-    mcb->prev = NULL;
-
+  while (curr != NULL) {
+    serial_println(itoa(curr->size,swag));
+    curr = curr->next;
   }
-
-  // //If one in freeList
-  // if (freeList.head != NULL) {
-  //
-  //   //If head is less than
-  //   if (freeList.head->address < mcb->address) {
-  //     freeList.head->next = mcb;
-  //     mcb->prev = freeList.head;
-  //   } else {
-  //
-  //     mcb->next = freeList.head;
-  //     freeList.head->prev = mcb;
-  //     freeList.head = mcb;
-  //
-  //   }
-  // }
-
-
-
 }
-//
-// // void insertAlloc(MCB* mcb) {
-// //
-// // }
