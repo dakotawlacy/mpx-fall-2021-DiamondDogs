@@ -191,7 +191,7 @@ void freePCB(struct PCB* pcb){
 
   //Free memory
   sys_free_mem(pcb);
-  sys_free_mem(pcb->stackBase);
+  //sys_free_mem(pcb->stackBase);
 
 }
 

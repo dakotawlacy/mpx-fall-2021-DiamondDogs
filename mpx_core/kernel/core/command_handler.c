@@ -14,6 +14,7 @@
 #include <core/commands/gettime.h>
 #include <core/commands/settime.h>
 #include <core/PCB.h>
+#include <core/mcb.h>
 #include <core/commands/yield.h>
 #include <core/loadr3.h>
 #include <core/commands/alarm.h>
@@ -244,6 +245,20 @@ int get_command(char * commandBuff, int bufferSize) {
   }
   else if (strcmp(command,"infinite") == 0) {
     //create_infinite();
+  }
+  else if (strcmp(command,"initHeap") == 0) {
+    //initHeap();
+  }
+  else if (strcmp(command,"allocateMem") == 0) {
+
+      //Add parser
+      //allocateMem();
+  }
+  else if (strcmp(command,"showAlloc") == 0) {
+    showAlloc();
+  }
+  else if (strcmp(command,"showFree") == 0) {
+    showFree();
   }
   //If invalid command is entered
   else {

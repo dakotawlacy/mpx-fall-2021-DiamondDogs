@@ -5,14 +5,23 @@
 
 extern list heapList;
 
-
 void initHeap();
 
 void initLists();
 
-void allocateMem();
+MCB* allocateMem(int size);
+
+void freeMem(u32int location);
+
+void updateList();
 
 struct MCB* findSpace(int size);
+
+int isEmpty();
+
+void showFree();
+
+void showAlloc();
 
 void printNodes();
 

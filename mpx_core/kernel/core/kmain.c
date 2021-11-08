@@ -52,7 +52,7 @@ void kmain(void)
    //     MPX Module.  This will change with each module.
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
- 	 mpx_init(MODULE_R4);
+ 	 mpx_init(MODULE_R5);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){
@@ -95,7 +95,7 @@ void kmain(void)
 
        klogv("Transferring control to commhand...");
 
-       
+
        initHeap();
 
        //Command Handler Process

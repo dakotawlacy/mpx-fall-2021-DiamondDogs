@@ -11,8 +11,7 @@
 #include <core/serial.h>
 #include <core/struct.h>
 #include <core/PCB.h>
-
-
+#include <core/mcb.h>
 
 PCB* cop;
 context* cont;
@@ -155,7 +154,7 @@ void *sys_alloc_mem(u32int size)
   if (!mem_module_active)
     return (void *) kmalloc(size);
   else
-    return (void *) (*student_malloc)(size);
+    return (void *)(*student_malloc)(size);
 }
 
 
