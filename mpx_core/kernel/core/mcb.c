@@ -20,11 +20,11 @@ void initHeap() {
   //Inintialize free and alloc list
   initLists();
 
-  heapAddress = kmalloc(50000 + sizeof(struct MCB));
+  heapAddress = kmalloc(10000 + sizeof(struct MCB));
 
   struct MCB* heap;
   heap = (MCB*)heapAddress;
-  heap->size = 50000;
+  heap->size = 10000;
   heap->type = 0;//free
   heap->address = heapAddress;//Starting address
   strcpy(heap->pcb_name,"initial");
@@ -38,24 +38,8 @@ void initHeap() {
   }
 
 
-  //Testing
-
-  MCB* temp = allocateMem(100);
-  //allocateMem(400,"proc2");
-  MCB* temp2 = allocateMem(300);
-  freeMem(temp->address);
+  allocateMem(1000);
   printNodes();
-  // allocateMem(100,"proc4");
-  // allocateMem(200,"proc5");
-  //freeMem(temp2->address);
-  if (temp2) {
-
-  }
-  // freeMem("proc4");
-  // //freeMem("proc5");
-  printNodes();
-  // showAlloc();
-
 
 }
 
@@ -67,7 +51,7 @@ void initLists() {
 }
 
 //Allocate memory
-MCB* allocateMem(int size) {
+u32int allocateMem(u32int size) {
 
   //Find MCB that has the space
   MCB* freeMCB = findSpace(size);
@@ -117,8 +101,6 @@ MCB* allocateMem(int size) {
   //Set address
   freeMCB->address = newMCB->address + size + (int)sizeof(struct MCB);
 
-
-
   strcpy(freeMCB->pcb_name,tempName);
   freeMCB->size = tempSize - size - (int)sizeof(struct MCB);
   freeMCB->address = tempAddy + size + sizeof(struct MCB);
@@ -140,18 +122,26 @@ MCB* allocateMem(int size) {
     heapList.head = newMCB;
   }
 
-  return newMCB;
+  // char* wow = "";
+  //
+  // serial_println(itoa(newMCB->address,wow));
+
+  return newMCB->address;
 
  }
 
-void freeMem(u32int location) {
+int freeMem(void* location) {
 
-  MCB* curr = (MCB*)location;
+
+
+  MCB* curr = location;
   curr->type = 0;
   strcpy(curr->pcb_name,"free");
 
   updateList();
   updateList();
+
+  return 0;
 
 }
 
@@ -179,7 +169,7 @@ void updateList() {
     curr = curr->next;
   }
 
-
+  return;
 }
 
 struct MCB* findSpace(int size) {

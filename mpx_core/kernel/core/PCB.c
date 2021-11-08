@@ -193,6 +193,8 @@ void freePCB(struct PCB* pcb){
   sys_free_mem(pcb);
   //sys_free_mem(pcb->stackBase);
 
+  return;
+
 }
 
 //Get PCB data

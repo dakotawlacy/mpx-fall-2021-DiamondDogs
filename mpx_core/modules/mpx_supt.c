@@ -32,7 +32,7 @@ u32int (*student_malloc)(u32int);
 
 // if a student created heap manager is implemented this
 // is a pointer to the student's "free" operation.
-int (*student_free)(void *);
+int (*student_free) (void *);
 
 
 

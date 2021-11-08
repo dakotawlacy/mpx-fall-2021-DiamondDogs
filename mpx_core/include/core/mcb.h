@@ -9,9 +9,9 @@ void initHeap();
 
 void initLists();
 
-MCB* allocateMem(int size);
+u32int allocateMem(u32int size);
 
-void freeMem(u32int location);
+int freeMem(void* location);
 
 void updateList();
 
