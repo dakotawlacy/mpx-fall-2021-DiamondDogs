@@ -95,9 +95,10 @@ void kmain(void)
 
        klogv("Transferring control to commhand...");
 
+       initHeap();
        sys_set_malloc(&allocateMem);
        sys_set_free(&freeMem);
-       initHeap();
+
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);
@@ -114,7 +115,6 @@ void kmain(void)
        cp->eflags = 0x202;
 
        removePCB(newPCB);
-
        newPCB->susState = 0;
        insertPCB(newPCB);
 

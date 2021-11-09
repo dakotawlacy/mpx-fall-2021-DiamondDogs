@@ -184,7 +184,7 @@ void idle()
   int count=0;
 
 	memset( msg, '\0', sizeof(msg));
-	strcpy(msg, "IDLE PROCESS EXECUTING.\n");
+	strcpy(msg, "\n");
 	count = strlen(msg);
 
   while(1){
@@ -231,8 +231,7 @@ u32int* sys_call(context* registers) {
 }
 
 //Infinite Command
-void infinite()
-{
+void infinite() {
   char msg[30];
   int count=0;
 

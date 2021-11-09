@@ -19,7 +19,6 @@ queue suspendedBlock;
 int newLine = 2;
 
 
-
 //Get Name
 char* get_name(char* commandBuff) {
 
@@ -180,7 +179,7 @@ char* get_prio(char* commandBuff) {
 struct PCB* allocatePCB() {
 
   //Allocate size
-  struct PCB* temp = sys_alloc_mem(sizeof(PCB));
+  struct PCB* temp = (PCB*) sys_alloc_mem(sizeof(PCB));
 
   //Return pcb
   return temp;
