@@ -13,7 +13,9 @@ PCB* cop;
 u32int heapAddress = 0;
 int allocNum = -1;
 int tempSize;
-char x[10];
+char printx[32];
+char * nl = "\n";
+int nllen = 2;
 
 list heapList;
 
@@ -240,15 +242,50 @@ void printNodes() {
 void showFree() {
 
   MCB* curr = heapList.head;
-  memset(x,'\0',10);
+  memset(printx,'\0',32);
+  char * printptr = printx;
+  int println = 0;
 
   while (curr != NULL) {
 
     if (curr->type == 0) {
 
-        serial_println(itoa(curr->size,x));
-        serial_println(itoa(curr->type,x));
-        serial_println(" ");
+      strcpy(printx,"Address: ");
+      println = 9;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      itoa(curr->address,printptr);
+      println = strlen(printptr);
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Type: ");
+      println = 6;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Free");
+      println = 4;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Size: ");
+      println = 6;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      println = 0;
+
+      itoa(curr->size,printptr);
+      println = strlen(printptr);
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
 
     }
     curr = curr->next;
@@ -259,15 +296,52 @@ void showAlloc() {
 
 
   MCB* curr = heapList.head;
-  memset(x,'\0',10);
+  memset(printx,'\0',32);
+  char * printptr = printx;
+  int println = 0;
 
   while (curr != NULL) {
 
     if (curr->type == 1) {
 
-      serial_println(itoa(curr->size,x));
-      serial_println(itoa(curr->type,x));
-      serial_println(" ");
+      strcpy(printx,"Address: ");
+      println = 9;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      itoa(curr->address,printptr);
+      println = strlen(printptr);
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Type: ");
+      println = 6;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Allocated");
+      println = 9;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+      memset(printx,'\0',32);
+
+      strcpy(printx,"Size: ");
+      println = 6;
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+      memset(printx,'\0',32);
+
+      println = 0;
+
+      itoa(curr->size,printptr);
+      println = strlen(printptr);
+      sys_req(WRITE,DEFAULT_DEVICE,printptr,&println);
+
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+      sys_req(WRITE,DEFAULT_DEVICE,nl,&nllen);
+
 
     }
     curr = curr->next;
