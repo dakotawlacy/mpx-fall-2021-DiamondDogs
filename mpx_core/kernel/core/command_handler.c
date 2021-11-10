@@ -255,6 +255,7 @@ int get_command(char * commandBuff, int bufferSize) {
       //allocateMem();
   }
   else if (strcmp(command,"showAlloc") == 0) {
+
     showAlloc();
   }
   else if (strcmp(command,"showFree") == 0) {

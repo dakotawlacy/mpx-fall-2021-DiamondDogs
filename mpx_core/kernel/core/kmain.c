@@ -53,6 +53,7 @@ void kmain(void)
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
  	 mpx_init(MEM_MODULE);
+   //mpx_init(MODULE_R4);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){
@@ -89,16 +90,15 @@ void kmain(void)
        init_paging();
        klogv("Initializing virtual memory...");
 
+       sys_set_malloc(&allocateMem);
+       sys_set_free(&freeMem);
+       initHeap();
+
        // 6) Call YOUR command handler -  interface method
        initQueues();
        run_startup();
 
        klogv("Transferring control to commhand...");
-
-       initHeap();
-       sys_set_malloc(&allocateMem);
-       sys_set_free(&freeMem);
-
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);

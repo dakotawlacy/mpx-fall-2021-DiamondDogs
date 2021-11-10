@@ -13,22 +13,27 @@ PCB* cop;
 u32int heapAddress = 0;
 int allocNum = -1;
 int tempSize;
+char x[10];
 
 list heapList;
 
 void initHeap() {
 
+
+
+
   //Inintialize free and alloc list
   initLists();
 
-  heapAddress = kmalloc(5000 + sizeof(MCB));
+
+
+  heapAddress = kmalloc(50000 + sizeof(MCB));
 
   struct MCB* heap;
   heap = (MCB*)heapAddress;
-  heap->size = 5000;
+  heap->size = 50000;
   heap->type = 0;//free
   heap->address = heapAddress + sizeof(MCB);//Starting address
-  strcpy(heap->pcb_name,"initial");
 
   if (heapList.head == NULL) {
 
@@ -40,20 +45,22 @@ void initHeap() {
 
    //PCB* wow = (PCB*)allocateMem(100);
 
-   //char* frigg = "";
+   //This allocation causes page fault
 
-  // PCB* now = (PCB*)allocateMem(4000);
+  //Catching on second Allocate mem
+  //PCB* now = (PCB*)allocateMem(100);
+  /////////////////////////////////
+
   // PCB* what = (PCB*)allocateMem(3000);
   // PCB* mom = (PCB*)allocateMem(7000);
   // freeMem(wow);
   // freeMem(now);
   // //freeMem(what);
   // //freeMem(mom);
-  //
-  // if (wow) {
-  //
-  // }
-  //
+
+  //if (wow) {}
+  //if (now) {}
+
    //printNodes();
 
   return;
@@ -70,82 +77,57 @@ void initLists() {
 //Allocate memory
 u32int allocateMem(u32int size) {
 
+
+
   //Find MCB that has enough space in it
-  MCB* oldMCB = findSpace((int) size);
+  MCB* freeMCB = findSpace((int) size);
 
   //Temp Variables
-  int tempSize = oldMCB->size;
-  u32int oldNext = (u32int) oldMCB->next;
-  u32int oldPrev = (u32int) oldMCB->prev;
-  u32int tempAdd = oldMCB->address;
+  int tempSize = freeMCB->size;
+  u32int oldNext = (u32int) freeMCB->next;
+  u32int oldPrev = (u32int) freeMCB->prev;
+  u32int tempAdd = freeMCB->address;
 
-  char* oldName = "";
-  strcpy(oldName,oldMCB->pcb_name);
+  //char* oldName = "";
+  //strcpy(oldName,oldMCB->pcb_name);
 
   //Create new MCB block to create
   //Set new MCB equal to the location of the free block
-  MCB* newMCB = oldMCB;
+  MCB* allocatedMCB = freeMCB;
 
   //Change name
-  strcpy(newMCB->pcb_name,"process");
+  //strcpy(newMCB->pcb_name,"process");
 
   //Change type
-  newMCB->type = 1;
+  allocatedMCB->type = 1;
 
   //Change size
-  newMCB->size = size;
+  allocatedMCB->size = size;
 
-  newMCB->prev = (MCB*) oldPrev;
-
-  //serial_println("fuck");
-  //char* frigg = "";
-
-  //serial_println(itoa((u32int)newMCB,frigg));
-  //serial_println(itoa((u32int)tempAdd + size,frigg));
-
-
+  allocatedMCB->prev = (MCB*)oldPrev;
 
   //Edit Old block
-  oldMCB = (MCB*)(tempAdd + size);
+  freeMCB = (MCB*)(tempAdd + size);
 
-  //serial_println(itoa((u32int)oldMCB,frigg));
   /////////////////
-  oldMCB->address = tempAdd + size + sizeof(MCB);
-
-  //serial_println(itoa((u32int)oldMCB->address,frigg));
+  freeMCB->address = tempAdd + size + sizeof(MCB);
   /////////////////
 
-  oldMCB->size = tempSize - size - sizeof(MCB);
-  strcpy(oldMCB->pcb_name,oldName);
+  freeMCB->size = tempSize - size - sizeof(MCB);
+  //strcpy(oldMCB->pcb_name,oldName);
 
-   newMCB->next = oldMCB;
-   oldMCB->prev = newMCB;
-   oldMCB->next = (MCB*) oldNext;
+  allocatedMCB->next = freeMCB;
+  freeMCB->prev = allocatedMCB;
+  freeMCB->next = (MCB*) oldNext;
 
-  //Add to heapList
-  //Check for beginning
-  if (newMCB == heapList.head) {
-    heapList.head = newMCB;
-  }
-
-  return (u32int)newMCB->address;
+  return (u32int)allocatedMCB->address;
 
  }
 
 int freeMem(void* location) {
 
-  //char* swag = "";
-
-  //serial_println(itoa((u32int)location - sizeof(MCB),swag));
-  //serial_println(itoa(heapAddress,swag));
-
   MCB* mcb = findMCB((u32int) location);
   mcb->type = 0;
-
-  //serial_println(itoa((u32int)mcb,swag));
-  //serial_println(mcb->next->pcb_name);
-
-  //strcpy(mcb->pcb_name,"free");
 
   updateList();
   updateList();
@@ -246,10 +228,10 @@ void printNodes() {
 
   while (curr != NULL) {
 
-    serial_println(curr->pcb_name);
     serial_println(itoa(curr->size,swag));
     swag = "";
     serial_println(itoa(curr->type,swag));
+    serial_println(itoa(curr->address,swag));
     serial_println(" ");
     curr = curr->next;
   }
@@ -258,16 +240,15 @@ void printNodes() {
 void showFree() {
 
   MCB* curr = heapList.head;
-  //char* swag = "";
+  memset(x,'\0',10);
 
   while (curr != NULL) {
 
     if (curr->type == 0) {
-      serial_println(curr->pcb_name);
-      //serial_println(itoa(curr->size,swag));
-      //swag = "";
-      //serial_println(itoa(curr->type,swag));
-      //serial_println(" ");
+
+        serial_println(itoa(curr->size,x));
+        serial_println(itoa(curr->type,x));
+        serial_println(" ");
 
     }
     curr = curr->next;
@@ -276,16 +257,16 @@ void showFree() {
 
 void showAlloc() {
 
+
   MCB* curr = heapList.head;
-  char* swag = "";
+  memset(x,'\0',10);
 
   while (curr != NULL) {
 
     if (curr->type == 1) {
-      serial_println(curr->pcb_name);
-      serial_println(itoa(curr->size,swag));
-      swag = "";
-      serial_println(itoa(curr->type,swag));
+
+      serial_println(itoa(curr->size,x));
+      serial_println(itoa(curr->type,x));
       serial_println(" ");
 
     }

@@ -179,7 +179,7 @@ char* get_prio(char* commandBuff) {
 struct PCB* allocatePCB() {
 
   //Allocate size
-  struct PCB* temp = (PCB*) sys_alloc_mem(sizeof(PCB));
+  struct PCB* temp = sys_alloc_mem(sizeof(PCB));
 
   //Return pcb
   return temp;
@@ -741,7 +741,6 @@ int removePCB(struct PCB* pcb){
     temp = currQ->head;
     currQ->head = curr->next;
     curr->previous = NULL;
-    freePCB(temp);
     return SUCCESS;
   }
 
@@ -755,8 +754,6 @@ int removePCB(struct PCB* pcb){
     if (curr == pcb) {
       temp = curr;
       curr->previous->next = curr->next;
-
-      freePCB(temp);
       return SUCCESS;
 
     }
@@ -766,7 +763,6 @@ int removePCB(struct PCB* pcb){
   if (curr->next == NULL) {
     currQ->head = NULL;
     currQ->tail = NULL;
-    freePCB(curr);
     return SUCCESS;
   }
 
