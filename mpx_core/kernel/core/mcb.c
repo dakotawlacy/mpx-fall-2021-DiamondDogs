@@ -21,22 +21,20 @@ list heapList;
 
 void initHeap() {
 
-
-
-
   //Inintialize free and alloc list
   initLists();
 
-
-
+  //Set starting heap address
   heapAddress = kmalloc(50000 + sizeof(MCB));
 
+  //Create initial MCB
   struct MCB* heap;
   heap = (MCB*)heapAddress;
   heap->size = 50000;
   heap->type = 0;//free
   heap->address = heapAddress + sizeof(MCB);//Starting address
 
+  //Place at head
   if (heapList.head == NULL) {
 
     heapList.head = heap;
@@ -44,26 +42,6 @@ void initHeap() {
     heap->prev = NULL;
 
   }
-
-   //PCB* wow = (PCB*)allocateMem(100);
-
-   //This allocation causes page fault
-
-  //Catching on second Allocate mem
-  //PCB* now = (PCB*)allocateMem(100);
-  /////////////////////////////////
-
-  // PCB* what = (PCB*)allocateMem(3000);
-  // PCB* mom = (PCB*)allocateMem(7000);
-  // freeMem(wow);
-  // freeMem(now);
-  // //freeMem(what);
-  // //freeMem(mom);
-
-  //if (wow) {}
-  //if (now) {}
-
-   //printNodes();
 
   return;
 
@@ -76,29 +54,23 @@ void initLists() {
 
 }
 
-//Allocate memory
 u32int allocateMem(u32int size) {
-
-
 
   //Find MCB that has enough space in it
   MCB* freeMCB = findSpace((int) size);
 
+  if (!freeMCB) {
+    return NULL;
+  }
+
   //Temp Variables
   int tempSize = freeMCB->size;
   u32int oldNext = (u32int) freeMCB->next;
-  u32int oldPrev = (u32int) freeMCB->prev;
   u32int tempAdd = freeMCB->address;
-
-  //char* oldName = "";
-  //strcpy(oldName,oldMCB->pcb_name);
 
   //Create new MCB block to create
   //Set new MCB equal to the location of the free block
   MCB* allocatedMCB = freeMCB;
-
-  //Change name
-  //strcpy(newMCB->pcb_name,"process");
 
   //Change type
   allocatedMCB->type = 1;
@@ -106,31 +78,34 @@ u32int allocateMem(u32int size) {
   //Change size
   allocatedMCB->size = size;
 
-  allocatedMCB->prev = (MCB*)oldPrev;
-
   //Edit Old block
   freeMCB = (MCB*)(tempAdd + size);
 
-  /////////////////
+  //Set new address of the freeMCB
   freeMCB->address = tempAdd + size + sizeof(MCB);
-  /////////////////
 
+  //Change size of free block
   freeMCB->size = tempSize - size - sizeof(MCB);
-  //strcpy(oldMCB->pcb_name,oldName);
 
+  //Set up pointers
   allocatedMCB->next = freeMCB;
   freeMCB->prev = allocatedMCB;
   freeMCB->next = (MCB*) oldNext;
 
+  //return address
   return (u32int)allocatedMCB->address;
 
  }
 
 int freeMem(void* location) {
 
+  //Find MCB to be freed
   MCB* mcb = findMCB((u32int) location);
+
+  //Change type to free
   mcb->type = 0;
 
+  //Update the list
   updateList();
   updateList();
 
@@ -158,26 +133,31 @@ MCB* findMCB(u32int address) {
 
 void updateList() {
 
+  //Set MCB* for traversal
   MCB* curr = heapList.head;
 
+  //Traverse list
   while (curr != NULL) {
 
+    //Check for two nodes next to each other
     if (curr->type == 0 && curr->next->type == 0) {
 
+      //Combine sizes
       curr->size = curr->size + curr->next->size + (int)sizeof(MCB);
 
+      //Remove node
       MCB* temp;
-
       temp = curr->next;
-
       curr->next = curr->next->next;
 
+      //Free node pointers
       temp = NULL;
       temp->next = NULL;
       temp->prev = NULL;
 
     }
 
+    //Traverse
     curr = curr->next;
   }
 
@@ -186,8 +166,10 @@ void updateList() {
 
 struct MCB* findSpace(int size) {
 
+  //Set node for traversal
   MCB* curr = heapList.head;
 
+  //Traverse
   while (curr != NULL) {
     //Found Space in a free MCB
     if ((size + (int)sizeof(struct MCB)) < curr->size && curr->type == 0) {
@@ -198,8 +180,8 @@ struct MCB* findSpace(int size) {
     }
   }
 
+  //If none is found
   return NULL;
-
 
 }
 
@@ -207,18 +189,15 @@ int isEmpty() {
 
   MCB* curr = heapList.head;
 
-
   while (curr != NULL) {
 
     if (curr->type == 1) {
-      serial_println("Not empty");
       return 0;
     }
 
     curr = curr->next;
   }
 
-  serial_println("empty");
   return 1;
 
 }
