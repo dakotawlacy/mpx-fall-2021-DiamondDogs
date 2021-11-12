@@ -96,9 +96,12 @@ void kmain(void)
 
        // 6) Call YOUR command handler -  interface method
        initQueues();
-       run_startup();
+
 
        klogv("Transferring control to commhand...");
+
+
+       run_startup();
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);

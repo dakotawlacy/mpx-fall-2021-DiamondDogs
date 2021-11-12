@@ -157,7 +157,16 @@ int run_help(char * commandBuff, int bufferSize) {
     int showInfinite_length = strlen(showInfinite);
     sys_req(WRITE,DEFAULT_DEVICE,showInfinite,&showInfinite_length);
   }
-
+  else if ((strcmp(command,"showFree") == 0) && strlen(command) == 8) {
+    char* showFree = "Type 'showFree' to show free MCB's\n";
+    int showFree_len = strlen(showFree);
+    sys_req(WRITE,DEFAULT_DEVICE,showFree,&showFree_len);
+  }
+  else if ((strcmp(command,"showAlloc") == 0) && strlen(command) == 9) {
+    char* showAlloc = "Type 'showAlloc' to show allocated MCB's\n";
+    int showAlloc_len = strlen(showAlloc);
+    sys_req(WRITE,DEFAULT_DEVICE,showAlloc,&showAlloc_len);
+  }
   ///////////////////////////////
   else {
     //Invalid command catch
@@ -237,6 +246,13 @@ int run_help(char * commandBuff, int bufferSize) {
 
       char * showInfinite = "'infinite' - to create an infinite process\n";
       int showInfinite_length = strlen(showInfinite);
+
+      char* showFree = "'showFree' - to show Free MCB's\n";
+      int showFree_len = strlen(showFree);
+
+      char* showAlloc = "'showAlloc' - to show Allocated MCB's\n";
+      int showAlloc_len = strlen(showAlloc);
+
 ///////////////////////////
       char * helpFunc = "\nPlease use <help 'commandname'> to view commands functionality.\n";
       int helpFunc_length = strlen(helpFunc);
@@ -262,7 +278,8 @@ int run_help(char * commandBuff, int bufferSize) {
       sys_req(WRITE,DEFAULT_DEVICE, showAlarm, &showAlarm_length);
       sys_req(WRITE,DEFAULT_DEVICE, showResumeAll, &showResume_length);
       sys_req(WRITE,DEFAULT_DEVICE, showInfinite, &showInfinite_length);
-
+      sys_req(WRITE,DEFAULT_DEVICE,showFree,&showFree_len);
+      sys_req(WRITE,DEFAULT_DEVICE,showAlloc,&showAlloc_len);
       ////////////////////////////
       sys_req(WRITE,DEFAULT_DEVICE,helpFunc,&helpFunc_length);
     }

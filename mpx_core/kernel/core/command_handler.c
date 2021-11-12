@@ -179,59 +179,9 @@ int get_command(char * commandBuff, int bufferSize) {
   else if(strcmp(command,"showBlocked")==0){
     printBlock();
   }
-  /////////////////////////////
-  // else if(strcmp(command,"createPCB")==0){
-  //   int result = get_pcb_data(commandBuff);
-  //
-  //   if (result == 1) {
-  //     char* temp = "PCB added\n";
-  //     int temp_len = strlen(temp);
-  //     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //
-  //   }
-  //   else if (result == 1000) {
-  //     //invalid name
-  //     char* temp = "Invalid Name\n";
-  //     int temp_len = strlen(temp);
-  //     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //   }
-  //   else if (result == 2000) {
-  //     //invalid class
-  //     char* temp = "Invalid Class\n";
-  //     int temp_len = strlen(temp);
-  //     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //   }
-  //   else if (result == 3000) {
-  //     //already inside
-  //     char* temp = "Already Exists\n";
-  //     int temp_len = strlen(temp);
-  //     sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //   }
-  //
-  // }
   else if(strcmp(command,"deletePCB")==0){
     deletePCB(commandBuff);
   }
-  //TEMP COMMANDS GONE
-  // else if(strcmp(command,"blockPCB")==0){
-  //   if(blockPCB(commandBuff) != NULL){
-  //   char* temp = "PCB blocked\n";
-  //   int temp_len = strlen(temp);
-  //   sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //   }
-  // }
-  // else if(strcmp(command,"unblockPCB")==0){
-  //   if(unblockPCB(commandBuff) != NULL){
-  //   char* temp = "PCB unblocked\n";
-  //   int temp_len = strlen(temp);
-  //   sys_req(WRITE,DEFAULT_DEVICE,temp,&temp_len);
-  //   }
-  // }
-  // else if (strcmp(command,"yield") == 0) {
-  //
-  //   sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
-  //   run_yield();
-  // }
   else if (strcmp(command,"loadr3") == 0) {
     //Run gettime
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
