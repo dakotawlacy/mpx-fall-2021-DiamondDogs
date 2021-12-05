@@ -19,7 +19,6 @@ typedef struct PCB {
 
 typedef struct MCB {
 
-  char pcb_name[15];
   int type;//0 for free, 1 for allocated
   u32int address;
   int size;
@@ -46,6 +45,7 @@ typedef struct context {
   u32int edi, esi, ebp, esp, ebx, edx, ecx, eax;
   u32int eip, cs, eflags;
 }context;
+
 
 
 #endif

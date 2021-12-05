@@ -19,7 +19,6 @@ queue suspendedBlock;
 int newLine = 2;
 
 
-
 //Get Name
 char* get_name(char* commandBuff) {
 
@@ -191,7 +190,9 @@ void freePCB(struct PCB* pcb){
 
   //Free memory
   sys_free_mem(pcb);
-  sys_free_mem(pcb->stackBase);
+  //sys_free_mem(pcb->stackBase);
+
+  return;
 
 }
 
@@ -740,7 +741,6 @@ int removePCB(struct PCB* pcb){
     temp = currQ->head;
     currQ->head = curr->next;
     curr->previous = NULL;
-    freePCB(temp);
     return SUCCESS;
   }
 
@@ -754,8 +754,6 @@ int removePCB(struct PCB* pcb){
     if (curr == pcb) {
       temp = curr;
       curr->previous->next = curr->next;
-
-      freePCB(temp);
       return SUCCESS;
 
     }
@@ -765,7 +763,6 @@ int removePCB(struct PCB* pcb){
   if (curr->next == NULL) {
     currQ->head = NULL;
     currQ->tail = NULL;
-    freePCB(curr);
     return SUCCESS;
   }
 

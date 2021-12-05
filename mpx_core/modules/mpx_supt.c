@@ -11,8 +11,7 @@
 #include <core/serial.h>
 #include <core/struct.h>
 #include <core/PCB.h>
-
-
+#include <core/mcb.h>
 
 PCB* cop;
 context* cont;
@@ -33,7 +32,7 @@ u32int (*student_malloc)(u32int);
 
 // if a student created heap manager is implemented this
 // is a pointer to the student's "free" operation.
-int (*student_free)(void *);
+int (*student_free) (void *);
 
 
 
@@ -155,7 +154,7 @@ void *sys_alloc_mem(u32int size)
   if (!mem_module_active)
     return (void *) kmalloc(size);
   else
-    return (void *) (*student_malloc)(size);
+    return (void *)(*student_malloc)(size);
 }
 
 
@@ -185,7 +184,7 @@ void idle()
   int count=0;
 
 	memset( msg, '\0', sizeof(msg));
-	strcpy(msg, "IDLE PROCESS EXECUTING.\n");
+	strcpy(msg, "\n");
 	count = strlen(msg);
 
   while(1){
@@ -221,6 +220,7 @@ u32int* sys_call(context* registers) {
 
 	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
+		//temp = readyQueue.head;
 		cop = temp;
 		removePCB(cop);
 		cop->state = 0;//set to running
@@ -232,8 +232,7 @@ u32int* sys_call(context* registers) {
 }
 
 //Infinite Command
-void infinite()
-{
+void infinite() {
   char msg[30];
   int count=0;
 

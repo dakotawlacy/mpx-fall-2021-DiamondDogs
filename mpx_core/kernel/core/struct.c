@@ -5,6 +5,7 @@
 #include <core/serial.h>
 #include <core/struct.h>
 
+
 typedef struct PCB {
 
   char process_name[15];
@@ -23,7 +24,6 @@ typedef struct PCB {
 
 typedef struct MCB {
 
-  char pcb_name[15];
   int type;//0 for free, 1 for allocated
   u32int address;
   int size;

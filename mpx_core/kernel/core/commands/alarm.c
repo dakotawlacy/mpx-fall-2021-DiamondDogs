@@ -54,10 +54,10 @@ void create_alarm() {
   alarm4 = sys_alloc_mem(sizeof(char[7]));
   alarm5 = sys_alloc_mem(sizeof(char[7]));
 
-  getTime = sys_alloc_mem(sizeof(char[7]));
+  getTime  = sys_alloc_mem(sizeof(char[7]));
   getHours = sys_alloc_mem(sizeof(char[3]));
-  getMin = sys_alloc_mem(sizeof(char[3]));
-  getSec = sys_alloc_mem(sizeof(char[3]));
+  getMin   = sys_alloc_mem(sizeof(char[3]));
+  getSec   = sys_alloc_mem(sizeof(char[3]));
 
   mess1 = sys_alloc_mem(sizeof(char[50]));
   mess2 = sys_alloc_mem(sizeof(char[50]));
