@@ -35,7 +35,9 @@ core/loadr3.o\
 core/testProcesses.o\
 core/commands/alarm.o\
 core/mcb.o\
-core/PCB.o
+core/PCB.o\
+core/newserial.o\
+core/dcb.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<

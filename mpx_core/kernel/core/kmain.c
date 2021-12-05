@@ -17,7 +17,7 @@
 
 #include <core/io.h>
 #include <core/serial.h>
-#include <core/command_handler.h>//Include new h
+#include <core/command_handler.h>
 #include <core/tables.h>
 #include <core/interrupts.h>
 #include <mem/heap.h>
@@ -28,8 +28,7 @@
 #include <core/PCB.h>
 #include <core/mcb.h>
 #include <core/commands/yield.h>
-
-
+#include <core/newserial.h>
 
 void kmain(void)
 {
@@ -52,8 +51,7 @@ void kmain(void)
    //     MPX Module.  This will change with each module.
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
- 	 mpx_init(MEM_MODULE);
-   //mpx_init(MODULE_R4);
+   mpx_init(IO_MODULE);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){
@@ -93,6 +91,13 @@ void kmain(void)
        sys_set_malloc(&allocateMem);
        sys_set_free(&freeMem);
        initHeap();
+
+       com_open(1200);
+       int a = 1;
+       while(1) {
+         (void) a;
+       }
+
 
        // 6) Call YOUR command handler -  interface method
        initQueues();
