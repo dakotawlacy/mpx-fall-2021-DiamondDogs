@@ -37,7 +37,8 @@ core/commands/alarm.o\
 core/mcb.o\
 core/PCB.o\
 core/newserial.o\
-core/dcb.o
+core/dcb.o\
+core/iocb.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<

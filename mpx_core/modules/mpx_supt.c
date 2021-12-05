@@ -12,6 +12,8 @@
 #include <core/struct.h>
 #include <core/PCB.h>
 #include <core/mcb.h>
+#include <core/iocb.h>
+#include <core/newserial.h>
 
 PCB* cop;
 context* cont;
@@ -189,6 +191,7 @@ void idle()
 
   while(1){
 		//sys_req(WRITE, DEFAULT_DEVICE, msg, &count);
+
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
 }
@@ -198,11 +201,14 @@ u32int* sys_call(context* registers) {
 
 	PCB* temp;
 	//temp = readyQueue.head;
+
+	//check io requests prolly??
+
+
 	//Has Ran before
 	if (cop != NULL) {
 
 		if (params.op_code == IDLE) {
-
 			cop->stackTop = (unsigned char*)registers;
 			cop->state =  1;//Ready
 			insertPCB(cop);
@@ -216,14 +222,14 @@ u32int* sys_call(context* registers) {
 			cop->stackTop = (unsigned char*)registers;
 			cop->state = 2;//block
 			insertPCB(cop);//place into blocked queue
-
-			
 		}
 		else if (params.op_code == WRITE) {
+
 			cop->stackTop = (unsigned char*)registers;
 			cop->state = 2;//block
 			insertPCB(cop);//place into blocked queue
 
+			createIOCB((u32int)cop,params.buffer_ptr,*params.count_ptr,0);
 
 		}
 
@@ -233,10 +239,15 @@ u32int* sys_call(context* registers) {
 		cont = registers;
 	}
 
+
+	//CHECK IOCB QUEUE HERE
+	com_open(1200);
+
+
 	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
-		temp = readyQueue.head;
 
+		temp = readyQueue.head;
 		cop = temp;
 		//serial_println(cop->process_name);
 		removePCB(cop);

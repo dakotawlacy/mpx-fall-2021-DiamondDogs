@@ -29,6 +29,7 @@
 #include <core/mcb.h>
 #include <core/commands/yield.h>
 #include <core/newserial.h>
+#include <core/iocb.h>
 
 void kmain(void)
 {
@@ -100,7 +101,7 @@ void kmain(void)
 
        // 6) Call YOUR command handler -  interface method
        initQueues();
-
+       initIOCBQueue();
 
        klogv("Transferring control to commhand...");
 
