@@ -92,12 +92,11 @@ void kmain(void)
        sys_set_free(&freeMem);
        initHeap();
 
-       com_open(1200);
-       int a = 1;
-       while(1) {
-         (void) a;
-       }
-
+       // com_open(1200);
+       // int a = 1;
+       // while(1) {
+       //   (void) a;
+       // }
 
        // 6) Call YOUR command handler -  interface method
        initQueues();
@@ -105,8 +104,7 @@ void kmain(void)
 
        klogv("Transferring control to commhand...");
 
-
-       run_startup();
+      // run_startup();
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);

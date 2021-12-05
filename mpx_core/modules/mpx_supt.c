@@ -180,15 +180,15 @@ int sys_free_mem(void *ptr)
 */
 void idle()
 {
-  char msg[30];
-  int count=0;
+  //char msg[30];
+  //int count=0;
 
-	memset( msg, '\0', sizeof(msg));
-	strcpy(msg, "\n");
-	count = strlen(msg);
+	//memset( msg, '\0', sizeof(msg));
+	//strcpy(msg, "\n");
+	//count = strlen(msg);
 
   while(1){
-		sys_req(WRITE, DEFAULT_DEVICE, msg, &count);
+		//sys_req(WRITE, DEFAULT_DEVICE, msg, &count);
     sys_req(IDLE, DEFAULT_DEVICE, NULL, NULL);
   }
 }
@@ -197,7 +197,7 @@ void idle()
 u32int* sys_call(context* registers) {
 
 	PCB* temp;
-	temp = readyQueue.head;
+	//temp = readyQueue.head;
 	//Has Ran before
 	if (cop != NULL) {
 
@@ -212,6 +212,21 @@ u32int* sys_call(context* registers) {
 			freePCB(cop);
 			cop = NULL;
 		}
+		else if (params.op_code == READ) {
+			cop->stackTop = (unsigned char*)registers;
+			cop->state = 2;//block
+			insertPCB(cop);//place into blocked queue
+
+			
+		}
+		else if (params.op_code == WRITE) {
+			cop->stackTop = (unsigned char*)registers;
+			cop->state = 2;//block
+			insertPCB(cop);//place into blocked queue
+
+
+		}
+
 	}//Has not ran
 	else {
 		//serial_println("Cop is null");
@@ -220,8 +235,10 @@ u32int* sys_call(context* registers) {
 
 	//If there is a process in the queue
 	if (readyQueue.head	!= NULL) {
-		//temp = readyQueue.head;
+		temp = readyQueue.head;
+
 		cop = temp;
+		//serial_println(cop->process_name);
 		removePCB(cop);
 		cop->state = 0;//set to running
 		return (u32int*) cop->stackTop;

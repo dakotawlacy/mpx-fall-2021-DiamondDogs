@@ -327,14 +327,3 @@ void showAlloc() {
   }
 
 }
-
-void printNodes() {
-
-  MCB* curr = heapList.head;
-  char* swag = "";
-
-  while (curr != NULL) {
-    serial_println(itoa(curr->size,swag));
-    curr = curr->next;
-  }
-}

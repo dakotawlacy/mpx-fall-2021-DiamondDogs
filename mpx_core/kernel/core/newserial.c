@@ -11,7 +11,7 @@
 
 struct DCB serial_dcb;
 
- u32int original_idt_entry;
+u32int original_idt_entry;
 
 void set_int(int bit, int on) {
 
@@ -25,10 +25,30 @@ void set_int(int bit, int on) {
 
 void top_handle() {
   if (serial_dcb.open) {
+
     cli();
 
-    serial_dcb.ringbuff[0] = inb(dev);
-    outb(dev, serial_dcb.ringbuff[0]);
+    int type = inb(dev + 2);
+    int bit1 = type>>1 & 1;
+    int bit2 = type>>2 & 1;
+
+    if (!bit1 && !bit2) {
+      //Modem
+      inb(dev + 6);
+    }
+    else if (!bit1 && bit2) {
+      //output handler
+      klogv("output");
+    }
+    else if (bit1 && !bit2) {
+      //input handler
+      klogv("input");
+    }
+    else if (bit1 && bit2) {
+      inb(dev + 5);
+    }
+
+
 
     sti();
   }
