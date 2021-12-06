@@ -3,15 +3,13 @@
 
 #include <system.h>
 
-
-
 typedef struct IOCB {
 
   u32int process;
   int eventFlag;//0 not finished, 1 finished
   int writeread;//0 write, 1 read;
   char* buffer;
-  int buffer_length;
+  int* buffer_length;
   struct IOCB* next;
   struct IOCB* prev;
 
@@ -23,11 +21,12 @@ typedef struct que {
 }que;
 
 
-
 void initIOCBQueue();
 
-void createIOCB(u32int address, char* buffer, int buffer_length, int operation);
+void createIOCB(u32int address, char* buffer, int* buffer_length, int operation);
 
 void insertIOCB(struct IOCB* iocb);
+
+void IOCBScheduler();
 
 #endif
