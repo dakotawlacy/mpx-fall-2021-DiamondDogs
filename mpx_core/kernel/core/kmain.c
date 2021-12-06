@@ -143,6 +143,8 @@ void kmain(void)
        newPCB->susState = 0;
        insertPCB(newPCB);
 
+       com_open(1200);
+
        run_yield();
 
        // 7) System Shutdown on return from your command handler

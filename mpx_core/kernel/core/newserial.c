@@ -41,21 +41,21 @@ void top_handle() {
     else if (!bit1 && bit2) {
       //output handler
       klogv("output");
+
     }
     else if (bit1 && !bit2) {
       //input handler
-      klogv("input");
+      write_interrupt();
+
     }
     else if (bit1 && bit2) {
       inb(dev + 5);
     }
 
-    sti();
+      sti();
+      outb(0x20, 0x20);
+
   }
-
-  set_int(1, 0);
-
-  outb(0x20, 0x20);
 }
 
 int com_open(int baud_rate) {
@@ -93,11 +93,62 @@ int com_open(int baud_rate) {
 
   outb(0x21, inb(0x21) & ~(1<<level));
 
-  outb(dev + 1, 0b00000001);
+  outb(dev + 1, 0b00000001);//enable interrupt
 
-  (void) inb(dev);//enable interrupt
+  (void) inb(dev);
 
   sti();
 
   return 0;
+}
+
+int com_write(char* buffer, int* count) {
+
+
+  //Error check in future;
+
+  
+  serial_dcb.device_buffer = buffer;
+  serial_dcb.count_ptr = count;
+  serial_dcb.status = 1;//Set to write
+  serial_dcb.device_buffer_index = 0;
+
+  serial_dcb.event = 0;
+
+  set_int(1,1);
+
+  outb(COM1,serial_dcb.device_buffer[serial_dcb.device_buffer_index]);
+
+  serial_dcb.device_buffer_index++;
+  serial_dcb.device_buffer++;
+
+  sti();
+
+  return 0;
+
+}
+
+void write_interrupt() {
+
+  //check to see if writing
+  if (serial_dcb.status != 1) {
+    return;
+  }
+
+  //Check to see if we're at end of buffer
+  if (serial_dcb.device_buffer_index == *(serial_dcb.count_ptr)) {
+    serial_dcb.status = 0;//set status to idle
+    serial_dcb.event = 1;//set event flag
+    *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
+
+    set_int(1,0);
+
+  }
+
+  if (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr)) {
+    outb(COM1,*(serial_dcb.device_buffer));
+    serial_dcb.device_buffer++;
+    serial_dcb.device_buffer_index++;
+
+  }
 }

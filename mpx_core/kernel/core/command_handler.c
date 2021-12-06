@@ -43,9 +43,6 @@ int run_ch() {
   int bufferSize = 99;
   memset(&commandBuff,'\0',100);
 
-  serial_println("akjfjad");
-
-
   //Command Handler Loop
   while(1) {
 

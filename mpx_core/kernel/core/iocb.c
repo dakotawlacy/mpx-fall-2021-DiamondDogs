@@ -5,6 +5,7 @@
 #include <system.h>
 #include <core/serial.h>
 #include <core/struct.h>
+#include <core/newserial.h>
 
 que IOCBQueue;
 
@@ -12,7 +13,7 @@ void initIOCBQueue() {
   IOCBQueue.head = NULL;
 }
 
-void createIOCB(u32int address, char* buffer, int buffer_length, int operation) {
+void createIOCB(u32int address, char* buffer, int* buffer_length, int operation) {
 
   struct IOCB* new = NULL;
 
@@ -21,6 +22,9 @@ void createIOCB(u32int address, char* buffer, int buffer_length, int operation) 
   new->buffer_length = buffer_length;
   new->writeread = operation;
   new->eventFlag = 0;
+
+
+
 
   insertIOCB(new);
 
@@ -31,6 +35,7 @@ void insertIOCB(struct IOCB* new) {
   if (IOCBQueue.head == NULL) {
     IOCBQueue.head = new;
     new->next = NULL;
+
     return;
   }
 
@@ -43,6 +48,27 @@ void insertIOCB(struct IOCB* new) {
   new->next = NULL;
 
   return;
+
+}
+
+void IOCBScheduler() {
+	
+    //check for completion
+    if (IOCBQueue.head->eventFlag) {
+      //Remove from queue
+
+    }
+
+    //Complete request
+    if (IOCBQueue.head->writeread == 0) {
+      //Write
+
+      com_write(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
+
+    }
+    else if (IOCBQueue.head->writeread == 1) {
+      //com_read();
+    }
 
 
 }

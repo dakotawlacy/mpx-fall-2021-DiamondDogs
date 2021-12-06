@@ -222,6 +222,8 @@ u32int* sys_call(context* registers) {
 			cop->stackTop = (unsigned char*)registers;
 			cop->state = 2;//block
 			insertPCB(cop);//place into blocked queue
+
+			//createIOCB
 		}
 		else if (params.op_code == WRITE) {
 
@@ -229,7 +231,7 @@ u32int* sys_call(context* registers) {
 			cop->state = 2;//block
 			insertPCB(cop);//place into blocked queue
 
-			createIOCB((u32int)cop,params.buffer_ptr,*params.count_ptr,0);
+			createIOCB((u32int)cop,params.buffer_ptr,params.count_ptr,0);
 
 		}
 
@@ -241,7 +243,7 @@ u32int* sys_call(context* registers) {
 
 
 	//CHECK IOCB QUEUE HERE
-	com_open(1200);
+	IOCBScheduler();
 
 
 	//If there is a process in the queue
