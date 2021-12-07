@@ -53,6 +53,7 @@ void kmain(void)
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
    mpx_init(IO_MODULE);
+   mpx_init(MEM_MODULE);
    // 2) Check that the boot was successful and correct when using grub
    // Comment this when booting the kernel directly using QEMU, etc.
    if ( magic != 0x2BADB002 ){

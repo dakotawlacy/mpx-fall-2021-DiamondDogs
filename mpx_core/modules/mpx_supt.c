@@ -222,7 +222,7 @@ u32int* sys_call(context* registers) {
 			cop->stackTop = (unsigned char*)registers;
 			cop->state = 2;//block
 			insertPCB(cop);//place into blocked queue
-
+			createIOCB((u32int)cop,params.buffer_ptr,params.count_ptr,1);
 			//createIOCB
 		}
 		else if (params.op_code == WRITE) {

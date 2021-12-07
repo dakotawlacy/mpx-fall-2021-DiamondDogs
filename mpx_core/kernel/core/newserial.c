@@ -5,6 +5,7 @@
 #include <core/io.h>
 #include <core/tables.h>
 #include "string.h"
+#include <core/keyboard_capture.h>
 
  u32int dev = COM1;
 //
@@ -63,7 +64,7 @@ int com_open(int baud_rate) {
   cli();
 
   serial_dcb.open = 1;//open
-  serial_dcb.event = 1;//done?
+  serial_dcb.event = 0;//done?
   serial_dcb.status = 0;//idle, read, write
 
   serial_dcb.device_buffer = NULL;
@@ -104,15 +105,11 @@ int com_open(int baud_rate) {
 
 int com_write(char* buffer, int* count) {
 
-
   //Error check in future;
-
-  
   serial_dcb.device_buffer = buffer;
   serial_dcb.count_ptr = count;
   serial_dcb.status = 1;//Set to write
   serial_dcb.device_buffer_index = 0;
-
   serial_dcb.event = 0;
 
   set_int(1,1);
@@ -124,7 +121,7 @@ int com_write(char* buffer, int* count) {
 
   sti();
 
-  return 0;
+  return serial_dcb.event;
 
 }
 
@@ -141,7 +138,7 @@ void write_interrupt() {
     serial_dcb.event = 1;//set event flag
     *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
 
-    set_int(1,0);
+    set_int(1,1);
 
   }
 
@@ -151,4 +148,23 @@ void write_interrupt() {
     serial_dcb.device_buffer_index++;
 
   }
+
+
+}
+
+int com_read(char* buffer, int* count) {
+
+  serial_dcb->device_buffer = buffer;
+  serial_dcb->count_ptr = count;
+  serial_dcb->status = 2;//READ
+  serial_dcb->device_buffer_index = 0;
+
+  serial_dcb->eventFlag = 0;
+
+  cli();
+
+
+
+
+
 }
