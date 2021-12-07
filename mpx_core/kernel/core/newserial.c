@@ -41,7 +41,7 @@ void top_handle() {
     }
     else if (!bit1 && bit2) {
       //output handler
-      klogv("output");
+      read_interrupt();
 
     }
     else if (bit1 && !bit2) {
@@ -154,17 +154,70 @@ void write_interrupt() {
 
 int com_read(char* buffer, int* count) {
 
-  serial_dcb->device_buffer = buffer;
-  serial_dcb->count_ptr = count;
-  serial_dcb->status = 2;//READ
-  serial_dcb->device_buffer_index = 0;
-
-  serial_dcb->eventFlag = 0;
+  serial_dcb.device_buffer = buffer;
+  serial_dcb.count_ptr = count;
+  serial_dcb.status = 2;//READ
+  serial_dcb.device_buffer_index = 0;
+  serial_dcb.event = 0;
 
   cli();
 
+  while (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr) && serial_dcb.ringbuff[serial_dcb.ringbuff_index]
+!= '\n' && serial_dcb.ringbuff[serial_dcb.ringbuff_index] != '\r' && serial_dcb.ringbuff_size > 0) {
+
+  serial_dcb.device_buffer[serial_dcb.device_buffer_index] =  serial_dcb.ringbuff[serial_dcb.ringbuff_index];
+  serial_dcb.ringbuff[serial_dcb.ringbuff_index] = '\0';
+  serial_dcb.device_buffer_index++;
+  serial_dcb.ringbuff_index++;
+  serial_dcb.ringbuff_size--;
+
+  if (serial_dcb.ringbuff_index > 99) {
+    serial_dcb.ringbuff_index = 0;
+  }
+
+}
+  sti();
+
+  if (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr)) {
+    return 0;
+  }
+
+  *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
+  serial_dcb.status = 0;
+  serial_dcb.event = 1;
+
+  return serial_dcb.event;
+
+}
 
 
+void read_interrupt() {
+
+  char letter;
+  letter = inb(dev);
+  outb(COM1,letter);
+  if (serial_dcb.status != 2) {
+    serial_dcb.ringbuff[serial_dcb.ringbuff_index] = letter;
+    serial_dcb.ringbuff_size++;
+    serial_dcb.ringbuff_index++;
+
+    if (serial_dcb.ringbuff_index > 99) {
+      serial_dcb.ringbuff_index = 0;
+    }
+
+    return;
+
+  }
+
+  if (letter == '\r' || letter == '\n' || serial_dcb.device_buffer_index == *(serial_dcb.count_ptr)) {
+    serial_dcb.status = 0;
+    serial_dcb.event = 1;
+    *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
+  }
+  else {
+      serial_dcb.device_buffer[serial_dcb.device_buffer_index] = letter;
+      serial_dcb.device_buffer_index++;
+  }
 
 
 }

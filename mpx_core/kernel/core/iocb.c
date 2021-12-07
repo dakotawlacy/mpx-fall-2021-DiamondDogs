@@ -81,7 +81,7 @@ void IOCBScheduler() {
     }
     else if (IOCBQueue.head->writeread == 1) {
       //com_read();
-      com_read(IOCBqueue.head->buffer,IOCBqueue.head->buffer_length);
+      IOCBQueue.head->eventFlag = com_read(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
     }
 
 

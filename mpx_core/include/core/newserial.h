@@ -10,8 +10,10 @@ int com_open(int baud_rate);
 
 int com_write(char* buffer, int* count);
 
-int com_read();
+int com_read(char* buffer, int* count);
 
 void write_interrupt();
+
+void read_interrupt();
 
 #endif
