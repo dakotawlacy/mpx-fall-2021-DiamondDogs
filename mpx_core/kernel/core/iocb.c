@@ -10,19 +10,24 @@
 
 que IOCBQueue;
 
+extern int* eflag;
+
 void initIOCBQueue() {
   IOCBQueue.head = NULL;
+  IOCBQueue.head->next = NULL;
 }
 
-void createIOCB(u32int address, char* buffer, int* buffer_length, int operation) {
+void createIOCB(u32int address, char* buffer, int* buffer_length, int operation,int* eflag) {
 
-  struct IOCB* new = sys_alloc_mem(sizeof(struct IOCB));
+  //Allocate IOCB
+  struct IOCB* new = sys_alloc_mem(sizeof(IOCB));
 
   new->process = address;
   new->buffer = buffer;
   new->buffer_length = buffer_length;
   new->writeread = operation;
-  new->eventFlag = 0;
+  new->eventFlag = eflag;
+  new->next = NULL;
 
   insertIOCB(new);
 
@@ -30,18 +35,21 @@ void createIOCB(u32int address, char* buffer, int* buffer_length, int operation)
 
 void insertIOCB(struct IOCB* new) {
 
+  //Check if head is null
   if (IOCBQueue.head == NULL) {
+    //Place IOCB at head
     IOCBQueue.head = new;
     new->next = NULL;
 
     return;
   }
 
+  //Traverse to end of list
   IOCB* curr = IOCBQueue.head;
   while (curr->next != NULL) {
     curr = curr->next;
   }
-
+  //Set last IOCB
   curr->next = new;
   new->next = NULL;
 
@@ -51,45 +59,46 @@ void insertIOCB(struct IOCB* new) {
 
 void IOCBScheduler() {
 
-    //empty queue
+
+    //Check if queue is empty
     if (IOCBQueue.head == NULL) {
       return;
     }
 
-    //check for completion
-    if (IOCBQueue.head->eventFlag) {
+    //Check to see if head is completed
+    if (*(IOCBQueue.head->eventFlag) == 1) {
+
       //Remove from queue
-      IOCB* iocbToFree = IOCBQueue.head;
-      IOCB* iocbNext = IOCBQueue.head->next;
-      IOCBQueue.head = iocbNext;
-      PCB* head = (PCB*)iocbToFree->process;
+      //IOCB* iocbToFree = IOCBQueue.head;
+      //PCB* next = (PCB*)IOCBQueue.head->next->process;
+      PCB* head = (PCB*)IOCBQueue.head->process;
 
-      sys_free_mem(iocbToFree);
+      //serial_println(next->process_name);
 
+      //Remove from blocked, place into ready
       removePCB(head);
       head->state = 1;
       insertPCB(head);
+      *(IOCBQueue.head->eventFlag) = 0;
 
-      IOCBQueue.head = iocbNext;
+
+
+
+      IOCBQueue.head = IOCBQueue.head->next;
 
       return;
+
     }
-
-    //Complete request
-    if (IOCBQueue.head->writeread == 0) {
-      //Write
-      IOCBQueue.head->eventFlag = com_write(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
-
-      if (IOCBQueue.head->eventFlag == 1) {
-        serial_println("swaggy");
+    else
+    {
+      //Complete request
+      if (IOCBQueue.head->writeread == 0) {
+        //Write
+        com_write(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
       }
-
+      else if (IOCBQueue.head->writeread == 1) {
+        //Read
+        com_read(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
+      }
     }
-    else if (IOCBQueue.head->writeread == 1) {
-      //Read
-      IOCBQueue.head->eventFlag = com_read(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
-
-    }
-
-
 }

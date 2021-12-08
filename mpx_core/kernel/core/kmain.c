@@ -30,6 +30,9 @@
 #include <core/commands/yield.h>
 #include <core/newserial.h>
 #include <core/iocb.h>
+#include <core/newprocesses.h>
+
+int* eflag;
 
 void kmain(void)
 {
@@ -144,10 +147,30 @@ void kmain(void)
        newPCB->susState = 0;
        insertPCB(newPCB);
 
-       com_open(1200);
+       newPCB = setupPCB("COMWRITE",1,5);
+       cp = (context*) newPCB->stackTop;
+       memset(cp,0,sizeof(context));
+       cp->fs = 0x10;
+       cp->gs = 0x10;
+       cp->ds = 0x10;
+       cp->es = 0x10;
+       cp->cs = 0x8;
+       cp->ebp = (u32int)(newPCB->stackBase);
+       cp->esp = (u32int) (newPCB->stackTop);
+       cp->eip = (u32int) &comwrite_test;
+       cp->eflags = 0x202;
+
+       removePCB(newPCB);
+       newPCB->susState = 0;
+       insertPCB(newPCB);
+
+       //int* eflag = sys_alloc_mem(sizeof(int*));
+
+       com_open(1200,eflag);
 
        run_yield();
 
+       com_close();
        // 7) System Shutdown on return from your command handler
        klogv("Starting system shutdown procedure...");
 

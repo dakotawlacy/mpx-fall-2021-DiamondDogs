@@ -4,7 +4,7 @@
 typedef struct DCB {
 
   int open;
-  int event;
+  int* event;
   int status;//0 idle, 1 write, 2 read
 
   char* device_buffer;

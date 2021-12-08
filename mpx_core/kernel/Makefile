@@ -38,7 +38,8 @@ core/mcb.o\
 core/PCB.o\
 core/newserial.o\
 core/dcb.o\
-core/iocb.o
+core/iocb.o\
+core/newprocesses.o
 
 .s.o:
 	$(AS) $(ASFLAGS) -o $@ $<

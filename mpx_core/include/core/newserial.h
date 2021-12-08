@@ -6,7 +6,9 @@ void set_int(int bit, int on);
 
 void top_handle();
 
-int com_open(int baud_rate);
+int com_open(int baud_rate,int* eflag);
+
+int com_close();
 
 int com_write(char* buffer, int* count);
 

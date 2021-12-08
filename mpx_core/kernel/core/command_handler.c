@@ -19,9 +19,9 @@
 #include <core/loadr3.h>
 #include <core/commands/alarm.h>
 #include <core/startup.h>
+#include <core/newprocesses.h>
 
 PCB* cop;
-
 
 //Run the Command Handler function
 int run_ch() {
@@ -33,8 +33,6 @@ int run_ch() {
   // Command Message and Length
   char * helpMessage = "Type 'help' to list all commands\n";
   int helpMessage_length = strlen(helpMessage);
-
-
 
   // Write welcome message
   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
@@ -54,7 +52,7 @@ int run_ch() {
     //Get input
     sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
-    
+
 
     //Check for shutdown command
     if (get_command(commandBuff, bufferSize) > 0){
@@ -97,10 +95,17 @@ int get_command(char* commandBuff, int bufferSize) {
   }
 
 
-
-
   //Command Logic
-  if (strcmp(command,"help") == 0) {
+  if (strcmp(command,"comwrite") == 0) {
+    comwrite_test();
+  }
+  else if (strcmp(command,"comread") == 0) {
+    COMREAD();
+  }
+  else if (strcmp(command,"iocom25") == 0) {
+    IOCOM25();
+  }
+  else if (strcmp(command,"help") == 0) {
     //Run Help
 
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
@@ -226,11 +231,14 @@ int get_command(char* commandBuff, int bufferSize) {
   //If invalid command is entered
   else {
     //Invalid code
-    char * errorMSG = "\n\x1b[1;31mInvalid command\x1b[1;0m\n";
+    char errorMSG[50] = "\n\x1b[1;31mInvalid command\x1b[1;0m\n";
     int errorMSG_length = strlen(errorMSG);
     //Print error message
     sys_req(WRITE,DEFAULT_DEVICE,errorMSG,&errorMSG_length);
   }
 
+  // char *temp = "";
+  // itoa(bufferSize, temp);
+  // serial_println(temp);
   return 0;
 }
