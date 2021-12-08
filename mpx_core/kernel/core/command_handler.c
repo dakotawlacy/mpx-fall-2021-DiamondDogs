@@ -34,6 +34,8 @@ int run_ch() {
   char * helpMessage = "Type 'help' to list all commands\n";
   int helpMessage_length = strlen(helpMessage);
 
+
+
   // Write welcome message
   sys_req(WRITE,DEFAULT_DEVICE,welcomeMessage,&welcome_length);
 
@@ -52,7 +54,7 @@ int run_ch() {
     //Get input
     sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
 
-    //serial_println(commandBuff);
+    
 
     //Check for shutdown command
     if (get_command(commandBuff, bufferSize) > 0){
@@ -94,10 +96,15 @@ int get_command(char* commandBuff, int bufferSize) {
     }
   }
 
+
+
+
   //Command Logic
   if (strcmp(command,"help") == 0) {
     //Run Help
+
     sys_req(WRITE,DEFAULT_DEVICE, "\n", &newLine);
+
     run_help(commandBuff,bufferSize);
   }
   else if (strcmp(command,"version") == 0) {

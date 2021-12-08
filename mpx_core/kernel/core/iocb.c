@@ -51,6 +51,7 @@ void insertIOCB(struct IOCB* new) {
 
 void IOCBScheduler() {
 
+    //empty queue
     if (IOCBQueue.head == NULL) {
       return;
     }
@@ -60,8 +61,10 @@ void IOCBScheduler() {
       //Remove from queue
       IOCB* iocbToFree = IOCBQueue.head;
       IOCB* iocbNext = IOCBQueue.head->next;
-
+      IOCBQueue.head = iocbNext;
       PCB* head = (PCB*)iocbToFree->process;
+
+      sys_free_mem(iocbToFree);
 
       removePCB(head);
       head->state = 1;
@@ -77,12 +80,14 @@ void IOCBScheduler() {
       //Write
       IOCBQueue.head->eventFlag = com_write(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
 
+      if (IOCBQueue.head->eventFlag == 1) {
+        serial_println("swaggy");
+      }
+
     }
     else if (IOCBQueue.head->writeread == 1) {
       //Read
       IOCBQueue.head->eventFlag = com_read(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
-
-    
 
     }
 

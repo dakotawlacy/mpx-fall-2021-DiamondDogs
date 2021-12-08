@@ -70,6 +70,7 @@ int com_open(int baud_rate) {
   serial_dcb.open = 1;//open
   serial_dcb.event = 0;//done?
   serial_dcb.status = 0;//idle, read, write
+  serial_dcb.done = 0;
 
   serial_dcb.device_buffer = NULL;
   serial_dcb.count_ptr = NULL;
@@ -114,11 +115,14 @@ int com_write(char* buffer, int* count) {
   serial_dcb.count_ptr = count;
   serial_dcb.status = 1;//Set to write
   serial_dcb.device_buffer_index = 0;
-  serial_dcb.event = 0;
+
 
   set_int(1,1);
 
+
   outb(COM1,serial_dcb.device_buffer[serial_dcb.device_buffer_index]);
+
+
 
   serial_dcb.device_buffer_index++;
   serial_dcb.device_buffer++;
@@ -126,6 +130,9 @@ int com_write(char* buffer, int* count) {
   sti();
 
   return serial_dcb.event;
+
+
+
 
 }
 
@@ -141,19 +148,14 @@ void write_interrupt() {
     serial_dcb.status = 0;//set status to idle
     serial_dcb.event = 1;//set event flag
     *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
-
     set_int(1,1);
-
   }
 
   if (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr)) {
     outb(COM1,*(serial_dcb.device_buffer));
     serial_dcb.device_buffer++;
     serial_dcb.device_buffer_index++;
-
   }
-
-
 }
 
 int com_read(char* buffer, int* count) {
@@ -167,29 +169,32 @@ int com_read(char* buffer, int* count) {
 
   set_int(1,1);
 
-  // while (serial_dcb.ringbuff[serial_dcb.ringbuff_index] != '\n' &&
-  //         serial_dcb.device_buffer_index < *(serial_dcb.count_ptr) &&
-  //         serial_dcb.ringbuff_size > 0)
-  //         {
-  //   serial_dcb.device_buffer[serial_dcb.device_buffer_index] = serial_dcb.ringbuff[serial_dcb.ringbuff_index];
-  //   serial_dcb.ringbuff[serial_dcb.ringbuff_index] = '\0';
-  //   serial_dcb.ringbuff_index++;
-  //   serial_dcb.device_buffer_index++;
-  //   serial_dcb.ringbuff_size--;
-  //
-  //   if (serial_dcb.ringbuff_index >= 99) {
-  //     serial_dcb.ringbuff_index = 0;
-  //   }
-  // }
 
-  if (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr)) {
+
+  if (!serial_dcb.done) {
     return 0;
   }
 
+  int i = 0;
+  while (i < 99) {
+
+    serial_dcb.device_buffer[i] = serial_dcb.ringbuff[i];
+    serial_dcb.ringbuff[serial_dcb.device_buffer_index] = '\0';
+    //serial_dcb.device_buffer_index++;
+
+    i++;
+    serial_dcb.ringbuff_size--;
+
+  }
+
+  serial_dcb.done = 0;
+  memset(serial_dcb.ringbuff, '\0', 99);
+  serial_dcb.ringbuff_size = 0;
+  serial_dcb.ringbuff_index = 0;
 
   *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
-  serial_dcb.status = 0;
-  serial_dcb.event = 1;
+  serial_dcb.status = 0;//Idle
+  serial_dcb.event = 1;//Done
 
   set_int(1,0);
 
@@ -203,18 +208,17 @@ void read_interrupt() {
 
   char letter;
   letter = inb(dev);
-  //outb(COM1,letter);
+  outb(COM1,letter);
 
   if (serial_dcb.status == 2) {//Check for read
 
     if (letter == '\r' || letter == '\n' || serial_dcb.device_buffer_index == *(serial_dcb.count_ptr)) {
 
-      serial_dcb.ringbuff[serial_dcb.ringbuff_index] = letter;//Get ending char
+      serial_dcb.ringbuff[serial_dcb.ringbuff_index] = '\0';//Get ending char
       serial_dcb.ringbuff_size++; //Increase ring buffer size
       serial_dcb.ringbuff_index++;//Increase ring buffer index
       *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
-
-      serial_println(serial_dcb.ringbuff);
+      serial_dcb.done = 1;
 
       return;
     }

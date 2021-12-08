@@ -201,7 +201,7 @@ int run_help(char * commandBuff, int bufferSize) {
 
       char * clearHelp = "'clear' - To clear the terminal window.\n";
       int clearHelp_length = strlen(clearHelp);
-////////////////////////
+
       char * suspendHelp = "'suspendPCB' - to suspend selected PCB\n";
       int suspendHelp_length = strlen(suspendHelp);
 
@@ -222,18 +222,6 @@ int run_help(char * commandBuff, int bufferSize) {
 
       char * showBlockedHelp = "'showBlocked' - to show blocked processes\n";
       int showBlockedHelp_length = strlen(showBlockedHelp);
-
-      // char * createPCBHelp = "'createPCB' - to create a PCB\n";
-      // int createPCBHelp_length = strlen(createPCBHelp);
-      //
-      // char * deletePCBHelp = "'deletePCB' - to delete the selected PCB\n";
-      // int deletePCBHelp_length = strlen(deletePCBHelp);
-      //
-      // char * blockHelp = "'blockPCB' - to block a PCB\n";
-      // int blockHelp_length = strlen(blockHelp);
-      //
-      // char * unblockHelp = "'unblockPCB' - to unblock a PCB\n";
-      // int unblockHelp_length = strlen(unblockHelp);
 
       char * showLoadR3 = "'loadr3' - to show load R3 processes\n";
       int showLoadR3_length = strlen(showLoadR3);
