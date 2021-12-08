@@ -106,7 +106,7 @@ void kmain(void)
 
        klogv("Transferring control to commhand...");
 
-      // run_startup();
+
 
        //Command Handler Process
        PCB* newPCB = setupPCB("command_handler",1,9);

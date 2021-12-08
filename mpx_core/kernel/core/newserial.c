@@ -7,9 +7,9 @@
 #include "string.h"
 #include <core/keyboard_capture.h>
 
- u32int dev = COM1;
+u32int dev = COM1;
 //
- int level = 4;
+int level = 4;
 
 struct DCB serial_dcb;
 
@@ -27,13 +27,16 @@ void set_int(int bit, int on) {
 
 void top_handle() {
 
+  //Check to see if its open
   if (serial_dcb.open) {
 
     cli();
 
+    //Get what line
     int type = inb(dev + 2);
     int bit1 = type>>1 & 1;
     int bit2 = type>>2 & 1;
+
 
     if (!bit1 && !bit2) {
       //Modem
@@ -54,6 +57,7 @@ void top_handle() {
     }
 
       sti();
+
       outb(0x20, 0x20);
 
   }
@@ -159,65 +163,76 @@ int com_read(char* buffer, int* count) {
   serial_dcb.status = 2;//READ
   serial_dcb.device_buffer_index = 0;
   serial_dcb.event = 0;
-
   cli();
 
-  while (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr) && serial_dcb.ringbuff[serial_dcb.ringbuff_index]
-!= '\n' && serial_dcb.ringbuff[serial_dcb.ringbuff_index] != '\r' && serial_dcb.ringbuff_size > 0) {
+  set_int(1,1);
 
-  serial_dcb.device_buffer[serial_dcb.device_buffer_index] =  serial_dcb.ringbuff[serial_dcb.ringbuff_index];
-  serial_dcb.ringbuff[serial_dcb.ringbuff_index] = '\0';
-  serial_dcb.device_buffer_index++;
-  serial_dcb.ringbuff_index++;
-  serial_dcb.ringbuff_size--;
-
-  if (serial_dcb.ringbuff_index > 99) {
-    serial_dcb.ringbuff_index = 0;
-  }
-
-}
-  sti();
+  // while (serial_dcb.ringbuff[serial_dcb.ringbuff_index] != '\n' &&
+  //         serial_dcb.device_buffer_index < *(serial_dcb.count_ptr) &&
+  //         serial_dcb.ringbuff_size > 0)
+  //         {
+  //   serial_dcb.device_buffer[serial_dcb.device_buffer_index] = serial_dcb.ringbuff[serial_dcb.ringbuff_index];
+  //   serial_dcb.ringbuff[serial_dcb.ringbuff_index] = '\0';
+  //   serial_dcb.ringbuff_index++;
+  //   serial_dcb.device_buffer_index++;
+  //   serial_dcb.ringbuff_size--;
+  //
+  //   if (serial_dcb.ringbuff_index >= 99) {
+  //     serial_dcb.ringbuff_index = 0;
+  //   }
+  // }
 
   if (serial_dcb.device_buffer_index < *(serial_dcb.count_ptr)) {
     return 0;
   }
 
+
   *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
   serial_dcb.status = 0;
   serial_dcb.event = 1;
 
-  return serial_dcb.event;
+  set_int(1,0);
+
+  sti();
+
+  return 1;
 
 }
-
 
 void read_interrupt() {
 
   char letter;
   letter = inb(dev);
-  outb(COM1,letter);
-  if (serial_dcb.status != 2) {
-    serial_dcb.ringbuff[serial_dcb.ringbuff_index] = letter;
-    serial_dcb.ringbuff_size++;
-    serial_dcb.ringbuff_index++;
+  //outb(COM1,letter);
+
+  if (serial_dcb.status == 2) {//Check for read
+
+    if (letter == '\r' || letter == '\n' || serial_dcb.device_buffer_index == *(serial_dcb.count_ptr)) {
+
+      serial_dcb.ringbuff[serial_dcb.ringbuff_index] = letter;//Get ending char
+      serial_dcb.ringbuff_size++; //Increase ring buffer size
+      serial_dcb.ringbuff_index++;//Increase ring buffer index
+      *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
+
+      serial_println(serial_dcb.ringbuff);
+
+      return;
+    }
+
+    serial_dcb.ringbuff[serial_dcb.ringbuff_index] = letter;//Place letter in ring buffer
+    serial_dcb.ringbuff_size++; //Increase ring buffer size
+    serial_dcb.ringbuff_index++;//Increase ring buffer index
 
     if (serial_dcb.ringbuff_index > 99) {
-      serial_dcb.ringbuff_index = 0;
+      serial_dcb.ringbuff_index = 0;//Reset ring buffer index
     }
 
     return;
 
   }
 
-  if (letter == '\r' || letter == '\n' || serial_dcb.device_buffer_index == *(serial_dcb.count_ptr)) {
-    serial_dcb.status = 0;
-    serial_dcb.event = 1;
-    *(serial_dcb.count_ptr) = serial_dcb.device_buffer_index;
-  }
-  else {
-      serial_dcb.device_buffer[serial_dcb.device_buffer_index] = letter;
-      serial_dcb.device_buffer_index++;
-  }
-
+  //If not read
+  serial_dcb.device_buffer[serial_dcb.device_buffer_index] = letter;
+  serial_dcb.device_buffer_index++;
 
 }

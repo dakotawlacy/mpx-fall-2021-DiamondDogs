@@ -51,7 +51,6 @@ void insertIOCB(struct IOCB* new) {
 
 void IOCBScheduler() {
 
-
     if (IOCBQueue.head == NULL) {
       return;
     }
@@ -59,15 +58,16 @@ void IOCBScheduler() {
     //check for completion
     if (IOCBQueue.head->eventFlag) {
       //Remove from queue
-      IOCB* temp = IOCBQueue.head;
-      PCB* head = (PCB*)temp->process;
+      IOCB* iocbToFree = IOCBQueue.head;
+      IOCB* iocbNext = IOCBQueue.head->next;
+
+      PCB* head = (PCB*)iocbToFree->process;
 
       removePCB(head);
       head->state = 1;
       insertPCB(head);
 
-      IOCBQueue.head = NULL;
-      //IOCBQueue.head = next;
+      IOCBQueue.head = iocbNext;
 
       return;
     }
@@ -77,11 +77,13 @@ void IOCBScheduler() {
       //Write
       IOCBQueue.head->eventFlag = com_write(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
 
-
     }
     else if (IOCBQueue.head->writeread == 1) {
-      //com_read();
+      //Read
       IOCBQueue.head->eventFlag = com_read(IOCBQueue.head->buffer,IOCBQueue.head->buffer_length);
+
+    
+
     }
 
 

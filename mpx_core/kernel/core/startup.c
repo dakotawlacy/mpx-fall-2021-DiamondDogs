@@ -7,10 +7,10 @@
 int run_startup() {
 
   //Run clear
-  int clear_length = 5;
+  //int clear_length = 5;
   //Clear code
-  sys_req(WRITE,DEFAULT_DEVICE,"\e[2J",&clear_length);
-  sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
+  //sys_req(WRITE,DEFAULT_DEVICE,"\e[2J",&clear_length);
+  //sys_req(WRITE,DEFAULT_DEVICE,"\e[2H",&clear_length);
 
   //Logo lines
   char ln1[100] =  "\t                 HMMMMMMMMMMNNmd      .MMMMMMMMNNNmy                        \n";

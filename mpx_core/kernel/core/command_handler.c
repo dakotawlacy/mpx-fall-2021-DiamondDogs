@@ -18,8 +18,10 @@
 #include <core/commands/yield.h>
 #include <core/loadr3.h>
 #include <core/commands/alarm.h>
+#include <core/startup.h>
 
 PCB* cop;
+
 
 //Run the Command Handler function
 int run_ch() {
@@ -40,14 +42,17 @@ int run_ch() {
 
   //Char array for commands
   char commandBuff[100];
-  int bufferSize = 99;
   memset(&commandBuff,'\0',100);
+  int bufferSize = 99;
+
 
   //Command Handler Loop
   while(1) {
 
     //Get input
     sys_req(READ,DEFAULT_DEVICE,commandBuff,&bufferSize);
+
+    //serial_println(commandBuff);
 
     //Check for shutdown command
     if (get_command(commandBuff, bufferSize) > 0){
@@ -72,7 +77,7 @@ int run_ch() {
 }
 
 //Parse command
-int get_command(char * commandBuff, int bufferSize) {
+int get_command(char* commandBuff, int bufferSize) {
 
   //Declare variables
   int i = 0;

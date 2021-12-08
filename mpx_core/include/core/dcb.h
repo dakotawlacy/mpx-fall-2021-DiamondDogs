@@ -14,6 +14,7 @@ typedef struct DCB {
   char ringbuff[99];
   int ringbuff_size;
   int ringbuff_index;
+  int done;
 
 }DCB;
 
