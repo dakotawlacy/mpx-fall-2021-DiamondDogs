@@ -23,7 +23,11 @@
 
 PCB* cop;
 
-//Run the Command Handler function
+/*
+  Procedure: run_ch
+  Description: Activates the command handler and has it run.
+  Params: N/A
+*/
 int run_ch() {
 
   // Welcome Message and Length
@@ -76,7 +80,12 @@ int run_ch() {
 
 }
 
-//Parse command
+/*
+  Procedure: get_command
+  Description: Parses command to catch the important
+    terms which help call correct function.
+  Param: (char)* commandBuff, (int) bufferSize
+*/
 int get_command(char* commandBuff, int bufferSize) {
 
   //Declare variables

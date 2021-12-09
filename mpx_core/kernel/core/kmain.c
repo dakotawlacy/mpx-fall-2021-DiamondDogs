@@ -36,9 +36,7 @@ int* eflag;
 
 void kmain(void)
 {
-   init_serial(COM1);
-   set_serial_in(COM1);
-   set_serial_out(COM1);
+
 
    extern uint32_t magic;
    // Uncomment if you want to access the multiboot header
@@ -52,6 +50,9 @@ void kmain(void)
    klogv("Starting MPX boot sequence...");
    klogv("Initialized serial I/O on COM1 device...");
 
+   init_serial(COM1);
+   set_serial_in(COM1);
+   set_serial_out(COM1);
    //     MPX Module.  This will change with each module.
    // 1) Initialize the support software by identifying the current
    // you will need to call mpx_init from the mpx_supt.c
@@ -147,24 +148,24 @@ void kmain(void)
        newPCB->susState = 0;
        insertPCB(newPCB);
 
-       newPCB = setupPCB("COMWRITE",1,5);
-       cp = (context*) newPCB->stackTop;
-       memset(cp,0,sizeof(context));
-       cp->fs = 0x10;
-       cp->gs = 0x10;
-       cp->ds = 0x10;
-       cp->es = 0x10;
-       cp->cs = 0x8;
-       cp->ebp = (u32int)(newPCB->stackBase);
-       cp->esp = (u32int) (newPCB->stackTop);
-       cp->eip = (u32int) &comwrite_test;
-       cp->eflags = 0x202;
+       // newPCB = setupPCB("COMWRITE",1,5);
+       // cp = (context*) newPCB->stackTop;
+       // memset(cp,0,sizeof(context));
+       // cp->fs = 0x10;
+       // cp->gs = 0x10;
+       // cp->ds = 0x10;
+       // cp->es = 0x10;
+       // cp->cs = 0x8;
+       // cp->ebp = (u32int)(newPCB->stackBase);
+       // cp->esp = (u32int) (newPCB->stackTop);
+       // cp->eip = (u32int) &comwrite_test;
+       // cp->eflags = 0x202;
+       //
+       // removePCB(newPCB);
+       // newPCB->susState = 0;
+       // insertPCB(newPCB);
 
-       removePCB(newPCB);
-       newPCB->susState = 0;
-       insertPCB(newPCB);
-
-       //int* eflag = sys_alloc_mem(sizeof(int*));
+       int* eflag = 0;
 
        com_open(1200,eflag);
 

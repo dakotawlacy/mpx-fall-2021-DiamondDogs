@@ -15,6 +15,13 @@ struct DCB serial_dcb;
 
 u32int original_idt_entry;
 
+/*
+  Procedure: set_int
+  Description: Allows the interrupt to be set so
+              the correct functions will be used
+              when called.
+  Params: (int) bit, (int) on
+*/
 void set_int(int bit, int on) {
 
   if (on) {
@@ -25,6 +32,13 @@ void set_int(int bit, int on) {
   }
 }
 
+/*
+  Procedure: top_handle
+  Description: Takes in values and determines
+    where to redirect them so the machine can
+    continue running efficiently.
+  Params; N/A
+*/
 void top_handle() {
 
   //Check to see if its open
@@ -63,6 +77,12 @@ void top_handle() {
   }
 }
 
+/*
+  Procedure: com_open
+  Description: Allows for communication to decide what the
+    machine is going to do next.
+  Params: (int) baud_rate
+*/
 int com_open(int baud_rate,int* eflag) {
 
   cli();
@@ -121,6 +141,11 @@ int com_close() {
 
 }
 
+/*
+  Procedure: com_write
+  Description: Allows you to write to the screen (output)
+  Params: (char*) buffer, (int*) count
+*/
 int com_write(char* buffer, int* count) {
 
   if (buffer == NULL) {
@@ -158,6 +183,14 @@ int com_write(char* buffer, int* count) {
 
 }
 
+/*
+    Procedure: write_interrupt
+    Description: Calls the interrupt that allows the
+                 machine to write out what is collected in the buffer.
+
+    "Puts in Write Mode"
+    Params: N/A
+*/
 void write_interrupt() {
 
   //check to see if writing
@@ -185,6 +218,11 @@ void write_interrupt() {
   }
 }
 
+/*
+  Procedure: com_read
+  Description: Reads in the input the user inputs
+  Params: (char*) buffer, (int*) count
+*/
 int com_read(char* buffer, int* count) {
 
   serial_dcb.device_buffer = buffer;
@@ -230,6 +268,14 @@ int com_read(char* buffer, int* count) {
 
 }
 
+/*
+  Procedure: read_interrupt
+  Description: Calls the interrupt that allows the machine to read in the input.
+
+  "Puts in Read Mode"
+
+  Params: N/A
+*/
 void read_interrupt() {
 
   char letter;

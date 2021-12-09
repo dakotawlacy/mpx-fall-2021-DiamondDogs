@@ -19,6 +19,11 @@ int nllen = 2;
 
 list heapList;
 
+/*
+  Procedure; initHeap()
+  Description: Initialize memory heap to the memory control block
+  Params: N/A
+*/
 void initHeap() {
 
   //Inintialize free and alloc list
@@ -47,6 +52,11 @@ void initHeap() {
 
 }
 
+/*
+  Procedure: initLists
+  Description: Initialize a linked list for the Memory Control Block.
+  Params: N/A
+*/
 void initLists() {
 
   heapList.head = NULL;
@@ -54,6 +64,11 @@ void initLists() {
 
 }
 
+/*
+  Procedure: allocateMem
+  Description: Allocates memory to a MCB big enough to hold it.
+  Params: (u32int) size
+*/
 u32int allocateMem(u32int size) {
 
   //Find MCB that has enough space in it
@@ -97,6 +112,12 @@ u32int allocateMem(u32int size) {
 
  }
 
+ /*
+   Procedure: freeMem
+   Description: A function that allows memory to be freed,
+     which allows memory to be more efficiently used.
+   Params: (void*) location
+ */
 int freeMem(void* location) {
 
   //Find MCB to be freed
@@ -113,9 +134,12 @@ int freeMem(void* location) {
 
 }
 
+/*
+  Procedure: findMCB0
+  Description: Located MCBs through traversing MCB linked list
+  Params: (u32int) address
+*/
 MCB* findMCB(u32int address) {
-
-
 
   MCB* curr = heapList.head;
 
@@ -131,6 +155,13 @@ MCB* findMCB(u32int address) {
   return NULL;
 }
 
+/*
+  Procedure: updateList
+  Description: Used to make memory usage more efficient.
+    It traverses the linked list to see if the status of
+    each MCB match and if they do, it combines the heap.
+  Params: N/A
+*/
 void updateList() {
 
   //Set MCB* for traversal
@@ -164,6 +195,14 @@ void updateList() {
   return;
 }
 
+/*
+  Procedure: findSpace
+  Description: Looks for space to slot the assigned MCB into.
+    The MCB size must be smaller or equal to the space found
+    or it will move to the next. If no spot is found, NULL is
+    returned.
+  Params: (int) size
+*/
 struct MCB* findSpace(int size) {
 
   //Set node for traversal
@@ -185,6 +224,13 @@ struct MCB* findSpace(int size) {
 
 }
 
+/*
+  Procedure: isEmpty
+  Description: Checks to see if any of the memory is used.
+    If yes, it returns not empty.
+    If no, it returns empty.
+  Params: N/A
+*/
 int isEmpty() {
 
   MCB* curr = heapList.head;
@@ -202,6 +248,12 @@ int isEmpty() {
 
 }
 
+/*
+  Procedure: printNodes
+  Description: Prints out each MCB along with
+    the values associated with it.
+  Params: N/a
+*/
 void printNodes() {
 
   MCB* curr = heapList.head;
@@ -218,6 +270,12 @@ void printNodes() {
   }
 }
 
+/*
+  Procedure: showFree
+  Description: Prints off each block that has the status of free.
+    If printed, it means that block is able to allocated at a later time.
+  Params: N/A
+*/
 void showFree() {
 
   MCB* curr = heapList.head;
@@ -271,6 +329,12 @@ void showFree() {
   }
 }
 
+/*
+  Procedure: showAlloc
+  Description: Prints off each block that has the status of allocated.
+    If printed, it means that block is not able to be allocated at a later time.
+  Params: N/A
+*/
 void showAlloc() {
 
 

@@ -18,7 +18,11 @@ queue suspendedReady;
 queue suspendedBlock;
 int newLine = 2;
 
-//Get Name
+/*
+  Procedure: get_name
+  Description: Get Name of PCB
+  Params: (char*) commandBuff
+*/
 char* get_name(char* commandBuff) {
 
   //Get Name
@@ -63,6 +67,11 @@ char* get_name(char* commandBuff) {
 
 }
 
+/*
+  Procedure: get_class
+  Description: Get Class of Assigned PCB
+  Params: (char*) commandBuff
+*/
 char* get_class(char* commandBuff) {
 
   //Get class
@@ -76,9 +85,9 @@ char* get_class(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    char* invName = "Invalid Name\n";
-    int invName_len = strlen(invName);
-    sys_req(WRITE,DEFAULT_DEVICE,invName,&invName_len);
+    // char* invName = "Invalid Name\n";
+    // int invName_len = strlen(invName);
+    // sys_req(WRITE,DEFAULT_DEVICE,invName,&invName_len);
     return NULL;
   }
 
@@ -89,9 +98,9 @@ char* get_class(char* commandBuff) {
   }
 
   if (commandBuff[i + 1] == ' ' || commandBuff[i + 1] == '\0') {
-    char* invClass = "Invalid Class\n";
-    int invClass_len = strlen(invClass);
-    sys_req(WRITE,DEFAULT_DEVICE,invClass,&invClass_len);
+    // char* invClass = "Invalid Class\n";
+    // int invClass_len = strlen(invClass);
+    // sys_req(WRITE,DEFAULT_DEVICE,invClass,&invClass_len);
     return NULL;
   }
 
@@ -106,6 +115,11 @@ char* get_class(char* commandBuff) {
 
 }
 
+/*
+  Procedure: get_prio
+  Description: Get the Priority of Assigned PCB to see when it should run
+  Params: (char*) commandBuff
+*/
 char* get_prio(char* commandBuff) {
 
   char prio[2];
@@ -174,7 +188,11 @@ char* get_prio(char* commandBuff) {
 
 }
 
-//Allocate PCB Memory
+/*
+  Procedure: allocatePCB
+  Description: Allocate Memory to PCB
+  Params: N/A
+*/
 struct PCB* allocatePCB() {
 
   //Allocate size
@@ -184,7 +202,11 @@ struct PCB* allocatePCB() {
   return temp;
 }
 
-//Free PCB Memory
+/*
+  Procedure: freePCB
+  Description: Free Memory dedicated to the PCB
+  Params: (struct PCB*) pcb
+*/
 void freePCB(struct PCB* pcb){
 
   //Free memory
@@ -195,7 +217,12 @@ void freePCB(struct PCB* pcb){
 
 }
 
-//Get PCB data
+/*
+  Procedure; get_pcb_data
+  Description: Gather all data connected with the PCB.
+    The data gathered will be name, class, and priority.
+  Params: (char*) commandBuff
+*/
 int get_pcb_data(char* commandBuff) {
 
   if (get_name(commandBuff) == NULL || get_class(commandBuff) == NULL || get_prio(commandBuff) == NULL) {
@@ -230,7 +257,11 @@ int get_pcb_data(char* commandBuff) {
 
 }
 
-//Setup new pcb
+/*
+  Procedure; setupPCB
+  Description: Apply the given details to the PCB in creation
+  Params: (char*) name, (int) class, (int) priority
+*/
 struct PCB* setupPCB(char * name, int class, int priority){
 
     //Create empty PCB
@@ -260,7 +291,11 @@ struct PCB* setupPCB(char * name, int class, int priority){
     return newPCB;
 }
 
-//Insert pcb into correct queue
+/*
+  Procedure; insertPCB
+  Description: Insert pcb into correct queue
+  Params: (Struct PCB*) pcb
+*/
 struct PCB* insertPCB(struct PCB* pcb){
 
   //Initialize pcb's
@@ -343,14 +378,6 @@ struct PCB* insertPCB(struct PCB* pcb){
       }
       else {//
 
-        // if (curr->previous == NULL) {//Adding at head
-        //   currQ->head = pcb;
-        //   pcb->next = curr;
-        //   curr->previous = pcb;
-        //   pcb->previous = NULL;
-        //   return pcb;
-        // }
-
         pcb->next = curr;
         curr->previous->next = pcb;
         pcb->previous = curr->previous;
@@ -385,7 +412,11 @@ struct PCB* insertPCB(struct PCB* pcb){
   }
 }
 
-//Set new priority of pcb
+/*
+  Procedure; setPriority
+  Description: Set Priority of the Assigned PCB
+  Params: (char*) commandBuff
+*/
 int setPriority(char* commandBuff) {
 
   //getName
@@ -416,7 +447,11 @@ int setPriority(char* commandBuff) {
 
 }
 
-//Print individual pcb
+/*
+  Procedure: print
+  Description: Print the designated PCB
+  Params: (PCB*) q
+*/
 void print(PCB* q) {
 
   while (q != NULL) {
@@ -548,7 +583,11 @@ void print(PCB* q) {
   }
 }
 
-//Print Ready Queue
+/*
+  Procedure: printReady
+  Description: Print the Queue holding the Ready Processes
+  Params; N/A
+*/
 void printReady() {
 
   struct PCB *q = readyQueue.head;
@@ -572,7 +611,11 @@ void printReady() {
 
 }
 
-//Print Block Queue
+/*
+  Procedure: printBlock
+  Description: Print the Queue holding the Blocked Processes
+  Params; N/A
+*/
 void printBlock() {
 
   struct PCB *q = blockedQueue.head;
@@ -590,13 +633,21 @@ void printBlock() {
 
 }
 
-//Print Every Queue
+/*
+  Procedure: printAll
+  Description: Print the Queue holding All Processes
+  Params; N/A
+*/
 void printAll() {
   printReady();
   printBlock();
 }
 
-//Find PCB in all queues
+/*
+  Procedure: findPCB
+  Description: Find the designated PCB by comparing the char pointer name
+  Params; (char*) name
+*/
 struct PCB* findPCB(char* name) {
 
    PCB* current;
@@ -649,7 +700,11 @@ struct PCB* findPCB(char* name) {
 
  }
 
-//Delete pcb from queue
+ /*
+    Procedure: deletePCB
+    Description: Delete the designated PCB from the POCB Queue
+    Params; (char*) commandBuff
+ */
 void deletePCB(char* commandBuff) {
 
   //getName
@@ -681,6 +736,11 @@ void deletePCB(char* commandBuff) {
   }
 }
 
+/*
+  Procedure: deleteAll
+  Description: Deletes All Processes from the Queue
+  Params; N/A
+*/
 void deleteAll() {
 
   struct PCB* resume;
@@ -710,7 +770,11 @@ void deleteAll() {
   }
 }
 
-//Remove PCB from correct queue
+/*
+  Procedure: removePCB
+  Description: Remove the designated PCB from the Queue
+  Params; (struct PCB*) pcb
+*/
 int removePCB(struct PCB* pcb){
 
   struct PCB *curr;
@@ -768,7 +832,11 @@ int removePCB(struct PCB* pcb){
   return SUCCESS;
 }
 
-//Show contents of PCB
+/*
+  Procedure: showPCB
+  Description: Shows the Designated PCB with its contents.
+  Params; (char*) commandBuff
+*/
 int showPCB(char* commandBuff) {
 
   char* nl = "\n";
@@ -874,6 +942,11 @@ int showPCB(char* commandBuff) {
 
 }
 
+/*
+  Procedure: blockPCB
+  Description: Blocks the designated PCB
+  Params; (char*) commandBuff
+*/
 struct PCB* blockPCB(char* commandBuff) {
 
   //getName
@@ -899,6 +972,11 @@ struct PCB* blockPCB(char* commandBuff) {
   return pcb;
 }
 
+/*
+  Procedure: unblockPCB
+  Description: Unblocks the Designated PCB
+  Params; (char*) commandBuff
+*/
 struct PCB* unblockPCB(char* commandBuff) {
 
   //getName
@@ -926,6 +1004,11 @@ struct PCB* unblockPCB(char* commandBuff) {
 
 }
 
+/*
+  Procedure: suspendPCB
+  Description: Suspends the designated PCB
+  Params; (char*) commandBuff
+*/
 struct PCB* suspendPCB(char* commandBuff) {
 
   //getName
@@ -956,6 +1039,11 @@ struct PCB* suspendPCB(char* commandBuff) {
 
 }
 
+/*
+  Procedure: resumeAll
+  Description: Resume every PCB in the Queue
+  Params; N/A
+*/
 void resumeAll(){
 
   struct PCB* resume;
@@ -976,6 +1064,11 @@ void resumeAll(){
 
 }
 
+/*
+  Procedure: resumePCB
+  Description: Resumes the designated PCB
+  Params:(char*) commandBuff
+*/
 struct PCB* resumePCB(char* commandBuff) {
 
   //getName
@@ -996,6 +1089,11 @@ struct PCB* resumePCB(char* commandBuff) {
 
 }
 
+/*
+  Procedure: initQueues
+  Description: Initializes the Queues that will be in use for the PCBs.
+  Params: N/A
+*/
 void initQueues() {
 
    readyQueue.head = NULL;

@@ -12,6 +12,11 @@
 int checkForRun = 0;
 int i;
 
+/*
+  Procedure; loadr3
+  Description: Loads in processes used to check module R3
+  Params: N/A
+*/
 void loadr3(){
 
   if(checkForRun != 0){

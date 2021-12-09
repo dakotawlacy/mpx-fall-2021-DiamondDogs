@@ -7,6 +7,13 @@
 #include <core/command_handler.h>
 #include <core/serial.h>
 
+/*
+  Procedure: keyCap
+  Description: Captures each key once its pressed.
+    Also, set up to capture complicated keystrokes
+    such as delete, enter, backspace.
+  Params: (char*) buffer, (int) location, (int) length
+*/
 int keyCap(char* buffer, int location, int length) {
 
   //Get letter and length
